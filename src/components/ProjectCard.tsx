@@ -1,4 +1,5 @@
 import { ArrowUpRight, Code2 } from "lucide-react";
+import { Link } from "react-router-dom";
 import type { Project } from "../data/projects";
 
 interface ProjectCardProps {
@@ -40,6 +41,11 @@ export default function ProjectCard({
         </div>
 
         <div className="project-links">
+          <Link to={`/project/${project.id}`}>
+            View case study
+            <ArrowUpRight size={16} />
+          </Link>
+
           {project.github && (
             <a
               href={project.github}

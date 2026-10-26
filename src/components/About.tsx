@@ -10,25 +10,25 @@ const areas = [
     icon: Code2,
     title: "Web Development",
     description:
-      "Modern web applications, responsive interfaces and custom solutions.",
+      "High-performance React applications with responsive, accessible interfaces and modern tooling.",
   },
   {
     icon: Smartphone,
     title: "Mobile Apps",
     description:
-      "Cross-platform mobile applications using React Native and Expo.",
+      "Cross-platform mobile apps built with React Native and Expo, optimized for iOS and Android.",
   },
   {
     icon: BrainCircuit,
     title: "AI Integration",
     description:
-      "AI-powered tools, content generation systems and API integrations.",
+      "AI-powered platforms for content generation, product management, and workflow automation.",
   },
   {
     icon: Database,
     title: "Backend & APIs",
     description:
-      "APIs, databases, authentication, licensing systems and cloud infrastructure.",
+      "RESTful APIs, database design, authentication flows, licensing systems, and cloud deployments.",
   },
 ];
 
@@ -48,21 +48,23 @@ export default function About() {
         <div className="about-main">
           <div className="about-text">
             <p className="about-lead">
-              I&apos;m Natael, a developer focused on building digital products,
-              applications and AI-powered tools.
+              I&apos;m Natael — a self-taught full-stack developer who
+              thrives on turning complex ideas into polished, functional
+              products that users actually enjoy.
             </p>
 
             <p>
-              I work across frontend, backend, mobile development, APIs,
-              databases and cloud services. I enjoy taking an idea and
-              turning it into a functional product with a clean interface
-              and a solid technical foundation.
+              I work across the entire stack — React and Next.js on the
+              frontend, Node.js and Express on the backend, React Native
+              for mobile, and cloud services to tie it all together.
+              Every project I take on is built with clean architecture,
+              performance, and scalability in mind.
             </p>
 
             <p>
-              My projects include mobile applications, AI integrations,
-              automation systems, backend services, licensing platforms and
-              custom digital tools.
+              From AI-powered platforms and automated business tools to
+              cross-platform mobile apps, I focus on shipping real products
+              that solve real problems — not just prototypes.
             </p>
 
             <a href="#projects" className="about-link">
@@ -72,23 +74,23 @@ export default function About() {
 
           <div className="about-stats">
             <div className="stat-card">
-              <strong>AI</strong>
-              <span>Powered tools</span>
+              <strong>4+</strong>
+              <span>Projects built</span>
             </div>
 
             <div className="stat-card">
-              <strong>Apps</strong>
-              <span>Web &amp; mobile</span>
+              <strong>2</strong>
+              <span>Platforms</span>
             </div>
 
             <div className="stat-card">
-              <strong>APIs</strong>
-              <span>Backend systems</span>
+              <strong>10+</strong>
+              <span>Technologies</span>
             </div>
 
             <div className="stat-card">
-              <strong>Cloud</strong>
-              <span>Modern infrastructure</span>
+              <strong>100%</strong>
+              <span>Self-taught</span>
             </div>
           </div>
         </div>

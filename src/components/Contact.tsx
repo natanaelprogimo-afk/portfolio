@@ -26,7 +26,7 @@ export default function Contact() {
 
             <div className="contact-actions">
               <a
-                href="mailto:TU_EMAIL_AQUI"
+                href="mailto:moralesalerson@gmail.com"
                 className="button button-primary"
               >
                 <Mail size={18} />
@@ -47,7 +47,9 @@ export default function Contact() {
 
           <div className="contact-platforms">
             <a
-              href="#"
+              href="https://www.upwork.com/freelancers/~016487e77ebf028c40"
+              target="_blank"
+              rel="noreferrer"
               className="platform-link"
             >
               <div>
@@ -63,7 +65,9 @@ export default function Contact() {
             </a>
 
             <a
-              href="#"
+              href="https://es.fiverr.com/s/2ppjW9L"
+              target="_blank"
+              rel="noreferrer"
               className="platform-link"
             >
               <div>
