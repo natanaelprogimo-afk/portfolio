@@ -70,7 +70,7 @@ try {
   assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#work");
   await page.keyboard.press("Escape");
   assert.equal(await page.getByRole("button",{name:"Open navigation"}).getAttribute("aria-expanded"),"false");
-  assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("aria-label")),"Open navigation");
+  await page.waitForFunction(() => document.activeElement?.getAttribute("aria-label") === "Open navigation");
   await page.getByRole("button",{name:"Open navigation"}).click();
   await page.getByRole("button",{name:"Close navigation"}).click();
 

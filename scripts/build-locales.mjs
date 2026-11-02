@@ -195,6 +195,23 @@ function translate(source, mapping) {
 for(const locale of ["en","es"]){
   let labs=locale==="es"?translate(labsEnglish,labSpanish):labsEnglish;
   let cases=locale==="es"?translate(casesEnglish,caseSpanish):casesEnglish;
+  if (locale === "es") {
+    labs=labs.replaceAll("AM. / ENGINEERING LAB", "AM. / LABORATORIO TÉCNICO")
+      .replaceAll("Engineering examples", "Ejemplos de ingeniería")
+      .replaceAll("Skip to content", "Saltar al contenido")
+      .replaceAll("Status</th>", "Estado</th>")
+      .replaceAll("Requests</th>", "Solicitudes</th>");
+    cases=cases.replaceAll("Skip to content", "Saltar al contenido")
+      .replaceAll("Client website builds", "Desarrollo web para clientes")
+      .replaceAll("Developer Portfolio", "Portafolio profesional")
+      .replaceAll("Agent runtime", "Motor de agentes")
+      .replaceAll("Tracking features", "Seguimiento de actividad")
+      .replaceAll("Data layer", "Capa de datos")
+      .replaceAll("<span>Normalize</span>", "<span>Normalizar</span>")
+      .replaceAll("<span>Compare</span>", "<span>Comparar</span>")
+      .replaceAll("<span>Results</span>", "<span>Resultados</span>")
+      .replaceAll('aria-label="Case studies"', 'aria-label="Casos de estudio"');
+  }
   // A translated standalone lab must import from the shared original module.
   labs=labs.replace('from "./logic.mjs"','from "'+base+'labs/logic.mjs"');
   // Hash tabs stay in sync with fresh navigation and back/forward.

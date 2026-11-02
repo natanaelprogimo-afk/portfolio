@@ -73,7 +73,7 @@ export default function App() {
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setMenuOpen(false);
-        window.requestAnimationFrame(() => menuButtonRef.current?.focus());
+        menuButtonRef.current?.focus();
       }
     };
     document.addEventListener("keydown", closeOnEscape);
