@@ -124,9 +124,6 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
 .project-index { font: 700 11px ui-monospace, SFMono-Regular, Consolas, monospace; color: var(--accent); letter-spacing: .1em; }
 .project-status { display: inline-flex; align-items: center; gap: 7px; color: #bac7c6; font-size: 10px; line-height: 1.3; text-align: right; }
 .status-ring { width: 7px; height: 7px; border: 1px solid var(--accent); border-radius: 50%; flex: 0 0 auto; }
-.project-glyph { display: flex; align-items: center; justify-content: space-between; height: 115px; padding: 14px 21px; border: 1px solid #2d403d; border-radius: 12px; background: radial-gradient(circle at 73% 50%, rgba(201,243,138,.2), transparent 33%), repeating-linear-gradient(0deg,transparent,transparent 20px,rgba(201,243,138,.035) 21px), #12221f; color: var(--accent); }
-.project-card:nth-child(3n+2) .project-glyph { background: radial-gradient(circle at 72% 42%, rgba(115,188,226,.16), transparent 40%), #13212c; color: #afd6e9; border-color: #304454; }
-.project-card:nth-child(3n) .project-glyph { background: radial-gradient(circle at 72% 42%, rgba(221,183,120,.14), transparent 40%), #211d1b; color: #efd2a8; border-color: #4a3e34; }
 .project-glyph span { font-weight: 850; font-size: 45px; letter-spacing: -.07em; opacity: .8; }
 .project-info { flex: 1; }
 .project-category { color: var(--accent); text-transform: uppercase; font-size: 10px; letter-spacing: .1em; font-weight: 800; }
@@ -267,3 +264,30 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* v2 - technical evidence, public demos and compact architectural diagrams */
+.project-diagram{display:flex;flex-direction:column;justify-content:space-between;height:134px;padding:17px;border:1px solid #34514a;border-radius:12px;background:radial-gradient(circle at 82% 75%,rgba(201,243,138,.09),transparent 30%),linear-gradient(135deg,#152825,#101a24)}
+.project-card:nth-child(3n+2) .project-diagram{border-color:#364957;background:linear-gradient(135deg,#162536,#101720)}
+.project-card:nth-child(3n) .project-diagram{border-color:#594c39;background:linear-gradient(135deg,#25251b,#161b22)}
+.diagram-caption{font-size:9px;letter-spacing:.095em;color:#91a89f;font-weight:800}
+.diagram-flow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;color:var(--accent)}
+.diagram-flow span{border:1px solid #456448;background:rgba(201,243,138,.08);color:#e0f1d0;padding:9px 12px;border-radius:6px;font-size:11px;font-weight:800}
+.diagram-footer{display:flex;justify-content:space-between;align-items:center;color:#829795;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:10px;letter-spacing:.07em}
+.lab-section{background:#101920}
+.lab-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.lab-card{display:flex;flex-direction:column;align-items:flex-start;border:1px solid #344b43;border-radius:15px;background:#15221f;padding:25px;min-height:313px;transition:border-color .2s,transform .2s}
+.lab-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.lab-number{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:10px;letter-spacing:.14em;color:var(--accent);font-weight:800}
+.lab-glyph{margin-top:24px;display:flex;align-items:center;justify-content:space-between;width:100%;border-radius:9px;background:#0d1719;border:1px solid #335747;padding:18px;color:var(--accent)}
+.lab-glyph span{font-weight:850;letter-spacing:.1em;font-size:17px}
+.lab-card h3{font-size:22px;letter-spacing:-.04em;margin-top:20px}
+.lab-card p{font-size:13px;line-height:1.7;margin-top:10px;color:#b4c4bc;flex:1}
+.lab-card a{display:inline-flex;align-items:center;gap:7px;margin-top:18px;font-size:12px;font-weight:850;color:var(--accent);text-decoration:underline;text-underline-offset:5px}
+.lab-source{display:inline-flex;align-items:center;gap:9px;margin-top:25px;font-size:12px;color:var(--accent);font-weight:750}
+.resume-quiet-link{color:#1f4933;font-size:12px;font-weight:800;text-decoration:underline;text-underline-offset:3px}
+.resume-quiet-link:hover{color:#0b2c12}
+@media(max-width:900px){.lab-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.lab-grid{grid-template-columns:1fr}.lab-card{min-height:270px}.diagram-flow{gap:5px}.diagram-flow span{font-size:9px;padding:7px}.diagram-caption{font-size:8px}.project-diagram{height:121px}}
+
+.case-deep-link{display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-size:12px;font-weight:800}
+.case-deep-link:hover{color:#e2ffb7}

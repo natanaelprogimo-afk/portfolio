@@ -1,58 +1,75 @@
-# Alerson Morales — developer portfolio
+# Alerson Morales — Software Engineering Portfolio
 
-A recruiter-first, bilingual (English / Spanish) portfolio built with **React, TypeScript, Vite, and accessible CSS**.
+**Public site:** https://natanaelprogimo-afk.github.io/portfolio/  
+**Interactive demonstrations:** https://natanaelprogimo-afk.github.io/portfolio/labs/  
+**Engineering case studies:** https://natanaelprogimo-afk.github.io/portfolio/cases/  
+**Résumé:** downloadable English and Spanish PDFs + printable HTML.
 
-**Deployment status:** source code is public. GitHub Pages must be enabled in repository settings before the advertised Pages URL can be considered live.
+A bilingual, recruiter-first developer portfolio built with React, TypeScript, Vite and responsive CSS.
 
-## Purpose
+## What is real and verifiable
 
-A recruiter or engineering manager should quickly understand who Alerson is, which projects are completed, what engineering problems he has worked on, and how to contact him.
-
-The content avoids invented customer testimonials, production metrics, business results, demo links, and screenshots.
+- 5 clearly labeled project case studies, including public code and private projects.
+- Three **independent public engineering exercises** with working in-browser behavior:
+  - CSV feed reconciliation and validation.
+  - Idempotency and conflict handling.
+  - Structured event aggregation.
+- Source for the examples: `public/labs/logic.mjs`, with Node unit tests in `scripts/labs.test.mjs`.
+- The public examples use **synthetic data** and are **not** published screenshots or code from private VYRA apps.
+- Private project statuses and evidence boundaries are explained in `public/cases/index.html`.
 
 ## Start locally
 
-Requires Node.js 22.12 or later.
+Requires Node.js 22.12+.
 
-    npm ci
-    npm run dev
+```bash
+npm ci
+npm run dev
+```
 
-## Quality gates
+## Verify
 
-    npm run build
-    npm run lint
+```bash
+npm run build
+npm run lint
+npm test
+```
 
-GitHub Actions runs these on pull requests and changes to main.
+Smoke tests include the published assets, correct Vite base path, résumé PDF signatures, privacy check, and sample provenance.
 
-## Publish on GitHub Pages
+## Publish
 
-1. Open repository Settings > Pages.
-2. Under Build and deployment, select GitHub Actions as the source.
-3. Merge a validated pull request into main. The deploy workflow builds with GITHUB_PAGES=true, producing the correct /portfolio/ prefix.
-4. Inspect the deployment run and verify the live site in mobile and desktop views.
+GitHub Pages is enabled using GitHub Actions. Pushes to `main` trigger `.github/workflows/deploy.yml` with `GITHUB_PAGES=true`; PRs run `quality.yml`. Inspect workflow success and live routes after each release.
 
-For a custom domain or root-hosted site, adjust the Vite base and canonical URL.
+## Maintain
 
-## Maintain content
+| Area | Source |
+| --- | --- |
+| Main page and interactions | `src/App.tsx` |
+| Bilingual copy | `src/data/copy.ts` |
+| Project statuses/evidence | `src/data/projects.ts` |
+| Main design | `src/index.css` |
+| Interactive demos | `public/labs/` |
+| Technical case studies | `public/cases/` |
+| Printable résumé | `public/resume.html` |
+| Downloadable résumés | `public/resume-en.pdf`, `public/resume-es.pdf` |
+| Search metadata | `index.html`, `public/sitemap.xml` |
+| Social preview | `public/og-preview.svg` |
 
-- Contact and social links: src/App.tsx
-- English and Spanish text: src/App.tsx
-- Project evidence, current statuses and technology tags: src/data/projects.ts
-- Styling: src/index.css
-- Search and social metadata: index.html
-- Branding: public/favicon.svg
-- Public printable résumé (without national ID): public/resume.html
+## Honest evidence policy
 
-## Evidence policy
+- Never publish private customer code, API keys, test credentials or confidential screenshots.
+- Don't describe internal prototypes as public production releases.
+- Don't invent customer testimonials, revenue, conversion figures or benchmarks.
+- Screenshots of private projects may be added after visual inspection, provenance verification, and permission checks.
+- PDF résumés intentionally omit identity document numbers, addresses and private data.
+- The social preview is provided as SVG; some social services may require a raster PNG/JPG for image previews.
 
-Only the Developer Portfolio case study links to publicly inspectable source code. Other codebases are private. Client website completions are described without invented URLs, endorsements, or performance figures.
+## Remaining independent work
 
-New claims about product releases, measured impact or certifications require evidence before publication. The résumé is a publicly shareable HTML page with print-to-PDF support; the original PDF with an identity number has not been committed.
+- Verify screenshots from the original private projects and permissions for the two client sites.
+- Publish stronger public code samples with full build/run steps when disclosure is safe.
+- Run third-party Lighthouse and accessibility audits on production; no scores are claimed without measurements.
+- GitHub profile README and repository metadata may need settings-level access not exposed by the current GitHub connector.
 
-## Accessibility and privacy
-
-The website includes semantic landmarks, a skip link, focus states, accessible navigation, keyboard-operated project filters, responsive design, and reduced-motion support. There are no cookies, trackers, external fonts, analytics, third-party forms, or exposed credentials.
-
-## Ownership
-
-Portfolio design and engineering for Alerson Morales. Other projects retain their separate ownership and license arrangements.
+© 2026 Alerson Morales. Private projects retain their original ownership and licensing terms.
