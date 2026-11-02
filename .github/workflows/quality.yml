@@ -48,7 +48,9 @@ jobs:
         run: npm run build
         env:
           GITHUB_PAGES: 'true'
-      - name: Smoke tests (GitHub Pages)
-        run: npm run test:smoke
+      - name: Smoke and static integrity checks (GitHub Pages)
+        run: |
+          npm run test:smoke
+          npm run test:integrity
         env:
           GITHUB_PAGES: 'true'

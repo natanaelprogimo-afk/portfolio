@@ -42,6 +42,7 @@ function decorate(html, locale,slug,title,description) {
   const canonical=baseUrl(locale,slug);
   html=html.replace(/<html lang="[^"]*">/,'<html lang="'+locale+'">');
   html=html.replace(/<link rel="canonical"[^>]*\/?>\s*/g,"");
+  html=html.replace(/<link rel="alternate" hreflang="[^"]+" href="[^"]+" \/>\s*/g, "");
   // Static social metadata for every URL; avoid depending on client-side JavaScript.
   if (!html.includes('property="og:image"')) {
     html=html.replace("</head>", '<meta property="og:type" content="website" />\n'
@@ -194,12 +195,32 @@ function translate(source, mapping) {
 for(const locale of ["en","es"]){
   let labs=locale==="es"?translate(labsEnglish,labSpanish):labsEnglish;
   let cases=locale==="es"?translate(casesEnglish,caseSpanish):casesEnglish;
+  if (locale === "es") {
+    labs=labs.replaceAll("AM. / ENGINEERING LAB", "AM. / LABORATORIO TÉCNICO")
+      .replaceAll("Engineering examples", "Ejemplos de ingeniería")
+      .replaceAll("Skip to content", "Saltar al contenido")
+      .replaceAll("Status</th>", "Estado</th>")
+      .replaceAll("Requests</th>", "Solicitudes</th>");
+    cases=cases.replaceAll("Skip to content", "Saltar al contenido")
+      .replaceAll("Client website builds", "Desarrollo web para clientes")
+      .replaceAll("Developer Portfolio", "Portafolio profesional")
+      .replaceAll("Agent runtime", "Motor de agentes")
+      .replaceAll("Tracking features", "Seguimiento de actividad")
+      .replaceAll("Data layer", "Capa de datos")
+      .replaceAll("<span>Normalize</span>", "<span>Normalizar</span>")
+      .replaceAll("<span>Compare</span>", "<span>Comparar</span>")
+      .replaceAll("<span>Results</span>", "<span>Resultados</span>")
+      .replaceAll('aria-label="Case studies"', 'aria-label="Casos de estudio"');
+  }
   // A translated standalone lab must import from the shared original module.
   labs=labs.replace('from "./logic.mjs"','from "'+base+'labs/logic.mjs"');
   // Hash tabs stay in sync with fresh navigation and back/forward.
   labs=labs.replace('  document.getElementById("run-catalog").click();',
     '  addEventListener("hashchange", () => { const key = location.hash.slice(1); if (tabs.includes(key)) switchTab(key); });\n  document.getElementById("run-catalog").click();');
   labs=decorate(labs,locale,"labs/",locale==="es"?"Laboratorio de ingeniería | Alerson Morales":"Engineering Lab | Alerson Morales",locale==="es"?"Ejemplos públicos y ejecutables: CSV, idempotencia y métricas de eventos.":"Three executable public demos: CSV validation, idempotency and metrics.");
+  // The original case-study page links to ../resume.html; localized case URLs
+  // have no /en/resume.html or /es/resume.html, so point to the matching PDF.
+  cases=cases.replace('href="../resume.html"', 'href="'+base+'resume-'+locale+'.pdf"');
   cases=decorate(cases,locale,"cases/",locale==="es"?"Casos técnicos | Alerson Morales":"Engineering Case Studies | Alerson Morales",locale==="es"?"Decisiones de ingeniería, arquitectura, alcance y evidencias del trabajo de Alerson Morales.":"Engineering architectures, constraints and verifiable work by Alerson Morales.");
   output(locale+"/labs/index.html",labs);
   output(locale+"/cases/index.html",cases);

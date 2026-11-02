@@ -50,6 +50,14 @@ try {
   await page.goto(origin+"/es/labs/#metrics",{waitUntil:"networkidle"});
   assert.equal(await page.locator("#tab-metrics").getAttribute("aria-selected"),"true");
   assert.equal(await page.locator("#panel-metrics").isVisible(),true);
+  // Work samples should be visible near the first screen, with honest provenance.
+  await page.goto(origin+"/en/#evidence",{waitUntil:"networkidle"});
+  assert.equal(await page.locator("#evidence .verified-card").count(),3);
+  assert.ok((await page.locator("#evidence").innerText()).includes("synthetic data"));
+  assert.ok(await page.evaluate(()=>scrollY > 100),"Deep link to public proof should scroll");
+  assert.equal(await page.locator("#evidence a[href*='examples/backend']").count(),1);
+  assert.equal(await page.locator("#evidence a[href*='examples/sql']").count(),1);
+
   await page.goto(origin+"/en/cases/",{waitUntil:"networkidle"});
   assert.equal(await page.locator("h1").count(),1);
 
@@ -60,6 +68,10 @@ try {
   assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#about");
   await page.keyboard.press("Tab");
   assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#work");
+  await page.keyboard.press("Escape");
+  assert.equal(await page.getByRole("button",{name:"Open navigation"}).getAttribute("aria-expanded"),"false");
+  await page.waitForFunction(() => document.activeElement?.getAttribute("aria-label") === "Open navigation");
+  await page.getByRole("button",{name:"Open navigation"}).click();
   await page.getByRole("button",{name:"Close navigation"}).click();
 
   await page.screenshot({path:"qa-evidence/mobile-390.png",fullPage:true});
