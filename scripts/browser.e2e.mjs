@@ -55,6 +55,21 @@ try {
   await page.goto(origin+"/es/labs/#metrics",{waitUntil:"networkidle"});
   assert.equal(await page.locator("#tab-metrics").getAttribute("aria-selected"),"true");
   assert.equal(await page.locator("#panel-metrics").isVisible(),true);
+  // The first screen offers distinct recruiter and commercial buyer paths.
+  for (const language of ["en","es"]) {
+    await page.goto(origin+"/"+language+"/",{waitUntil:"networkidle"});
+    assert.equal(await page.locator("#start-here .route-card").count(),2);
+    assert.equal(await page.locator("#start-here .route-card a[href$='/"+language+"/hiring/']").count(),1);
+    assert.equal(await page.locator("#start-here .route-card a[href$='/"+language+"/trust/']").count(),1);
+    assert.equal(await page.locator(".hero-cta a[href$='/"+language+"/trust/']").count(),1);
+    assert.equal(await page.locator(".hero-cta a[href='#evidence']").count(),1);
+    const json = JSON.parse(await page.locator('script[type="application/ld+json"]').first().innerText());
+    assert.equal(json["@type"],"Person");
+    assert.equal(json.name,"Alerson Morales");
+    assert.equal(json.homeLocation.name,"Uruguay");
+    assert.ok(json.sameAs.some(uri=>uri.includes("github.com")));
+  }
+
   // Work samples should be visible near the first screen, with honest provenance.
   await page.goto(origin+"/en/#evidence",{waitUntil:"networkidle"});
   assert.equal(await page.locator("#evidence .verified-card").count(),3);
@@ -119,6 +134,12 @@ try {
   await page.getByRole("button",{name:"Close navigation"}).click();
 
   await page.screenshot({path:"qa-evidence/mobile-390.png",fullPage:true});
+  const routeDimensions=await page.locator("#start-here .route-card").evaluateAll(cards=>cards.map(c=>({
+    left:c.getBoundingClientRect().left,right:c.getBoundingClientRect().right,
+    windowWidth:document.documentElement.clientWidth
+  })));
+  assert.equal(routeDimensions.length,2);
+  assert.ok(routeDimensions.every(x=>x.left>=-1&&x.right<=x.windowWidth+1));
   await page.setViewportSize({width:320,height:844});
   await page.goto(origin+"/en/",{waitUntil:"networkidle"});
   const social=await page.evaluate(()=>{

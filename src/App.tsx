@@ -7,6 +7,7 @@ import {
 import { projects, type Locale, type ProjectGroup } from "./data/projects";
 import { copy } from "./data/copy";
 import VerifiedWork from "./components/VerifiedWork";
+import VisitorRoutes from "./components/VisitorRoutes";
 
 const GITHUB = "https://github.com/natanaelprogimo-afk";
 const LINKEDIN = "https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/";
@@ -130,16 +131,13 @@ export default function App() {
               <div className="eyebrow"><span className="tiny-square" /> {t.heroLabel}</div>
               <h1 id="hero-title">{t.heroLine1}<br /><em>{t.heroLine2}</em></h1>
               <p className="hero-description">{t.heroText}</p>
-              <div className="hero-cta">
-                <a className="button button-primary" href="#work">{t.heroWork}<ArrowUpRight size={18} aria-hidden="true"/></a>
-                <a className="button button-ghost" href="#evidence">{t.heroEvidence}<Code2 size={18} aria-hidden="true"/></a>
+              <div className="hero-cta" aria-label={t.audienceActions}>
+                <a className="button button-primary" href="#evidence">{t.heroEvidence}<ArrowUpRight size={18} aria-hidden="true"/></a>
+                <a className="button button-ghost" href={localPage("trust/")}>{t.heroBuyerAction}<ShieldCheck size={18} aria-hidden="true"/></a>
               </div>
               <div className="hero-meta" aria-label={t.socialLabel}>
-                <a href={GITHUB} target="_blank" rel="noopener noreferrer"><Code2 size={18} /> GitHub <ArrowUpRight size={13} /></a>
-                <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={18} /> LinkedIn <ArrowUpRight size={13} /></a>
-                <a className="hiring-brief-link" href={localPage("trust/")} target="_blank" rel="noopener noreferrer">
-                  <ShieldCheck size={17} aria-hidden="true"/>{t.businessTrust}<ArrowUpRight size={13} aria-hidden="true"/>
-                </a>
+                <a href={GITHUB} target="_blank" rel="noopener noreferrer"><Code2 size={18} aria-hidden="true"/> GitHub <ArrowUpRight size={13} aria-hidden="true"/></a>
+                <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={18} aria-hidden="true"/> LinkedIn <ArrowUpRight size={13} aria-hidden="true"/></a>
                 <a className="hiring-brief-link" href={localPage("hiring/")} target="_blank" rel="noopener noreferrer">
                   <BriefcaseBusiness size={17} aria-hidden="true"/>{t.hiringBrief}<ArrowUpRight size={13} aria-hidden="true"/>
                 </a>
@@ -176,6 +174,7 @@ export default function App() {
         </section>
 
         <VerifiedWork locale={locale}/>
+        <VisitorRoutes locale={locale}/>
 
         <div className="proof-strip">
           <div className="container proof-grid">
@@ -346,6 +345,7 @@ export default function App() {
               <p>{t.contactText}</p>
               <div className="contact-buttons">
                 <a className="button button-dark" href={"mailto:" + EMAIL + "?subject=Remote%20software%20engineering%20opportunity"}><Mail size={18} /> {t.contactAction} <ArrowUpRight size={16} /></a>
+                <a className="button button-outline" href={localPage("trust/")}>{t.contactBuyerAction}<ShieldCheck size={17} aria-hidden="true"/></a>
                 <a className="button button-outline" href={localPage("hiring/")} target="_blank" rel="noopener noreferrer">
                   {t.hiringBrief}<ArrowUpRight size={16} aria-hidden="true"/>
                 </a>

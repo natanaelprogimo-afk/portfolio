@@ -71,6 +71,32 @@ Correo: moralesalerson@gmail.com
 
 Python, TypeScript, JavaScript, React, SQL, FastAPI, Node.js, REST APIs, PostgreSQL, Git.
 
+## VYRA sales and engineering positioning (approved text draft, not published)
+
+Keep career recruiting and enterprise due diligence distinct. **Do not present any of the seven SaaS/AI agents as released, certified, contracted or sold without product-specific evidence.**
+
+**Featured card 1 — for recruiters**
+
+Title: "Verified software engineering: public portfolio and technical demos"  
+URL: https://natanaelprogimo-afk.github.io/portfolio/en/  
+Description: "Explore tested Python, SQL and JavaScript examples, architecture notes, and a bilingual professional résumé."
+
+**Featured card 2 — for future VYRA buyers**
+
+Title: "VYRA | Buyer trust and product readiness"  
+URL: https://natanaelprogimo-afk.github.io/portfolio/en/trust/  
+Description: "Transparent view of the available public engineering evidence, expected agent safety controls, privacy considerations, and pre-purchase due diligence. Private products are not offered for sale here."
+
+**Optional supplementary headline if professional hiring and SaaS trust both matter:**
+
+"Full-Stack Developer & VYRA Founder | Python, TypeScript, React, FastAPI, SQL | SaaS & AI-Agent Engineering | Remote"
+
+Use the headline consistent with the actual account, dates, owner preference and job-search strategy. Do not change existing genuine customer reviews, work entries, locations or privacy settings without owner-specific inspection.
+
+### Connected session status
+
+On 2 November 2026, the browser connection could not open LinkedIn (ERR_SOCKS_CONNECTION_FAILED), so authenticated identity could not be verified and no LinkedIn fields were updated. The content above remains a reviewable draft; adding it to a repository file does **not** publish it to LinkedIn.
+
 ## Authentication gate
 
 No LinkedIn settings, applications, privacy settings or messages were changed. Use only the legitimate authenticated account; confirm any experience dates and client permissions before publishing.

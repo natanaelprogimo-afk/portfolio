@@ -7,6 +7,14 @@
 
 Recruiter-oriented portfolio written with React, TypeScript and Vite. Public code examples are **independently implemented** and use synthetic data; they are not copies or live deployments of VYRA private products.
 
+## V7: two distinct journeys for hiring and SaaS/agent due diligence
+
+- The homepage now routes **recruiters** to the bilingual hiring brief and **prospective VYRA buyers** to the trust center, without suggesting unverified products are already available.
+- Main hero actions emphasize executable public evidence and commercial due diligence rather than overwhelming users with five competing equal-priority links.
+- Responsive audience cards and minimum-sized tap targets improve navigation and keyboard use; pre-existing Chrome/axe regressions are extended.
+- Professional `schema.org/Person` JSON-LD identifies the actual developer, publicly verifiable social links and Uruguay only; it does not claim certifications or a registered separate company.
+- [UX audit and next-phase evidence roadmap](docs/PORTFOLIO_UX_AUDIT_V7.md).
+
 ## Seven SaaS/agent products — private commercial intake preparation
 
 - [Seven anonymous product intake dossiers](commercial/README.md): P01–P07 with placeholders only; **no product names, features, claims or prices are inferred**.
