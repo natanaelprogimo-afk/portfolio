@@ -81,3 +81,14 @@ test("localized routes ship static content and independent metadata", () => {
   assert.match(text("dist/es/labs/index.html"), /Conciliación de catálogos/);
   assert.match(text("dist/es/cases/index.html"), /Problema de ingeniería/);
 });
+
+test("generated recruiter PDFs contain live links and language metadata", () => {
+  for (const lang of ["en","es"]) {
+    const buffer=readFileSync(new URL("../dist/resume-"+lang+".pdf", import.meta.url));
+    const content=buffer.toString("latin1");
+    assert.match(content,/\/Annots \[7 0 R 8 0 R 9 0 R\]/);
+    assert.equal((content.match(/\/Subtype \/Link/g)||[]).length,3);
+    assert.match(content,/\/URI \(https:\/\/github\.com\/natanaelprogimo-afk\)/);
+    assert.match(content,new RegExp("/Lang \\("+(lang==="en"?"en-US":"es-UY")+"\\)"));
+  }
+});
