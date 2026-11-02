@@ -41,7 +41,7 @@ try {
   assert.equal(await page.evaluate(()=>document.activeElement?.id),"main","Skip link should focus main");
 
   await page.goto(origin+"/",{waitUntil:"networkidle"});
-  await page.getByRole("button",{name:"Switch to Spanish"}).click();
+  await page.getByRole("button",{name:/Switch to Spanish/}).click();
   await page.waitForURL("**/es/");
   assert.equal(await page.locator("html").getAttribute("lang"),"es");
   assert.ok((await page.locator("h1").innerText()).includes("Problemas complejos"));
