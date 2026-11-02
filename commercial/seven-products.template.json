@@ -1,0 +1,876 @@
+{
+  "schemaVersion": 1,
+  "classification": "PUBLIC_TEMPLATE_ONLY",
+  "caution": "Seven anonymous placeholders. Not a product offer, evidence of implementation, or a list of released SaaS/agents. Never put customer data, keys, private architecture or real buyer information in this public repository.",
+  "source": "User confirmed seven SaaS/agent projects; names, functions, classifications, deployment and readiness have not been supplied.",
+  "products": [
+    {
+      "id": "P01",
+      "name": null,
+      "kind": "UNSPECIFIED",
+      "summary": null,
+      "problem": null,
+      "targetCustomer": null,
+      "delivery": null,
+      "integrations": [],
+      "dataTypes": [],
+      "hostingRegion": null,
+      "subprocessors": [],
+      "lifecycle": "INTAKE_PENDING",
+      "publicListingApproved": false,
+      "commercial": {
+        "currency": null,
+        "price": null,
+        "billing": null,
+        "usagePolicy": null,
+        "refundsPolicy": null,
+        "cancellationPolicy": null,
+        "supportPolicy": null,
+        "privacyPolicy": null,
+        "terms": null,
+        "verifiedCheckout": false
+      },
+      "ownerApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null
+      },
+      "gates": {
+        "G01": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G02": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G03": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G04": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G05": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G06": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G07": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G08": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G09": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G10": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G11": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G12": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G13": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G14": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G15": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        }
+      }
+    },
+    {
+      "id": "P02",
+      "name": null,
+      "kind": "UNSPECIFIED",
+      "summary": null,
+      "problem": null,
+      "targetCustomer": null,
+      "delivery": null,
+      "integrations": [],
+      "dataTypes": [],
+      "hostingRegion": null,
+      "subprocessors": [],
+      "lifecycle": "INTAKE_PENDING",
+      "publicListingApproved": false,
+      "commercial": {
+        "currency": null,
+        "price": null,
+        "billing": null,
+        "usagePolicy": null,
+        "refundsPolicy": null,
+        "cancellationPolicy": null,
+        "supportPolicy": null,
+        "privacyPolicy": null,
+        "terms": null,
+        "verifiedCheckout": false
+      },
+      "ownerApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null
+      },
+      "gates": {
+        "G01": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G02": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G03": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G04": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G05": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G06": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G07": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G08": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G09": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G10": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G11": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G12": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G13": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G14": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G15": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        }
+      }
+    },
+    {
+      "id": "P03",
+      "name": null,
+      "kind": "UNSPECIFIED",
+      "summary": null,
+      "problem": null,
+      "targetCustomer": null,
+      "delivery": null,
+      "integrations": [],
+      "dataTypes": [],
+      "hostingRegion": null,
+      "subprocessors": [],
+      "lifecycle": "INTAKE_PENDING",
+      "publicListingApproved": false,
+      "commercial": {
+        "currency": null,
+        "price": null,
+        "billing": null,
+        "usagePolicy": null,
+        "refundsPolicy": null,
+        "cancellationPolicy": null,
+        "supportPolicy": null,
+        "privacyPolicy": null,
+        "terms": null,
+        "verifiedCheckout": false
+      },
+      "ownerApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null
+      },
+      "gates": {
+        "G01": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G02": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G03": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G04": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G05": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G06": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G07": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G08": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G09": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G10": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G11": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G12": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G13": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G14": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G15": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        }
+      }
+    },
+    {
+      "id": "P04",
+      "name": null,
+      "kind": "UNSPECIFIED",
+      "summary": null,
+      "problem": null,
+      "targetCustomer": null,
+      "delivery": null,
+      "integrations": [],
+      "dataTypes": [],
+      "hostingRegion": null,
+      "subprocessors": [],
+      "lifecycle": "INTAKE_PENDING",
+      "publicListingApproved": false,
+      "commercial": {
+        "currency": null,
+        "price": null,
+        "billing": null,
+        "usagePolicy": null,
+        "refundsPolicy": null,
+        "cancellationPolicy": null,
+        "supportPolicy": null,
+        "privacyPolicy": null,
+        "terms": null,
+        "verifiedCheckout": false
+      },
+      "ownerApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null
+      },
+      "gates": {
+        "G01": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G02": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G03": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G04": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G05": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G06": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G07": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G08": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G09": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G10": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G11": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G12": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G13": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G14": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G15": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        }
+      }
+    },
+    {
+      "id": "P05",
+      "name": null,
+      "kind": "UNSPECIFIED",
+      "summary": null,
+      "problem": null,
+      "targetCustomer": null,
+      "delivery": null,
+      "integrations": [],
+      "dataTypes": [],
+      "hostingRegion": null,
+      "subprocessors": [],
+      "lifecycle": "INTAKE_PENDING",
+      "publicListingApproved": false,
+      "commercial": {
+        "currency": null,
+        "price": null,
+        "billing": null,
+        "usagePolicy": null,
+        "refundsPolicy": null,
+        "cancellationPolicy": null,
+        "supportPolicy": null,
+        "privacyPolicy": null,
+        "terms": null,
+        "verifiedCheckout": false
+      },
+      "ownerApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null
+      },
+      "gates": {
+        "G01": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G02": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G03": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G04": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G05": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G06": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G07": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G08": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G09": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G10": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G11": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G12": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G13": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G14": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G15": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        }
+      }
+    },
+    {
+      "id": "P06",
+      "name": null,
+      "kind": "UNSPECIFIED",
+      "summary": null,
+      "problem": null,
+      "targetCustomer": null,
+      "delivery": null,
+      "integrations": [],
+      "dataTypes": [],
+      "hostingRegion": null,
+      "subprocessors": [],
+      "lifecycle": "INTAKE_PENDING",
+      "publicListingApproved": false,
+      "commercial": {
+        "currency": null,
+        "price": null,
+        "billing": null,
+        "usagePolicy": null,
+        "refundsPolicy": null,
+        "cancellationPolicy": null,
+        "supportPolicy": null,
+        "privacyPolicy": null,
+        "terms": null,
+        "verifiedCheckout": false
+      },
+      "ownerApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null
+      },
+      "gates": {
+        "G01": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G02": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G03": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G04": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G05": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G06": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G07": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G08": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G09": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G10": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G11": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G12": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G13": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G14": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G15": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        }
+      }
+    },
+    {
+      "id": "P07",
+      "name": null,
+      "kind": "UNSPECIFIED",
+      "summary": null,
+      "problem": null,
+      "targetCustomer": null,
+      "delivery": null,
+      "integrations": [],
+      "dataTypes": [],
+      "hostingRegion": null,
+      "subprocessors": [],
+      "lifecycle": "INTAKE_PENDING",
+      "publicListingApproved": false,
+      "commercial": {
+        "currency": null,
+        "price": null,
+        "billing": null,
+        "usagePolicy": null,
+        "refundsPolicy": null,
+        "cancellationPolicy": null,
+        "supportPolicy": null,
+        "privacyPolicy": null,
+        "terms": null,
+        "verifiedCheckout": false
+      },
+      "ownerApproval": {
+        "approved": false,
+        "approver": null,
+        "approvedAt": null
+      },
+      "gates": {
+        "G01": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G02": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G03": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G04": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G05": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G06": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G07": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G08": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G09": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G10": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G11": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G12": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G13": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G14": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        },
+        "G15": {
+          "status": "NOT_VERIFIED",
+          "evidence": [],
+          "reviewedBy": null,
+          "reviewedAt": null
+        }
+      }
+    }
+  ]
+}

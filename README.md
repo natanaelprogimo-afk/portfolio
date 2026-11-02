@@ -7,6 +7,16 @@
 
 Recruiter-oriented portfolio written with React, TypeScript and Vite. Public code examples are **independently implemented** and use synthetic data; they are not copies or live deployments of VYRA private products.
 
+## Seven SaaS/agent products — private commercial intake preparation
+
+- [Seven anonymous product intake dossiers](commercial/README.md): P01–P07 with placeholders only; **no product names, features, claims or prices are inferred**.
+- [15 launch gates per product](commercial/seven-products.template.json): all 105 start `NOT_VERIFIED` and no product is approved for sale.
+- [Readiness validator](commercial/validate.mjs) with deliberate fail-closed rules and public-repo anonymity guard.
+- [Security and procurement templates](commercial/templates/) for agent permissions, data flows, sales/acceptance, customer questionnaires, support/incident/exit and release evidence.
+- Use `npm run test:commercial` and `npm run commercial:check` to validate structure; this does not certify actual software.
+- **Never add actual private implementation information or customer data to this public repository.** Move factual product dossiers to a verified private workspace when the owner supplies the seven descriptions.
+- No public product pages, pricing, payment integration, or customer onboarding have been authorized or created.
+
 ## VYRA commercial trust and product readiness
 
 - [Trust center (English)](https://natanaelprogimo-afk.github.io/portfolio/en/trust/) and [Centro de confianza](https://natanaelprogimo-afk.github.io/portfolio/es/trust/)
