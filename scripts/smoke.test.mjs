@@ -125,3 +125,22 @@ test("professional profile copy includes no invented seniority or identity numbe
     assert.doesNotMatch(data, /5\.610\.747/);
   }
 });
+
+test("buyer trust pages disclose commercial limitations and independently inspectable sources", () => {
+  for(const locale of ["en","es"]){
+    const html=text("dist/"+locale+"/trust/index.html");
+    assert.match(html,new RegExp('<html lang="'+locale+'">'));
+    assert.match(html,new RegExp('rel="canonical" href="https://natanaelprogimo-afk.github.io/portfolio/'+locale+'/trust/'));
+    assert.match(html,/hreflang="en"/);
+    assert.match(html,/hreflang="es"/);
+    assert.match(html,/OWASP/);
+    assert.match(html,/SOC 2/);
+    assert.match(html,/ISO 27001/);
+    assert.match(html,/examples\/backend/);
+    assert.match(html,/mailto:moralesalerson@gmail.com/);
+    assert.doesNotMatch(html,/<form\b/);
+    assert.doesNotMatch(html,/5\.610\.747/);
+  }
+  assert.match(text("dist/en/trust/index.html"),/not a.*security certification/);
+  assert.match(text("dist/es/trust/index.html"),/no garantía implementada/);
+});

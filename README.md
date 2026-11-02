@@ -7,6 +7,14 @@
 
 Recruiter-oriented portfolio written with React, TypeScript and Vite. Public code examples are **independently implemented** and use synthetic data; they are not copies or live deployments of VYRA private products.
 
+## VYRA commercial trust and product readiness
+
+- [Trust center (English)](https://natanaelprogimo-afk.github.io/portfolio/en/trust/) and [Centro de confianza](https://natanaelprogimo-afk.github.io/portfolio/es/trust/)
+- [Buyer due diligence and assurance requirements](docs/VYRA_BUYER_ASSURANCE.md)
+- [Product-by-product commercial and security release gates](docs/VYRA_LAUNCH_GATES.md)
+- Future SaaS/agents are clearly labelled as private development or planned; no unverified SOC 2, ISO 27001, independent pentest, SLA or commercial availability claims.
+- Commercial trust pages are checked for browser navigation, privacy-safe copy and automated accessibility.
+
 ## Career preparation (2026)
 
 - [LinkedIn professional copy](docs/LINKEDIN_PROFILE_READY.md) — prepared; requires authenticated owner review before publishing

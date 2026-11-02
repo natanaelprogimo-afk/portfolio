@@ -24,7 +24,7 @@ try {
   browser=await chromium.launch({headless:true,channel:"chrome",args:["--no-sandbox"]});
   const context=await browser.newContext({viewport:{width:1366,height:900},reducedMotion:"reduce"});
   const page=await context.newPage();
-  const routes=["/en/","/es/","/en/labs/","/es/labs/","/en/cases/","/es/cases/","/en/hiring/","/es/hiring/"];
+  const routes=["/en/","/es/","/en/labs/","/es/labs/","/en/cases/","/es/cases/","/en/hiring/","/es/hiring/","/en/trust/","/es/trust/"];
   const reports=[];
   const failures=[];
   for (const route of routes){

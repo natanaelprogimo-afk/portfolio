@@ -85,6 +85,26 @@ try {
   await page.goto(origin+"/en/cases/",{waitUntil:"networkidle"});
   assert.equal(await page.locator("h1").count(),1);
 
+  // Public SaaS/agent trust pages: evidence vs not-yet-verified services.
+  for (const lang of ["en","es"]) {
+    await page.goto(origin+"/"+lang+"/trust/",{waitUntil:"networkidle"});
+    assert.equal(await page.locator("html").getAttribute("lang"),lang);
+    assert.equal(await page.locator("h1").count(),1);
+    assert.equal(await page.locator("#evidence .card").count(),4);
+    assert.equal(await page.locator("#readiness .card").count(),4);
+    assert.equal(await page.locator("#security .card").count(),6);
+    assert.equal(await page.locator("#buy li").count(),8);
+    assert.equal(await page.locator('link[rel="canonical"]').count(),1);
+    const copy=await page.locator("main").innerText();
+    assert.ok(copy.includes("SOC 2"));
+    assert.ok(copy.includes("ISO 27001"));
+    assert.ok(copy.includes("OWASP"));
+    assert.equal(await page.locator("form").count(),0);
+    assert.equal(await page.locator('a[href*="mailto:"]').count()>=1,true);
+  }
+  await page.goto(origin+"/es/",{waitUntil:"networkidle"});
+  assert.equal(await page.locator('a[href$="/es/trust/"]').count()>=1,true);
+
   await page.setViewportSize({width:390,height:844});
   await page.goto(origin+"/en/",{waitUntil:"networkidle"});
   await page.getByRole("button",{name:"Open navigation"}).click();

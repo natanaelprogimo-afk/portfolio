@@ -137,6 +137,9 @@ export default function App() {
               <div className="hero-meta" aria-label={t.socialLabel}>
                 <a href={GITHUB} target="_blank" rel="noopener noreferrer"><Code2 size={18} /> GitHub <ArrowUpRight size={13} /></a>
                 <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={18} /> LinkedIn <ArrowUpRight size={13} /></a>
+                <a className="hiring-brief-link" href={localPage("trust/")} target="_blank" rel="noopener noreferrer">
+                  <ShieldCheck size={17} aria-hidden="true"/>{t.businessTrust}<ArrowUpRight size={13} aria-hidden="true"/>
+                </a>
                 <a className="hiring-brief-link" href={localPage("hiring/")} target="_blank" rel="noopener noreferrer">
                   <BriefcaseBusiness size={17} aria-hidden="true"/>{t.hiringBrief}<ArrowUpRight size={13} aria-hidden="true"/>
                 </a>
@@ -382,6 +385,7 @@ export default function App() {
         </div>
         <div className="container footer-bottom">
           <span>© {new Date().getFullYear()} Alerson Morales. {t.rights}</span>
+          <a href={localPage("trust/")} target="_blank" rel="noopener noreferrer">{t.businessTrust} <ArrowUpRight size={13} aria-hidden="true"/></a>
           <span>{t.footerBuilt}</span>
         </div>
       </footer>
