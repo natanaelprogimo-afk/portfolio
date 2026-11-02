@@ -374,3 +374,12 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
   .route-card{padding:23px}
 }
 @media(max-width:360px){.route-card{padding:18px}.route-eyebrow{font-size:10px}.hero-cta .button{font-size:12.5px}}
+
+/* V7 additional mobile hierarchy and clear project status semantics */
+.project-status-guide{display:flex;flex-wrap:wrap;gap:9px 13px;align-items:center;margin:17px 0 23px;padding:17px;border:1px solid #456055;border-radius:11px;background:#16251f;color:#c5d6cd;font-size:12px;line-height:1.55}
+.project-status-guide strong{color:#f2fadf;margin-right:9px;font-size:12px}
+.project-status-guide span{display:inline-flex;align-items:center;gap:7px}
+.project-status-guide span:before{content:"";height:7px;width:7px;display:inline-block;flex:none;border:1px solid #9fca80;border-radius:50%;background:#607d51}
+.project-status-guide span:nth-of-type(2):before{background:#46576b;border-color:#97acc7}
+.project-status-guide span:nth-of-type(3):before{background:#736447;border-color:#d6b977}
+@media(max-width:650px){.project-status-guide{align-items:flex-start;flex-direction:column;padding:15px}.project-status-guide strong{margin-bottom:3px}}

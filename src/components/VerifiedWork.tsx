@@ -71,7 +71,7 @@ export default function VerifiedWork({ locale }: { locale: Locale }) {
                 </div>
                 <h3>{item.title[locale]}</h3>
                 <p>{item.description[locale]}</p>
-                <span className="verified-tech">{item.technologies}</span>
+                <span className="verified-tech">{locale === "es" ? item.technologies.replaceAll("Node.js tests", "pruebas Node.js").replaceAll("Unit tests", "pruebas unitarias").replaceAll("Query plans", "planes de consulta") : item.technologies}</span>
                 <a href={destination} target="_blank" rel="noopener noreferrer">
                   {item.linkType==="demo" ? t.evidenceTry : t.evidenceInspect}
                   <ArrowUpRight size={16} aria-hidden="true"/>

@@ -99,6 +99,7 @@ const strings={
   }
 };
 const css=':root{font-family:system-ui,-apple-system,sans-serif;background:#0c151c;color:#f0f6ef;--accent:#cef5a4;--muted:#c2d1c9;--line:#425d54}*{box-sizing:border-box}body{margin:0}a{color:var(--accent);text-underline-offset:4px}a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}.wrap{max-width:1140px;margin:auto;padding:0 26px}.skip{position:absolute;top:-100px;left:15px;background:#eaffd3;color:#18291c;padding:12px;z-index:10}.skip:focus{top:10px}header{border-bottom:1px solid var(--line);background:#122128}header .wrap{display:flex;justify-content:space-between;align-items:center;gap:22px;padding-top:20px;padding-bottom:20px}.brand{font-size:20px;font-weight:900;color:#f0f6ed;text-decoration:none}.brand span{color:var(--accent)}nav{display:flex;gap:20px;flex-wrap:wrap}nav a{font-size:13px;font-weight:800;text-decoration:none}main{padding:62px 0 80px}.kicker{color:var(--accent);letter-spacing:.12em;font:800 11px ui-monospace,monospace}h1{font-size:clamp(42px,6vw,78px);line-height:1.05;letter-spacing:-.06em;margin:14px 0 17px}.sub{font-size:21px;line-height:1.42;color:#edf8e5;font-weight:720;max-width:800px}.lead{color:var(--muted);line-height:1.78;font-size:14px;max-width:930px}.date{color:#cbdbd0;font-size:12px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:27px 0}.actions a{border:1px solid #92ad80;border-radius:8px;padding:12px 17px;min-height:47px;text-decoration:none;font-size:13px;font-weight:800}.actions a:first-child{background:var(--accent);color:#13281c}.notice{background:#203128;border:1px solid #829b71;border-left:4px solid var(--accent);padding:18px 22px;border-radius:7px;color:#f1f7ea;line-height:1.68;font-size:14px;margin:24px 0}section{padding-top:59px;scroll-margin-top:90px}h2{font-size:clamp(27px,3vw,39px);letter-spacing:-.045em;line-height:1.13;margin:0 0 12px}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:24px}.triple{grid-template-columns:repeat(3,minmax(0,1fr))}.card{border:1px solid var(--line);background:#172830;border-radius:11px;padding:22px;min-width:0}.card h3{font-size:18px;letter-spacing:-.025em;margin:0 0 12px}.card p{color:var(--muted);font-size:13.5px;line-height:1.75}.card a{font-size:13px;font-weight:800;overflow-wrap:anywhere}.tag{font-size:11px;color:#e0f5cd;border:1px solid #6d885b;border-radius:12px;padding:5px 10px;display:inline-block;margin-bottom:14px}.buyer{counter-reset:item;list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}.buyer li{counter-increment:item;position:relative;padding:18px 17px 18px 48px;background:#14232a;border:1px solid var(--line);border-radius:9px;font-size:14px;line-height:1.65;color:var(--muted)}.buyer li:before{content:counter(item,decimal-leading-zero);position:absolute;left:15px;top:22px;color:var(--accent);font:800 11px monospace}.plain{color:var(--muted);line-height:1.8;font-size:14px;padding-left:20px}.plain li{margin-bottom:11px}.links a{display:block;margin:11px 0;line-height:1.5;font-size:14px}footer{border-top:1px solid var(--line);background:#101e25;padding:28px 0 40px;color:var(--muted);font-size:13px;line-height:1.8}@media(max-width:880px){.triple{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.wrap{padding:0 17px}header .wrap{flex-direction:column;align-items:flex-start}.cards,.buyer,.triple{grid-template-columns:1fr}main{padding:43px 0 65px}section{padding-top:45px}.card{padding:20px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}';
+const tocStyles='.trust-toc{display:flex;align-items:center;flex-wrap:wrap;gap:11px;margin:25px 0 0;padding:15px 16px;background:#15252d;border:1px solid #46645b;border-radius:10px}.trust-toc span{font-size:12px;font-weight:850;color:#deecdd;margin-right:5px}.trust-toc a{font-size:12.5px;min-height:32px;display:inline-flex;align-items:center;padding:4px 7px;border-radius:5px}.trust-toc a:hover{background:#263f36}.trust-toc a:focus-visible{outline:3px solid var(--accent)}';
 const refs=[
 ["OWASP AI Agent Security","https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html"],
 ["OWASP LLM Top 10","https://genai.owasp.org/llm-top-10/"],
@@ -129,7 +130,7 @@ for(const lang of ["en","es"]){
  '<link rel="alternate" hreflang="x-default" href="'+host+'en/trust/"><meta property="og:type" content="website"><meta property="og:title" content="'+esc(c.title)+'">',
  '<meta property="og:description" content="'+esc(c.desc)+'"><meta property="og:url" content="'+canonical+'">',
  '<meta property="og:image" content="'+host+'og-preview.svg"><meta name="twitter:card" content="summary_large_image">',
- '<link rel="icon" href="'+base+'favicon.svg" type="image/svg+xml"><style>'+css+'</style></head><body>',
+ '<link rel="icon" href="'+base+'favicon.svg" type="image/svg+xml"><style>'+css+tocStyles+'</style></head><body>',
  '<a class="skip" href="#main">'+(lang==="es"?"Saltar al contenido":"Skip to content")+'</a>',
  '<header><div class="wrap"><a class="brand" href="'+home+'">VYRA<span>.</span></a><nav aria-label="'+(lang==="es"?"Navegación":"Navigation")+'">',
  '<a href="'+home+'">'+esc(c.home)+'</a><a aria-current="page" href="'+base+lang+'/trust/">'+(lang==="es"?"Centro de confianza":"Trust center")+'</a>',
@@ -138,6 +139,17 @@ for(const lang of ["en","es"]){
  '<p class="sub">'+esc(c.sub)+'</p><p class="lead">'+esc(c.intro)+'</p><p class="date">'+esc(c.dated)+'</p>',
  '<div class="actions"><a href="'+home+'labs/">'+esc(c.code)+' ↗</a><a href="mailto:'+email+'?subject=VYRA%20commercial%20due%20diligence">'+esc(c.ask)+' ↗</a></div>',
  '<p class="notice">'+esc(c.notice)+'</p>',
+ '<nav class="trust-toc" aria-label="'+(lang==="es"?"Accesos a secciones":"Jump to sections")+'">',
+ '<span>'+(lang==="es"?"Ir a:":"Jump to:")+'</span>',
+ ...[
+   ["evidence","Evidencia","Evidence"],
+   ["readiness","Estado","Readiness"],
+   ["security","Seguridad","Security"],
+   ["buy","Antes de comprar","Before purchase"],
+   ["claims","Garantías","Disclosures"],
+   ["report","Contacto","Contact"]
+ ].map(([id,es,en])=>'<a href="#'+id+'">'+(lang==="es"?es:en)+'</a>'),
+ '</nav>',
  '<section id="evidence"><h2>'+esc(c.evidence)+'</h2><p class="lead">'+esc(c.evidenceIntro)+'</p><div class="cards">'+all+'</div></section>',
  '<section id="readiness"><h2>'+esc(c.statusTitle)+'</h2><p class="lead">'+esc(c.statusIntro)+'</p><div class="cards">',
  c.products.map(x=>card(x[0],x[1],"stage")).join(""),'</div></section>',

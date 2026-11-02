@@ -15,7 +15,7 @@ const EMAIL = "moralesalerson@gmail.com";
 
 
 
-const sectionIds = ["about", "work", "lab", "expertise", "approach", "contact"] as const;
+const sectionIds = ["start-here", "about", "work", "lab", "expertise", "contact"] as const;
 const groupIds: Array<"all" | ProjectGroup> = ["all", "systems", "product", "client"];
 const iconList = [Code2, Database, Workflow, Layers3] as const;
 
@@ -146,7 +146,7 @@ export default function App() {
             </div>
 
             <div className="hero-visual" aria-label={t.visualTitle}>
-              <div className="visual-top"><span className="visual-dots"><i /><i /><i /></span><span>ALERSON / ENGINEERING</span><span className="visual-plus">+</span></div>
+              <div className="visual-top"><span className="visual-dots"><i /><i /><i /></span><span>{t.visualBrand}</span><span className="visual-plus">+</span></div>
               <div className="visual-body">
                 <span className="visual-kicker">{t.visualLabel}</span>
                 <h2>{t.visualTitle}</h2>
@@ -157,13 +157,13 @@ export default function App() {
                     return (
                       <div className="architecture-node" key={name}>
                         <span className="architecture-icon"><Icon size={20} strokeWidth={1.7} /></span>
-                        <div><small>0{index + 1} / LAYER</small><strong>{name}</strong></div>
+                        <div><small>0{index + 1} / {t.visualLayer}</small><strong>{name}</strong></div>
                         <Check size={16} className="node-check" aria-hidden="true" />
                       </div>
                     );
                   })}
                 </div>
-                <div className="visual-foot"><span><span className="live-dot" /> BUILD WITH INTENT</span><span>2026</span></div>
+                <div className="visual-foot"><span><span className="live-dot" /> {t.visualFoot}</span><span>2026</span></div>
               </div>
             </div>
           </div>
@@ -215,6 +215,12 @@ export default function App() {
             <div className="section-intro">
               <h2 className="section-title" id="work-heading">{t.workTitle} <em>{t.workAccent}</em></h2>
               <p>{t.workIntro}</p>
+            </div>
+            <div className="project-status-guide" role="note" aria-label={t.projectGuideTitle}>
+              <strong>{t.projectGuideTitle}</strong>
+              <span>{t.projectGuidePublic}</span>
+              <span>{t.projectGuidePrivate}</span>
+              <span>{t.projectGuideClient}</span>
             </div>
             <div className="project-filters" role="group" aria-label={t.filterLabel}>
               {groupIds.map((group, index) => (
@@ -284,7 +290,7 @@ export default function App() {
             <div className="lab-grid">
               {t.labCards.map(item => (
                 <article key={item.number} className="lab-card">
-                  <span className="lab-number">EXAMPLE / {item.number}</span>
+                  <span className="lab-number">{t.labExample} / {item.number}</span>
                   <div className="lab-glyph"><Code2 size={28} strokeWidth={1.5}/><span>{item.icon === "data" ? "CSV" : item.icon === "api" ? "API" : "JSON"}</span></div>
                   <h3>{item.title}</h3><p>{item.description}</p>
                   <a href={localPage("labs/#" + (item.icon === "data" ? "catalog" : item.icon === "api" ? "retry" : "metrics"))} target="_blank" rel="noopener noreferrer">{t.labCTA}<ArrowUpRight size={16}/></a>

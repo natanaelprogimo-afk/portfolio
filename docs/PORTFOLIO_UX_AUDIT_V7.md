@@ -2,16 +2,18 @@
 
 **Scope:** `natanaelprogimo-afk.github.io/portfolio/` English/Spanish, /labs, /cases, /hiring and /trust.  
 **Date:** 2026-11-02.  
-**Evidence:** inspected public GitHub main source at baseline commit `2456b94ead142c224e0646a571b91fd7248b4c0a` and existing automated Chrome/axe tests. Independent browser visual sweep was requested; actual browser findings must be treated separately from code findings until the run finishes.  
+**Evidence:** inspected public GitHub main source at baseline commit `2456b94ead142c224e0646a571b91fd7248b4c0a` and existing automated Chrome/axe tests. Independent browser review completed on public /en/, /es/, /en/hiring/ and /en/trust/ using 1440, 390 and 320px viewports. Screenshots exist in the browser-run output, which is not a public artifact.  
 **Commercial privacy boundary:** owner has described seven private SaaS/AI-agent products but has not approved publishing their details or claims. This audit does not create product listings.
 
 ## Executive diagnosis
 
 The existing V6 foundation already has strong engineering evidence, multilingual URLs, a running browser lab, source-backed code examples, standalone recruiter/trust pages, automated CI, and a transparent private-versus-public distinction. It does not require a total redesign.
 
-The largest conversion issue is **audience ambiguity**: the homepage primarily sells engineering credibility while simultaneously offering recruiter and buyer links as peers in a crowded social link row. Recruiters and potential SaaS buyers need different immediate questions answered.
+The measured public homepage length before V7 was approximately 8,100px desktop, 12,696px at 390px and 13,683px at 320px. The visual audit also verified no horizontal overflow at 390px and 320px, working skip link and Escape menu focus return. The strongest outstanding concern is **audience ambiguity**: the homepage primarily sells engineering credibility while simultaneously offering recruiter and buyer links as peers in a crowded social link row. Recruiters and potential SaaS buyers need different immediate questions answered.
 
 ### Priority-one changes implemented in V7 branch
+
+The audit also found untranslated Spanish interface labels (`LAYER`, `BUILD WITH INTENT`, `EXAMPLE`, `ALERSON / ENGINEERING`), a bilingual contact heading on English hiring, and a long trust page without a table of contents. V7 replaces those labels, adds a project-status key, and adds six trust anchor links. A full professional copy-edit remains a separate editorial gate.
 
 | Component | Baseline issue found from source | V7 implementation | Verification |
 | --- | --- | --- | --- |

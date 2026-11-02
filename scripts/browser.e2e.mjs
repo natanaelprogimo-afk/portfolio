@@ -59,6 +59,7 @@ try {
   for (const language of ["en","es"]) {
     await page.goto(origin+"/"+language+"/",{waitUntil:"networkidle"});
     assert.equal(await page.locator("#start-here .route-card").count(),2);
+    assert.equal(await page.locator(".project-status-guide").count(),1);
     assert.equal(await page.locator("#start-here .route-card a[href$='/"+language+"/hiring/']").count(),1);
     assert.equal(await page.locator("#start-here .route-card a[href$='/"+language+"/trust/']").count(),1);
     assert.equal(await page.locator(".hero-cta a[href$='/"+language+"/trust/']").count(),1);
@@ -109,6 +110,7 @@ try {
     assert.equal(await page.locator("#readiness .card").count(),4);
     assert.equal(await page.locator("#security .card").count(),6);
     assert.equal(await page.locator("#buy li").count(),8);
+    assert.equal(await page.locator(".trust-toc a").count(),6);
     assert.equal(await page.locator('link[rel="canonical"]').count(),1);
     const copy=await page.locator("main").innerText();
     assert.ok(copy.includes("SOC 2"));
@@ -124,9 +126,9 @@ try {
   await page.goto(origin+"/en/",{waitUntil:"networkidle"});
   await page.getByRole("button",{name:"Open navigation"}).click();
   assert.equal(await page.getByRole("button",{name:"Close navigation"}).getAttribute("aria-expanded"),"true");
-  assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#about");
+  assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#start-here");
   await page.keyboard.press("Tab");
-  assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#work");
+  assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#about");
   await page.keyboard.press("Escape");
   assert.equal(await page.getByRole("button",{name:"Open navigation"}).getAttribute("aria-expanded"),"false");
   await page.waitForFunction(() => document.activeElement?.getAttribute("aria-label") === "Open navigation");
