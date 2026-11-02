@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#080d13">
+<meta name="description" content="Engineering case studies from Alerson Morales: private-system architecture, test strategies, mobile development and completed client websites, with transparent evidence boundaries.">
+<title>Engineering Case Studies | Alerson Morales</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,sans-serif;background:#080d13;color:#edf3eb;--accent:#c9f38a;--line:#30423d;--soft:#adbfba}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:75px}body{margin:0}
+a{color:var(--accent)}a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+.container{width:min(1080px,calc(100% - 40px));margin:auto}
+.top{padding:23px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:20px}
+.top .brand{font-size:17px;color:#f2f6ef;letter-spacing:-.04em;text-decoration:none;font-weight:900}.top nav{display:flex;flex-wrap:wrap;gap:14px;font-size:12px}
+.mast{padding:90px 0 65px}.kicker{color:var(--accent);font:800 11px ui-monospace,Consolas,monospace;letter-spacing:.15em}
+.mast h1{font-size:clamp(40px,7vw,80px);line-height:1.03;letter-spacing:-.07em;margin:18px 0}.mast h1 em{color:var(--accent);font-style:normal}
+.mast p{font-size:16px;color:var(--soft);line-height:1.8;max-width:790px}
+.notice{padding:20px;border-radius:12px;border:1px solid #536b49;background:#17261b;font-size:13px;line-height:1.75;margin:28px 0 15px;color:#ddebd5}
+.index{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:40px}.index a{padding:10px 13px;border:1px solid var(--line);border-radius:8px;text-decoration:none;font-size:12px;font-weight:750}
+.case{padding:65px 0 75px;border-top:1px solid var(--line)}.case-head{display:flex;justify-content:space-between;gap:22px;align-items:start;flex-wrap:wrap}.case h2{font-size:clamp(30px,4vw,52px);letter-spacing:-.055em;margin:12px 0 15px}.case .status{font-size:11px;padding:9px 12px;border:1px solid #5a6c56;border-radius:100px;color:#d8ebc8;align-self:center}
+.case-lead{font-size:17px;color:#c8d6d0;line-height:1.75;max-width:850px}
+.case-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;margin-top:25px}
+.card{border:1px solid var(--line);border-radius:12px;background:#111b20;padding:25px}
+.card h3{color:var(--accent);font-size:12px;letter-spacing:.13em;text-transform:uppercase;margin:0 0 11px}.card p,.card li{font-size:13px;color:#b5c5c2;line-height:1.85}
+.card p{margin:0}.card ul{margin:0;padding-left:18px}.card li{margin-bottom:8px}
+.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.stack span{font-size:11px;border:1px solid var(--line);color:#dfede4;border-radius:5px;padding:8px 10px}
+.diagram{display:flex;flex-direction:column;gap:12px;border:1px solid #3e5e46;background:linear-gradient(145deg,#13241d,#121c27);border-radius:12px;padding:26px;margin-top:24px}
+.diagram .label{color:#91b699;font-size:10px;font-weight:800;letter-spacing:.11em}
+.nodes{display:flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:12px}
+.nodes span{border:1px solid #587052;padding:12px;background:#192d22;color:#e5f6da;font-size:12px;font-weight:700;border-radius:7px}
+.nodes i{width:20px;border-top:2px solid var(--accent);height:1px}
+.case-links{display:flex;flex-wrap:wrap;gap:17px;margin-top:24px;font-size:13px;font-weight:800}
+.footer{margin-top:10px;border-top:1px solid var(--line);padding:35px 0 55px;color:#9badab;font-size:12px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+@media(max-width:680px){.case-layout{grid-template-columns:1fr}.mast{padding-top:55px}.nodes{justify-content:flex-start}.card{padding:19px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="top container"><a class="brand" href="../">AM. / CASE STUDIES</a><nav><a href="../">Portfolio</a><a href="../labs/">Interactive lab</a><a href="../resume.html">Résumé</a></nav></header>
+<main class="container">
+  <div class="mast">
+    <span class="kicker">TECHNICAL NOTES / PROJECT DECISIONS / VERIFIABLE SCOPE</span>
+    <h1>Beyond the <em>project card.</em></h1>
+    <p>Technical case studies that explain the work, the constraints and the quality boundaries. They separate implemented development work from public production releases, and public demonstrations from private source code.</p>
+    <div class="notice"><strong>Evidence policy:</strong> Private code, customer information, credentials and unapproved product screenshots are not published. Architecture drawings below are conceptual. The interactive engineering lab contains independent open-source examples using synthetic data.</div>
+    <nav aria-label="Case studies" class="index"><a href="#ai-automation">AI Automation Factory</a><a href="#vyra-fitness">VYRA Fitness</a><a href="#catalog-integrity">Catalog Integrity</a><a href="#client-websites">Client Websites</a><a href="#portfolio">Portfolio</a></nav>
+  </div>
+
+  <article class="case" id="ai-automation">
+    <div class="case-head"><div><span class="kicker">01 / AGENT SYSTEMS / BACKEND</span><h2>AI Automation Factory</h2></div><span class="status">Private repository · Development</span></div>
+    <p class="case-lead">An independently developed system for designing, operating and evaluating AI-enabled workflows with controlled access to tools and human review of risky actions.</p>
+    <div class="diagram" role="img" aria-label="Conceptual architecture: UI sends requests to API, which directs agent execution to data stores and approval controls. Not a screenshot."><span class="label">CONCEPTUAL ARCHITECTURE · NOT A SCREENSHOT</span><div class="nodes"><span>React UI</span><i></i><span>FastAPI</span><i></i><span>Agent runtime</span><i></i><span>Postgres / Redis</span></div></div>
+    <div class="case-layout">
+      <section class="card"><h3>Engineering problem</h3><p>Agent workflows can execute actions with side effects. Production-oriented design requires authorization boundaries, safe retries, execution limits, traceability and explicit human approval where appropriate.</p><h3 style="margin-top:27px">Implementation scope</h3><ul><li>API and dashboard for agents, execution state and approvals.</li><li>Execution cost and token limits.</li><li>Idempotency keys to avoid duplicate actions on retry.</li><li>Rate limiting, structured workflow state and test coverage.</li></ul></section>
+      <section class="card"><h3>Trade-offs & limits</h3><ul><li>Human approval takes precedence over unrestricted autonomy.</li><li>Uncertain failed requests are not automatically retried.</li><li>Private README and tests describe implementation; no production SLA or customer adoption is claimed.</li><li>Live services and secrets remain private.</li></ul><div class="stack"><span>Python</span><span>FastAPI</span><span>React</span><span>PostgreSQL</span><span>Redis</span></div></section>
+    </div>
+    <div class="case-links"><a href="../labs/#retry">Try independent idempotency sample ↗</a><a href="mailto:moralesalerson@gmail.com?subject=AI%20Automation%20Factory%20technical%20discussion">Request technical walkthrough ↗</a></div>
+  </article>
+
+  <article class="case" id="vyra-fitness">
+    <div class="case-head"><div><span class="kicker">02 / MOBILE PRODUCT / UI ARCHITECTURE</span><h2>VYRA Fitness</h2></div><span class="status">Private · Design and testing</span></div>
+    <p class="case-lead">A cross-platform fitness application in development, bringing training, nutrition, hydration and progress tracking into one experience.</p>
+    <div class="diagram" role="img" aria-label="Conceptual architecture: Expo app, reusable tracking features, authentication, Supabase data. Not a screenshot."><span class="label">CONCEPTUAL ARCHITECTURE · NOT A SCREENSHOT</span><div class="nodes"><span>React Native / Expo</span><i></i><span>Tracking features</span><i></i><span>Data layer</span><i></i><span>Supabase</span></div></div>
+    <div class="case-layout">
+      <section class="card"><h3>Engineering problem</h3><p>Several health-related flows must share a coherent navigation model and persistence strategy without producing an overcomplicated mobile interface.</p><h3 style="margin-top:27px">Implementation focus</h3><ul><li>Cross-platform screens and reusable interface components.</li><li>Data-backed tracking flows and integration work.</li><li>Offline and synchronization concerns addressed through application design and tests.</li></ul></section>
+      <section class="card"><h3>Evidence & limitations</h3><ul><li>The private repository contains implementation and test files.</li><li>The application is not a verified public release in Google Play or the App Store.</li><li>Product screens will only be published after approval and privacy review.</li></ul><div class="stack"><span>React Native</span><span>Expo</span><span>TypeScript</span><span>Supabase</span></div></section>
+    </div>
+    <div class="case-links"><a href="mailto:moralesalerson@gmail.com?subject=VYRA%20Fitness%20technical%20discussion">Request product walkthrough ↗</a></div>
+  </article>
+
+  <article class="case" id="catalog-integrity">
+    <div class="case-head"><div><span class="kicker">03 / STRUCTURED DATA / COMPARISON</span><h2>Catalog Integrity Engine</h2></div><span class="status">Private internal prototype</span></div>
+    <p class="case-lead">A data-comparison workflow exploring mismatches between product feeds and observed catalog records, with explicit output states for discrepancies.</p>
+    <div class="diagram" role="img" aria-label="Conceptual pipeline: feed input, normalized comparison, mismatch results. Not a screenshot."><span class="label">CONCEPTUAL ARCHITECTURE · NOT A SCREENSHOT</span><div class="nodes"><span>Feed</span><i></i><span>Normalize</span><i></i><span>Compare</span><i></i><span>Results</span></div></div>
+    <div class="case-layout">
+      <section class="card"><h3>Engineering problem</h3><p>Price and product attributes can diverge across data sources. Comparisons need deterministic keys, consistent numeric interpretation, clear failure classifications and useful audit output.</p><h3 style="margin-top:27px">Engineering focus</h3><ul><li>Comparison of expected and observed fields.</li><li>Match/mismatch result structures and sample-run validation.</li><li>Prototype integration experiments with external workflow tools.</li></ul></section>
+      <section class="card"><h3>Evidence & limitations</h3><ul><li>The original private source is not linked publicly.</li><li>Controlled sample runs do not demonstrate paid deployments or customer adoption.</li><li>The linked lab is a new independent implementation of the comparison idea.</li></ul><div class="stack"><span>TypeScript</span><span>Node.js</span><span>Cloudflare Workers</span><span>Apify</span></div></section>
+    </div>
+    <div class="case-links"><a href="../labs/#catalog">Run independent CSV comparison ↗</a><a href="https://github.com/natanaelprogimo-afk/portfolio/blob/main/public/labs/logic.mjs">Inspect open-source sample ↗</a></div>
+  </article>
+
+  <article class="case" id="client-websites">
+    <div class="case-head"><div><span class="kicker">04 / INDEPENDENT WEB WORK</span><h2>Client website builds</h2></div><span class="status">Two sites reported completed</span></div>
+    <p class="case-lead">Completed web projects for a dental practice and a paint retail business, each serving different information and navigation needs.</p>
+    <div class="case-layout">
+      <section class="card"><h3>Dental practice</h3><p>A completed website serving a dental business, focused on understandable information architecture and an approachable responsive experience. Exact project URL and performance figures have not been made public.</p></section>
+      <section class="card"><h3>Paint retailer</h3><p>A completed website for a paint store, designed around retail information and clarity of content. Public screenshots, customer testimonials and commerce metrics are not currently available for verification.</p></section>
+    </div>
+    <div class="case-links"><a href="mailto:moralesalerson@gmail.com?subject=Website%20project%20references">Ask about project references ↗</a></div>
+  </article>
+
+  <article class="case" id="portfolio">
+    <div class="case-head"><div><span class="kicker">05 / PUBLIC SOURCE / FRONTEND</span><h2>Developer Portfolio</h2></div><span class="status">Public repository · Published</span></div>
+    <p class="case-lead">This bilingual portfolio is itself an inspectable engineering artifact, with TypeScript, component design, accessible interactions and CI quality checks.</p>
+    <div class="case-layout">
+      <section class="card"><h3>Technical choices</h3><ul><li>Vite and React with concise client-side rendering.</li><li>English and Spanish copy with language persistence.</li><li>Data-driven project cards and accessible navigation.</li><li>Public independent interactive engineering demonstrations.</li></ul></section>
+      <section class="card"><h3>Verification</h3><ul><li>GitHub Actions builds, lint and Node unit tests.</li><li>Smoke tests verify static files, deployment base and résumé privacy checks.</li><li>No third-party tracking pixels, backend credentials or fake contact forms.</li></ul></section>
+    </div>
+    <div class="case-links"><a href="https://github.com/natanaelprogimo-afk/portfolio">View public GitHub repository ↗</a><a href="../labs/">Explore interactive examples ↗</a></div>
+  </article>
+</main>
+<footer class="footer container"><span>© 2026 Alerson Morales · Engineering notes without invented performance claims.</span><a href="../">Back to portfolio ↑</a></footer>
+</body></html>

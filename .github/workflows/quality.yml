@@ -27,8 +27,8 @@ jobs:
         run: npm run build
       - name: Lint
         run: npm run lint
-      - name: Smoke tests (root deployment)
-        run: npm run test:smoke
+      - name: Unit tests and static smoke tests
+        run: npm test
       - name: Build for GitHub Pages
         run: npm run build
         env:

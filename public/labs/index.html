@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark"><meta name="theme-color" content="#080d13">
+  <meta name="description" content="Three public and fully interactive engineering examples by Alerson Morales: catalog integrity, idempotent API behavior, and metrics aggregation.">
+  <title>Engineering Lab | Alerson Morales</title>
+  <style>
+    :root{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#f2f6ef;background:#080d13;--lime:#c9f38a;--line:#2b3d3b;--dim:#a9b9b9}
+    *{box-sizing:border-box}body{margin:0}a{color:var(--lime)}button,textarea,input{font:inherit}button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+    .wrap{max-width:1120px;margin:auto;padding:0 25px}.top{display:flex;gap:15px;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding:26px 0}.brand{text-decoration:none;font-size:16px;font-weight:900;letter-spacing:-.04em}.top nav a{font-size:13px}
+    .eyebrow{color:var(--lime);font-size:11px;font-weight:850;letter-spacing:.12em}.intro{padding:80px 0 40px}.intro h1{font-size:clamp(43px,6vw,76px);line-height:1;letter-spacing:-.07em;max-width:850px;margin:16px 0 23px}.intro h1 span{color:var(--lime)}.intro p{max-width:770px;color:var(--dim);font-size:16px;line-height:1.8}
+    .notice{padding:17px 20px;border:1px solid #536848;border-radius:10px;background:#17251a;color:#d9e9d0;font-size:13px;line-height:1.75;margin:10px 0 30px}
+    .tabs{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0}.tabs button{border:1px solid var(--line);padding:12px 19px;border-radius:9px;background:#162026;color:#d9e5de;cursor:pointer;font-size:12px;font-weight:800}.tabs button[aria-selected=true]{background:var(--lime);color:#132014;border-color:var(--lime)}
+    .panel{border:1px solid var(--line);border-radius:17px;background:#111a21;padding:32px;margin-bottom:50px}.panel[hidden]{display:none}
+    .panel h2{font-size:30px;letter-spacing:-.045em;margin:0 0 10px}.panel>p{font-size:14px;color:var(--dim);line-height:1.8;max-width:850px;margin:0 0 30px}
+    .fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.field{min-width:0;display:flex;flex-direction:column;gap:8px}.field label{font-size:12px;font-weight:750;color:var(--lime)}
+    textarea,input{display:block;width:100%;padding:14px;background:#0b1117;color:#e7f2ec;border:1px solid #34484c;border-radius:9px;min-height:46px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;line-height:1.6}
+    textarea{height:150px;resize:vertical}.controls{margin-top:20px;display:flex;flex-wrap:wrap;gap:11px;align-items:center}
+    .run{border:0;border-radius:9px;background:var(--lime);padding:12px 21px;font-weight:900;font-size:13px;color:#122018;cursor:pointer}
+    .reset{padding:12px 16px;border:1px solid var(--line);border-radius:9px;background:#17232a;color:#e4e8e3;cursor:pointer;font-size:13px}
+    .hint{color:var(--dim);font-size:12px}.result{margin-top:20px;min-height:100px;background:#0c1419;border:1px dashed #516360;border-radius:11px;padding:18px;overflow-x:auto}.result pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;line-height:1.7;color:#d5edb0}
+    .result table{border-collapse:collapse;width:100%;font-size:13px;min-width:470px;text-align:left}.result th,.result td{padding:11px;border-bottom:1px solid #354442}.result th{color:var(--lime)}.status{display:block;color:#afc5b8;font-size:12px;margin-bottom:12px}
+    .footer{border-top:1px solid var(--line);padding:35px 0 60px;color:var(--dim);font-size:13px;line-height:1.9}.footer a{margin-right:19px}
+    @media(max-width:650px){.fields{grid-template-columns:1fr}.intro{padding-top:53px}.panel{padding:20px}.panel h2{font-size:26px}.wrap{padding:0 16px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+  </style>
+</head>
+<body>
+<header class="wrap top"><a class="brand" href="../">AM. / ENGINEERING LAB</a><nav><a href="../">← Portfolio</a></nav></header>
+<main class="wrap">
+  <div class="intro">
+    <div class="eyebrow">PUBLIC SOURCE · EXECUTABLE EXAMPLES · NO BACKEND</div>
+    <h1>Inspect the logic.<br><span>Try the behavior.</span></h1>
+    <p>Three small, working engineering exercises built for technical review. Edit the sample data and observe the output. All computation happens inside your browser; no data is sent to any server.</p>
+  </div>
+  <div class="notice"><strong>Transparency:</strong> These are independently implemented public teaching demonstrations inspired by common engineering problems. They are <strong>not</strong> screenshots, instances or extracts of private VYRA products, nor evidence of production customer usage. The source and tests live in the public portfolio repository.</div>
+
+  <div class="tabs" role="tablist" aria-label="Engineering examples">
+    <button id="tab-catalog" type="button" role="tab" aria-controls="panel-catalog" aria-selected="true" tabindex="0">01 · Catalog validation</button>
+    <button id="tab-retry" type="button" role="tab" aria-controls="panel-retry" aria-selected="false" tabindex="-1">02 · API idempotency</button>
+    <button id="tab-metrics" type="button" role="tab" aria-controls="panel-metrics" aria-selected="false" tabindex="-1">03 · Event aggregation</button>
+  </div>
+
+  <section class="panel" id="panel-catalog" role="tabpanel" aria-labelledby="tab-catalog">
+    <h2>Catalog reconciliation</h2>
+    <p>Compare two CSV datasets by SKU, with cent-precision price normalization and explicit match, mismatch, missing, and extra categories. Includes quote handling and duplicate-key rejection.</p>
+    <div class="fields">
+      <div class="field"><label for="feed">Expected feed (CSV)</label><textarea id="feed" spellcheck="false">sku,price
+SKU-001,29.99
+SKU-002,19.99
+SKU-003,49.50</textarea></div>
+      <div class="field"><label for="observed">Observed catalog (CSV)</label><textarea id="observed" spellcheck="false">sku,price
+SKU-001,29.99
+SKU-002,24.99
+SKU-004,10.00</textarea></div>
+    </div>
+    <div class="controls"><button class="run" id="run-catalog" type="button">Compare catalogs →</button><span class="hint">Local-only · no API calls</span></div>
+    <div class="result" id="result-catalog" role="status" aria-live="polite"><span class="status">Press Compare catalogs to execute.</span></div>
+  </section>
+
+  <section class="panel" id="panel-retry" role="tabpanel" aria-labelledby="tab-retry" hidden>
+    <h2>Idempotent request behavior</h2>
+    <p>Simulate how a service might handle an idempotency key. Replaying the same key and payload returns the recorded result, while key collisions and uncertain failures produce a conflict. This is an in-memory example, not an HTTP server.</p>
+    <div class="fields">
+      <div class="field"><label for="idempotency-key">Idempotency key</label><input id="idempotency-key" value="demo-order-001" maxlength="96"></div>
+      <div class="field"><label for="request-payload">Payload (JSON)</label><textarea id="request-payload" spellcheck="false" style="height:95px">{"action":"reserve","item":"SKU-001","qty":1}</textarea></div>
+    </div>
+    <div class="controls"><button class="run" id="run-retry" type="button">Submit simulated request →</button><button class="reset" id="run-failure" type="button">Simulate uncertain failure</button><button class="reset" id="reset-retry" type="button">Reset ledger</button></div>
+    <div class="result" id="result-retry" role="status" aria-live="polite"><span class="status">Submit the same key twice to see replay behavior.</span></div>
+  </section>
+
+  <section class="panel" id="panel-metrics" role="tabpanel" aria-labelledby="tab-metrics" hidden>
+    <h2>Operational metrics aggregation</h2>
+    <p>Validate structured JSON events and compute daily request counts, error counts, success rate, and mean response latency. Input validation includes maximum sizes and required fields.</p>
+    <div class="field"><label for="events">Sample event stream (JSON)</label><textarea id="events" spellcheck="false" style="height:200px">[
+  {"date":"2026-10-30","duration_ms":180,"ok":true},
+  {"date":"2026-10-30","duration_ms":340,"ok":false},
+  {"date":"2026-10-31","duration_ms":120,"ok":true},
+  {"date":"2026-10-31","duration_ms":220,"ok":true}
+]</textarea></div>
+    <div class="controls"><button class="run" id="run-metrics" type="button">Analyze events →</button><span class="hint">A working aggregation, not a SQL engine</span></div>
+    <div class="result" id="result-metrics" role="status" aria-live="polite"><span class="status">Press Analyze events to execute.</span></div>
+  </section>
+</main>
+<footer class="wrap footer"><a href="../">← Back to portfolio</a><a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/public/labs">View public source code</a><div>© 2026 Alerson Morales · Synthetic examples · All processing is client-side.</div></footer>
+<script type="module">
+  import { compareCatalog, createIdempotencyLedger, summarizeEvents } from "./logic.mjs";
+  const tabs = ["catalog","retry","metrics"];
+  function switchTab(name) {
+    for (const key of tabs) {
+      const on = key === name, btn = document.getElementById("tab-"+key);
+      btn.setAttribute("aria-selected", String(on));btn.tabIndex = on ? 0 : -1;
+      document.getElementById("panel-"+key).hidden = !on;
+    }
+  }
+  tabs.forEach((name,i) => {
+    const tab = document.getElementById("tab-"+name);
+    tab.addEventListener("click", () => switchTab(name));
+    tab.addEventListener("keydown", event => {
+      const delta = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+      if (delta) {event.preventDefault();const next=tabs[(i+delta+tabs.length)%tabs.length];switchTab(next);document.getElementById("tab-"+next).focus();}
+      if (event.key === "Home" || event.key === "End") {event.preventDefault();const next=event.key === "Home" ? tabs[0] : tabs[tabs.length-1];switchTab(next);document.getElementById("tab-"+next).focus();}
+    });
+  });
+  const text = id => document.getElementById(id).value;
+  const output = id => {const root=document.getElementById(id);root.replaceChildren();return root;};
+  function renderJson(id,obj){const target=output(id), pre=document.createElement("pre");pre.textContent=JSON.stringify(obj,null,2);target.append(pre);}
+  function error(id,err){const target=output(id),p=document.createElement("pre");p.textContent=err instanceof Error?err.message:String(err);p.style.color="#ffbfb9";target.append(p);}
+  function renderTable(id,rows,columns){const target=output(id),table=document.createElement("table"),thead=document.createElement("thead"),tbody=document.createElement("tbody"),head=document.createElement("tr");
+    columns.forEach(([key,label])=>{const th=document.createElement("th");th.scope="col";th.textContent=label;head.append(th);});thead.append(head);
+    rows.forEach(row=>{const tr=document.createElement("tr");columns.forEach(([key])=>{const td=document.createElement("td");td.textContent=String(row[key]);tr.append(td);});tbody.append(tr);});
+    table.append(thead,tbody);target.append(table);
+  }
+  document.getElementById("run-catalog").addEventListener("click",()=>{
+    try{const result=compareCatalog(text("feed"),text("observed"));renderTable("result-catalog",result.details,[["sku","SKU"],["status","Status"],["expected","Feed"],["observed","Observed"]]);}
+    catch(err){error("result-catalog",err);}
+  });
+  const ledger=createIdempotencyLedger();
+  function submitRequest(fail){try{renderJson("result-retry",ledger.execute(text("idempotency-key"),JSON.parse(text("request-payload")),fail));}catch(err){error("result-retry",err);}}
+  document.getElementById("run-retry").addEventListener("click",()=>submitRequest(false));
+  document.getElementById("run-failure").addEventListener("click",()=>submitRequest(true));
+  document.getElementById("reset-retry").addEventListener("click",()=>{ledger.reset();renderJson("result-retry",{reset:true,processed:0});});
+  document.getElementById("run-metrics").addEventListener("click",()=>{
+    try{renderTable("result-metrics",summarizeEvents(text("events")),[["date","Date"],["requests","Requests"],["successful","OK"],["errors","Errors"],["successRate","Success %"],["averageMs","Mean ms"]]);}
+    catch(err){error("result-metrics",err);}
+  });
+  const initialTab = location.hash.slice(1);
+  if (tabs.includes(initialTab)) switchTab(initialTab);
+  document.getElementById("run-catalog").click();
+</script>
+</body></html>

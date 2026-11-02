@@ -5,7 +5,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 const text = (path) => readFileSync(new URL("../" + path, import.meta.url), "utf8");
 
 test("generated site ships the required static resources", () => {
-  for (const path of ["dist/index.html", "dist/resume.html", "dist/favicon.svg", "dist/robots.txt", "dist/sitemap.xml"]) {
+  for (const path of ["dist/index.html", "dist/resume.html", "dist/resume-en.pdf", "dist/resume-es.pdf", "dist/favicon.svg", "dist/robots.txt", "dist/sitemap.xml", "dist/labs/index.html", "dist/labs/logic.mjs", "dist/cases/index.html", "dist/og-preview.svg"]) {
     assert.ok(existsSync(new URL("../" + path, import.meta.url)), path + " is missing");
   }
   const assetDir = new URL("../dist/assets/", import.meta.url);
@@ -44,4 +44,18 @@ test("site contains navigation anchors and honest project statuses", () => {
   assert.match(projectData, /2 websites completed/);
   assert.doesNotMatch(projectData, /Live & functional/);
   assert.doesNotMatch(app, /Natael/);
+});
+
+test("both downloadable PDFs have a valid signature and no exposed national identity number", () => {
+  for (const lang of ["en", "es"]) {
+    const pdf = readFileSync(new URL("../dist/resume-" + lang + ".pdf", import.meta.url));
+    assert.equal(pdf.subarray(0,8).toString("latin1"), "%PDF-1.4");
+    assert.ok(pdf.toString("latin1").includes("%%EOF"), "PDF must end properly");
+    assert.ok(pdf.toString("latin1").includes("/Type /Page"), "PDF needs a page");
+    assert.doesNotMatch(pdf.toString("latin1"), /5\.610\.747/);
+  }
+});
+test("public engineering examples are explicitly disclosed as independent samples", () => {
+  assert.match(text("dist/labs/index.html"), /independently implemented public teaching demonstrations/);
+  assert.match(text("dist/cases/index.html"), /not published/);
 });

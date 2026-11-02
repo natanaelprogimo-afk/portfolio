@@ -5,172 +5,23 @@ import {
   Menu, ShieldCheck, Workflow, X
 } from "lucide-react";
 import { projects, type Locale, type ProjectGroup } from "./data/projects";
+import { copy } from "./data/copy";
 
 const GITHUB = "https://github.com/natanaelprogimo-afk";
 const LINKEDIN = "https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/";
 const EMAIL = "moralesalerson@gmail.com";
 
-const copy = {
-  en: {
-    skip: "Skip to content",
-    nav: ["About", "Work", "Expertise", "Approach", "Contact"],
-    navMenu: "Open navigation",
-    contact: "Get in touch",
-    heroLabel: "FULL-STACK SOFTWARE ENGINEER · URUGUAY / REMOTE",
-    heroLine1: "Complex problems.",
-    heroLine2: "Clear software.",
-    heroText: "I'm Alerson Morales. I design and build web applications, backend systems, and practical AI workflows—connecting thoughtful interfaces to reliable engineering.",
-    heroWork: "Explore selected work",
-    heroMail: "Contact me",
-    heroScroll: "Scroll to explore",
-    visualLabel: "ENGINEERING / OVERVIEW",
-    visualTitle: "From interface to infrastructure.",
-    visualCaption: "Product thinking, end-to-end implementation.",
-    visualLayers: ["Interface", "Services & APIs", "Data systems", "AI workflows"],
-    proof1: "Completed client websites",
-    proof2: "English proficiency",
-    proof3: "Based in Uruguay",
-    proof4: "IT education completed in 2025",
-    aboutEyebrow: "01 / ABOUT",
-    aboutTitle: "A developer who cares about",
-    aboutAccent: "the whole system.",
-    aboutLead: "I started programming at 12. Today I work across frontend, backend, databases and automation, with a focus on software that is maintainable and useful.",
-    aboutBody: "I founded VYRA as an independent software initiative. My experience spans completed websites for local businesses and ongoing, more complex applications. I distinguish shipped work from prototypes and work in progress.",
-    aboutQuote: "Good software is not just what runs. It's what people can understand, maintain and trust.",
-    aboutLanguages: "Languages",
-    aboutLanguageValue: "Spanish (native) · English (C1) · Portuguese (intermediate)",
-    aboutEducation: "Education",
-    aboutEducationValue: "Completed secondary education and an IT-focused high-school program (2025).",
-    aboutFocus: "Current focus",
-    aboutFocusValue: "Remote software engineering roles and technically challenging product work.",
-    workEyebrow: "02 / SELECTED WORK",
-    workTitle: "Built, building,",
-    workAccent: "and learning in public.",
-    workIntro: "A transparent look at finished client work, active engineering projects and prototypes. Private repositories are clearly labeled.",
-    filters: ["All work", "Systems", "Products", "Client work"],
-    caseStudy: "Read technical notes",
-    hideCase: "Close technical notes",
-    challenge: "Problem",
-    approach: "Engineering approach",
-    evidence: "Verification & scope",
-    source: "View source",
-    privateSource: "Private code — discussion available on request",
-    expertiseEyebrow: "03 / EXPERTISE",
-    expertiseTitle: "My toolkit is broad.",
-    expertiseAccent: "My focus is delivery.",
-    expertiseIntro: "The right stack follows the problem. These are technologies I use or have worked with, not claims of equal depth in every tool.",
-    expertiseCards: [
-      { title: "Web & frontend", desc: "Usable, responsive interfaces and full-stack application work.", tags: ["React", "Next.js", "TypeScript", "JavaScript", "HTML / CSS"] },
-      { title: "Backend & data", desc: "API design, data flows, persistence and integration boundaries.", tags: ["Python", "Node.js", "C#", "SQL", "PostgreSQL", "MySQL"] },
-      { title: "Automation & AI", desc: "Structured workflows, model integration and human oversight.", tags: ["REST APIs", "FastAPI", "Cloudflare", "Automation", "AI integration"] },
-      { title: "Mobile & workflow", desc: "Cross-platform product development and disciplined iteration.", tags: ["React Native", "Expo", "Supabase", "Git", "Testing"] }
-    ],
-    approachEyebrow: "04 / APPROACH",
-    approachTitle: "How I approach",
-    approachAccent: "engineering work.",
-    approachIntro: "A simple working philosophy that applies whether the project is a website or a complex automation system.",
-    steps: [
-      { number: "01", title: "Understand", desc: "Clarify the real problem, constraints and criteria for success." },
-      { number: "02", title: "Design", desc: "Choose clear boundaries, data models and the simplest viable architecture." },
-      { number: "03", title: "Implement", desc: "Build readable code in small, testable increments." },
-      { number: "04", title: "Validate", desc: "Check behavior, edge cases, accessibility and operational limitations." }
-    ],
-    contactEyebrow: "05 / CONTACT",
-    contactTitle: "Let's build something",
-    contactAccent: "worth using.",
-    contactText: "I'm interested in 100% remote opportunities with teams worldwide, as well as technically meaningful collaborations. If you're hiring, tell me about the problem your team is solving.",
-    contactAction: "Email Alerson",
-    contactCv: "View résumé",
-    contactLocation: "Uruguay · Open to remote opportunities",
-    footerBuilt: "Built with React, TypeScript & care.",
-    footerTop: "Back to top",
-    rights: "All rights reserved.",
-    labelTech: "Technology"
-  },
-  es: {
-    skip: "Saltar al contenido",
-    nav: ["Sobre mí", "Proyectos", "Especialidades", "Método", "Contacto"],
-    navMenu: "Abrir navegación",
-    contact: "Contactar",
-    heroLabel: "INGENIERO DE SOFTWARE FULL-STACK · URUGUAY / REMOTO",
-    heroLine1: "Problemas complejos.",
-    heroLine2: "Software claro.",
-    heroText: "Soy Alerson Morales. Diseño y desarrollo aplicaciones web, sistemas backend y flujos prácticos de inteligencia artificial, combinando buenas interfaces con ingeniería confiable.",
-    heroWork: "Explorar proyectos",
-    heroMail: "Contactarme",
-    heroScroll: "Deslizar para explorar",
-    visualLabel: "INGENIERÍA / VISTA GENERAL",
-    visualTitle: "De la interfaz a la infraestructura.",
-    visualCaption: "Visión de producto e implementación integral.",
-    visualLayers: ["Interfaz", "Servicios y API", "Sistemas de datos", "Flujos de IA"],
-    proof1: "Sitios de clientes terminados",
-    proof2: "Nivel de inglés",
-    proof3: "Desde Uruguay",
-    proof4: "Estudios de informática finalizados en 2025",
-    aboutEyebrow: "01 / SOBRE MÍ",
-    aboutTitle: "Un desarrollador que piensa en",
-    aboutAccent: "todo el sistema.",
-    aboutLead: "Empecé a programar a los 12 años. Hoy trabajo en frontend, backend, bases de datos y automatización, con atención al mantenimiento y a la utilidad del software.",
-    aboutBody: "Fundé VYRA como iniciativa independiente de software. Mi experiencia incluye sitios web terminados para negocios y aplicaciones más complejas todavía en desarrollo. Distingo lo publicado de los prototipos y del trabajo en progreso.",
-    aboutQuote: "El buen software no solo funciona: también se entiende, se mantiene y genera confianza.",
-    aboutLanguages: "Idiomas",
-    aboutLanguageValue: "Español (nativo) · Inglés (C1) · Portugués (intermedio)",
-    aboutEducation: "Formación",
-    aboutEducationValue: "Secundaria completa y bachillerato de informática finalizado en 2025.",
-    aboutFocus: "Enfoque actual",
-    aboutFocusValue: "Puestos remotos de ingeniería de software y desarrollo de productos técnicamente exigentes.",
-    workEyebrow: "02 / PROYECTOS",
-    workTitle: "Lo que terminé, desarrollo",
-    workAccent: "y sigo aprendiendo.",
-    workIntro: "Una visión transparente del trabajo terminado para clientes, proyectos de ingeniería activos y prototipos. Los repositorios privados se identifican expresamente.",
-    filters: ["Todos", "Sistemas", "Productos", "Clientes"],
-    caseStudy: "Ver detalles técnicos",
-    hideCase: "Cerrar detalles",
-    challenge: "Problema",
-    approach: "Enfoque de ingeniería",
-    evidence: "Evidencia y alcance",
-    source: "Ver código",
-    privateSource: "Código privado — disponible para explicación técnica",
-    expertiseEyebrow: "03 / ESPECIALIDADES",
-    expertiseTitle: "Muchas herramientas.",
-    expertiseAccent: "Una prioridad: entregar.",
-    expertiseIntro: "La tecnología se elige según el problema. Estas son herramientas con las que trabajo o he trabajado, sin afirmar que domino todas por igual.",
-    expertiseCards: [
-      { title: "Web y frontend", desc: "Interfaces accesibles y adaptables, y aplicaciones full-stack.", tags: ["React", "Next.js", "TypeScript", "JavaScript", "HTML / CSS"] },
-      { title: "Backend y datos", desc: "Diseño de API, flujos de datos, persistencia e integraciones.", tags: ["Python", "Node.js", "C#", "SQL", "PostgreSQL", "MySQL"] },
-      { title: "Automatización e IA", desc: "Flujos estructurados, integración de modelos y supervisión humana.", tags: ["REST APIs", "FastAPI", "Cloudflare", "Automation", "AI integration"] },
-      { title: "Móvil y metodología", desc: "Desarrollo multiplataforma e iteración disciplinada.", tags: ["React Native", "Expo", "Supabase", "Git", "Testing"] }
-    ],
-    approachEyebrow: "04 / MÉTODO",
-    approachTitle: "Mi manera de abordar",
-    approachAccent: "la ingeniería.",
-    approachIntro: "Una filosofía simple, tanto para desarrollar un sitio como para construir un sistema de automatización complejo.",
-    steps: [
-      { number: "01", title: "Comprender", desc: "Definir el problema real, las restricciones y los criterios de éxito." },
-      { number: "02", title: "Diseñar", desc: "Elegir límites claros, modelos de datos y una arquitectura adecuada." },
-      { number: "03", title: "Implementar", desc: "Escribir código legible en incrementos pequeños y verificables." },
-      { number: "04", title: "Validar", desc: "Comprobar comportamiento, casos límite, accesibilidad y restricciones." }
-    ],
-    contactEyebrow: "05 / CONTACTO",
-    contactTitle: "Construyamos algo",
-    contactAccent: "que valga la pena.",
-    contactText: "Me interesan oportunidades 100 % remotas con equipos de cualquier país y colaboraciones técnicamente relevantes. Si estás contratando, contame qué problema busca resolver tu equipo.",
-    contactAction: "Escribir a Alerson",
-    contactCv: "Ver currículum",
-    contactLocation: "Uruguay · Disponible para oportunidades remotas",
-    footerBuilt: "Creado con React, TypeScript y dedicación.",
-    footerTop: "Volver arriba",
-    rights: "Todos los derechos reservados.",
-    labelTech: "Tecnologías"
-  }
-} as const;
 
-const sectionIds = ["about", "work", "expertise", "approach", "contact"] as const;
+
+const sectionIds = ["about", "work", "lab", "expertise", "approach", "contact"] as const;
 const groupIds: Array<"all" | ProjectGroup> = ["all", "systems", "product", "client"];
 const iconList = [Code2, Database, Workflow, Layers3] as const;
 
 export default function App() {
-  const [locale, setLocale] = useState<Locale>("en");
+  const [locale, setLocale] = useState<Locale>(() => {
+    try { return window.localStorage.getItem("alerson-portfolio-lang") === "es" ? "es" : "en"; }
+    catch { return "en"; }
+  });
   const [menuOpen, setMenuOpen] = useState(false);
   const [filter, setFilter] = useState<"all" | ProjectGroup>("all");
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -178,6 +29,7 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.lang = locale;
+    try { window.localStorage.setItem("alerson-portfolio-lang", locale); } catch { /* browsing still works without storage */ }
     document.title = locale === "en"
       ? "Alerson Morales | Full-Stack Software Engineer"
       : "Alerson Morales | Desarrollador Full-Stack";
@@ -238,7 +90,7 @@ export default function App() {
               <div className="hero-meta">
                 <a href={GITHUB} target="_blank" rel="noopener noreferrer"><Code2 size={18} /> GitHub <ArrowUpRight size={13} /></a>
                 <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={18} /> LinkedIn <ArrowUpRight size={13} /></a>
-                <a href={import.meta.env.BASE_URL + "resume.html"} target="_blank" rel="noopener noreferrer">{locale === "en" ? "Résumé" : "Currículum"} <ArrowUpRight size={13} /></a>
+                <a href={import.meta.env.BASE_URL + (locale === "en" ? "resume-en.pdf" : "resume-es.pdf")} download>{locale === "en" ? "Résumé PDF" : "CV PDF"} <ArrowUpRight size={13} /></a>
               </div>
             </div>
 
@@ -325,7 +177,13 @@ export default function App() {
                     <span className="project-index">{project.number} / 05</span>
                     <span className="project-status"><span className="status-ring" />{project.status[locale]}</span>
                   </div>
-                  <div className="project-glyph" aria-hidden="true"><span>{project.name.split(" ").map((word) => word[0]).slice(0, 2).join("")}</span><Layers3 size={24} strokeWidth={1.4} /></div>
+                  <div className="project-diagram" role="img" aria-label={locale === "en" ? "Conceptual architecture diagram, not a product screenshot" : "Diagrama conceptual de arquitectura; no es captura del producto"}>
+                    <span className="diagram-caption">{locale === "en" ? "ARCHITECTURE CONCEPT / NOT A SCREENSHOT" : "CONCEPTO ARQUITECTÓNICO / NO ES CAPTURA"}</span>
+                    <div className="diagram-flow">
+                      <span>{project.technologies[0]}</span><ArrowRight size={15} aria-hidden="true"/><span>{project.technologies[1] ?? "UI"}</span><ArrowRight size={15} aria-hidden="true"/><span>{project.technologies[2] ?? "Data"}</span>
+                    </div>
+                    <div className="diagram-footer"><span>{project.id.toUpperCase()}</span><Layers3 size={17}/></div>
+                  </div>
                   <div className="project-info">
                     <span className="project-category">{project.category[locale]}</span>
                     <h3>{project.name}</h3>
@@ -335,12 +193,18 @@ export default function App() {
                     {project.technologies.map((technology) => <span key={technology}>{technology}</span>)}
                   </div>
                   <div className="project-actions">
+                    <a className="case-deep-link" href={import.meta.env.BASE_URL + "cases/#" + project.id} target="_blank" rel="noopener noreferrer">
+                      {locale === "en" ? "Full case study" : "Caso de estudio"} <ArrowUpRight size={14} />
+                    </a>
                     <button type="button" aria-expanded={expanded === project.id}
                       aria-controls={"notes-" + project.id}
                       onClick={() => setExpanded(expanded === project.id ? null : project.id)}>
                       {expanded === project.id ? t.hideCase : t.caseStudy}
                       <ChevronDown size={17} className={expanded === project.id ? "rotate" : ""} />
                     </button>
+                    {project.id === "catalog-integrity" && (
+                      <a href={import.meta.env.BASE_URL + "labs/"} target="_blank" rel="noopener noreferrer">{locale === "en" ? "Independent public sample" : "Ejemplo público independiente"} <ExternalLink size={15}/></a>
+                    )}
                     {project.source ? <a target="_blank" rel="noopener noreferrer" href={project.source}>{t.source}<ExternalLink size={15} /></a> : <span className="project-private"><ShieldCheck size={14} /> {locale === "en" ? "Private" : "Privado"}</span>}
                   </div>
                   {expanded === project.id && (
@@ -353,6 +217,27 @@ export default function App() {
                 </article>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="section lab-section" id="lab" aria-labelledby="lab-heading">
+          <div className="container">
+            <span className="section-eyebrow">{t.labEyebrow}</span>
+            <div className="section-intro">
+              <h2 className="section-title" id="lab-heading">{t.labTitle} <em>{t.labAccent}</em></h2>
+              <p>{t.labIntro}</p>
+            </div>
+            <div className="lab-grid">
+              {t.labCards.map(item => (
+                <article key={item.number} className="lab-card">
+                  <span className="lab-number">EXAMPLE / {item.number}</span>
+                  <div className="lab-glyph"><Code2 size={28} strokeWidth={1.5}/><span>{item.icon === "data" ? "CSV" : item.icon === "api" ? "API" : "JSON"}</span></div>
+                  <h3>{item.title}</h3><p>{item.description}</p>
+                  <a href={import.meta.env.BASE_URL + "labs/#" + (item.icon === "data" ? "catalog" : item.icon === "api" ? "retry" : "metrics")} target="_blank" rel="noopener noreferrer">{t.labCTA}<ArrowUpRight size={16}/></a>
+                </article>
+              ))}
+            </div>
+            <a className="lab-source" href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/public/labs" target="_blank" rel="noopener noreferrer">{t.labOpenSource}<ArrowUpRight size={15}/></a>
           </div>
         </section>
 
@@ -403,6 +288,8 @@ export default function App() {
               <div className="contact-buttons">
                 <a className="button button-dark" href={"mailto:" + EMAIL + "?subject=Remote%20software%20engineering%20opportunity"}><Mail size={18} /> {t.contactAction} <ArrowUpRight size={16} /></a>
                 <a className="button button-outline" href={import.meta.env.BASE_URL + "resume.html"} target="_blank" rel="noopener noreferrer">{t.contactCv} <ArrowRight size={18} /></a>
+                <a className="resume-quiet-link" href={import.meta.env.BASE_URL + "resume-en.pdf"} download>{t.cvEn} (PDF)</a>
+                <a className="resume-quiet-link" href={import.meta.env.BASE_URL + "resume-es.pdf"} download>{t.cvEs} (PDF)</a>
               </div>
             </div>
             <div className="contact-side">
