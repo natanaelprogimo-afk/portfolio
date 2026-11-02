@@ -41,12 +41,13 @@ For a custom domain or root-hosted site, adjust the Vite base and canonical URL.
 - Styling: src/index.css
 - Search and social metadata: index.html
 - Branding: public/favicon.svg
+- Public printable résumé (without national ID): public/resume.html
 
 ## Evidence policy
 
 Only the Developer Portfolio case study links to publicly inspectable source code. Other codebases are private. Client website completions are described without invented URLs, endorsements, or performance figures.
 
-New claims about product releases, measured impact or certifications require evidence before publication.
+New claims about product releases, measured impact or certifications require evidence before publication. The résumé is a publicly shareable HTML page with print-to-PDF support; the original PDF with an identity number has not been committed.
 
 ## Accessibility and privacy
 
