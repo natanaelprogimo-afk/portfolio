@@ -47,6 +47,11 @@ try {
   assert.ok((await page.locator("h1").innerText()).includes("Problemas complejos"));
   assert.ok((await page.locator('link[rel="canonical"]').getAttribute("href")).includes("/es/"));
 
+  await page.goto(origin+"/es/labs/#catalog",{waitUntil:"networkidle"});
+  assert.doesNotMatch(await page.locator(".notice").innerText(),/No son no capturas/i);
+  assert.ok((await page.locator(".notice").innerText()).includes("No son capturas"));
+  assert.equal(await page.getByRole("columnheader",{name:"Estado"}).count(),1);
+  assert.ok((await page.locator("#result-catalog").innerText()).includes("Diferencia"));
   await page.goto(origin+"/es/labs/#metrics",{waitUntil:"networkidle"});
   assert.equal(await page.locator("#tab-metrics").getAttribute("aria-selected"),"true");
   assert.equal(await page.locator("#panel-metrics").isVisible(),true);
