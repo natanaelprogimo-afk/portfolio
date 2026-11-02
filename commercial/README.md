@@ -25,6 +25,10 @@ Also prepared:
 - [Security and procurement questionnaire](templates/BUYER_DUE_DILIGENCE.md)
 - [Incident response, support and exit plan](templates/SUPPORT_INCIDENT_EXIT.md)
 - [Evidence release and no-invented-claims checklist](templates/CLAIMS_AND_EVIDENCE.md)
+- [Unit economics and pricing](templates/PRICING_AND_UNIT_ECONOMICS.md)
+- [Pilot test and customer feedback protocol](templates/PILOT_AND_EVALUATION.md)
+- [Bilingual sales landing page copy](templates/PRODUCT_LISTING_BILINGUAL.md)
+- [Delivery, renewals and cancellation operations](templates/DELIVERY_AND_OFFBOARDING.md)
 - [15 existing launch gates](../docs/VYRA_LAUNCH_GATES.md)
 - [Public trust center](https://natanaelprogimo-afk.github.io/portfolio/en/trust/)
 
