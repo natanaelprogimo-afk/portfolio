@@ -7,6 +7,15 @@
 
 Recruiter-oriented portfolio written with React, TypeScript and Vite. Public code examples are **independently implemented** and use synthetic data; they are not copies or live deployments of VYRA private products.
 
+## V9: premium evidence-led UX refresh and buyer vs recruiter contact
+
+- A new layered editorial design system in `src/v9.css`: compact navigation and hero, stronger readable contrast, cleaner project cards, clear evidence paths and mobile-first layouts (320px+).
+- Dedicated **remote engineering** and **VYRA business software** inquiry cards; two distinct prefilled email subjects, truthful commercial disclaimers, links to hiring evidence and the trust center.
+- Conceptual architecture illustration visibly identifies itself as *not a product screenshot*; no fake dashboards, certifications or usage statistics.
+- Accessible current-section navigation using `aria-current="location"`; refined 44px touch goals, focus, reduced motion and forced-color support.
+- Browser QA verifies contact flows, correct localized links, active navigation and 320px card boundaries. This does **not** claim perfect WCAG compliance or measured real-user Core Web Vitals.
+- [LinkedIn profile audit and publication kit](docs/LINKEDIN_PROFILE_V9_ACTUAL_AUDIT.md) reflects the actual logged-in **read-only** browser tab, without editing the user's account.
+
 ## V8: release integrity and touch-accessibility improvements
 
 - Pages deploys are triggered **only** by the successful full `Quality checks` workflow on `main`, checking out the **exact SHA** that passed Chrome and axe-core.
