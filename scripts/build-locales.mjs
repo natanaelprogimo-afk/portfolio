@@ -89,7 +89,11 @@ function professionalJsonLd(locale){
   return '<script type="application/ld+json">'+JSON.stringify(body).replaceAll("<","\\u003c")+'</script>';
 }
 
-const original = text("index.html");
+// Replace the generic root Person JSON-LD with exactly one localized
+// canonical Person entity per language. Never create duplicate schemas.
+const original = text("index.html").replace(
+  /<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/g, ""
+);
 for(const locale of ["en","es"]) {
   const c=pageCopy[locale];
   const fallback = '<main class="container" id="main" style="padding-top:7rem;padding-bottom:7rem">'
