@@ -80,7 +80,7 @@ const copy = {
     contactAccent: "worth using.",
     contactText: "I'm interested in 100% remote opportunities with teams worldwide, as well as technically meaningful collaborations. If you're hiring, tell me about the problem your team is solving.",
     contactAction: "Email Alerson",
-    contactCv: "Request my résumé",
+    contactCv: "View résumé",
     contactLocation: "Uruguay · Open to remote opportunities",
     footerBuilt: "Built with React, TypeScript & care.",
     footerTop: "Back to top",
@@ -156,7 +156,7 @@ const copy = {
     contactAccent: "que valga la pena.",
     contactText: "Me interesan oportunidades 100 % remotas con equipos de cualquier país y colaboraciones técnicamente relevantes. Si estás contratando, contame qué problema busca resolver tu equipo.",
     contactAction: "Escribir a Alerson",
-    contactCv: "Solicitar mi CV",
+    contactCv: "Ver currículum",
     contactLocation: "Uruguay · Disponible para oportunidades remotas",
     footerBuilt: "Creado con React, TypeScript y dedicación.",
     footerTop: "Volver arriba",
@@ -238,6 +238,7 @@ export default function App() {
               <div className="hero-meta">
                 <a href={GITHUB} target="_blank" rel="noopener noreferrer"><Code2 size={18} /> GitHub <ArrowUpRight size={13} /></a>
                 <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={18} /> LinkedIn <ArrowUpRight size={13} /></a>
+                <a href={import.meta.env.BASE_URL + "resume.html"} target="_blank" rel="noopener noreferrer">{locale === "en" ? "Résumé" : "Currículum"} <ArrowUpRight size={13} /></a>
               </div>
             </div>
 
@@ -401,7 +402,7 @@ export default function App() {
               <p>{t.contactText}</p>
               <div className="contact-buttons">
                 <a className="button button-dark" href={"mailto:" + EMAIL + "?subject=Remote%20software%20engineering%20opportunity"}><Mail size={18} /> {t.contactAction} <ArrowUpRight size={16} /></a>
-                <a className="button button-outline" href={"mailto:" + EMAIL + "?subject=Resume%20request"}>{t.contactCv} <ArrowRight size={18} /></a>
+                <a className="button button-outline" href={import.meta.env.BASE_URL + "resume.html"} target="_blank" rel="noopener noreferrer">{t.contactCv} <ArrowRight size={18} /></a>
               </div>
             </div>
             <div className="contact-side">
