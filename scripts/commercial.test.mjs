@@ -65,3 +65,14 @@ test("sale visibility cannot be manually toggled without approved sale lifecycle
   data.products[0].publicListingApproved=true;
   assert.equal(validateRegistry(data).valid,false);
 });
+
+test("public template rejects nonpublic integration, price and review details",()=>{
+  const d=clone(loadFixture());
+  d.products[0].integrations=["private-business-connector"];
+  d.products[1].commercial.price=49;
+  d.products[2].gates.G01.evidence=["private/internal-report"];
+  const result=validateRegistry(d);
+  assert.equal(result.valid,false);
+  assert.ok(result.errors.some(e=>e.includes("confidential/product-specific")));
+  assert.ok(result.errors.some(e=>e.includes("internal evidence")));
+});

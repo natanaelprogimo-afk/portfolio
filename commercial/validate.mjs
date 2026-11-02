@@ -43,6 +43,21 @@ export function validateRegistry(registry){
         ||p.publicListingApproved!==false||p.ownerApproval?.approved!==false){
         errors.push(id+": public template may not expose unpublished product details or readiness.");
       }
+      // Prevent accidental disclosure of product names, technical details,
+      // real third-party integrations and commercial values in a public repo.
+      const scalarPrivate=["delivery","hostingRegion"];
+      const listPrivate=["integrations","dataTypes","subprocessors"];
+      const commercial=p.commercial||{};
+      const commercialFilled=Object.entries(commercial).some(([key,value])=>
+        key==="verifiedCheckout" ? value!==false : value!==null);
+      const privateValuesPresent=scalarPrivate.some(key=>p[key]!==null)
+        ||listPrivate.some(key=>!Array.isArray(p[key])||p[key].length>0)
+        ||commercialFilled||p.ownerApproval?.approver!==null
+        ||p.ownerApproval?.approvedAt!==null;
+      if(privateValuesPresent)errors.push(id+": confidential/product-specific information cannot be published in the public template.");
+      if(GATES.some(g=>p.gates?.[g]&&(p.gates[g].evidence?.length>0
+        ||p.gates[g].reviewedBy!==null||p.gates[g].reviewedAt!==null)))
+        errors.push(id+": public template must not contain internal evidence references or review details.");
       if(GATES.some(g=>p.gates?.[g]?.status!=="NOT_VERIFIED"))
         errors.push(id+": public template must not assert any gate result.");
     }
