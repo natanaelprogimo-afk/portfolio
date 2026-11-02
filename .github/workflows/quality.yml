@@ -12,7 +12,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,6 +33,17 @@ jobs:
           python3 -m unittest discover -s examples/sql -p "test_*.py" -v
       - name: Unit tests and static smoke tests
         run: npm test
+      - name: Install browser test runner (ephemeral)
+        run: npm install --no-save --no-package-lock playwright@1.56.1
+      - name: Browser E2E - Chrome desktop/mobile
+        run: node scripts/browser.e2e.mjs
+      - name: Store real browser screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-browser-qa
+          path: qa-evidence/
+          if-no-files-found: ignore
       - name: Build for GitHub Pages
         run: npm run build
         env:
