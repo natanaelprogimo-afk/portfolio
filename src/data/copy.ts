@@ -3,6 +3,7 @@ export const copy = {
     skip: "Skip to content",
     nav: ["About", "Work", "Lab", "Expertise", "Approach", "Contact"],
     navMenu: "Open navigation",
+    navMenuClose: "Close navigation",
     contact: "Get in touch",
     heroLabel: "FULL-STACK SOFTWARE ENGINEER · URUGUAY / REMOTE",
     heroLine1: "Complex problems.",
@@ -49,6 +50,8 @@ export const copy = {
     labIntro: "Open-source, browser-only examples with editable input and deterministic output. These are new, independent samples—not screenshots or deployments of private VYRA products.",
     labCTA: "Open interactive lab",
     labOpenSource: "Inspect source",
+    pythonExample: "Python HTTP API example + tests",
+    sqlExample: "SQL schema, indexes & window queries",
     labCards: [
       { number: "01", title: "Catalog reconciliation", description: "Compare CSV feeds, detect mismatches and validate input.", icon: "data" },
       { number: "02", title: "Idempotency simulator", description: "Replay requests and inspect safe conflict handling.", icon: "api" },
@@ -92,6 +95,7 @@ export const copy = {
     skip: "Saltar al contenido",
     nav: ["Sobre mí", "Proyectos", "Laboratorio", "Especialidades", "Método", "Contacto"],
     navMenu: "Abrir navegación",
+    navMenuClose: "Cerrar navegación",
     contact: "Contactar",
     heroLabel: "INGENIERO DE SOFTWARE FULL-STACK · URUGUAY / REMOTO",
     heroLine1: "Problemas complejos.",
@@ -138,6 +142,8 @@ export const copy = {
     labIntro: "Ejemplos públicos ejecutables en el navegador, con entradas editables y resultados verificables. Son muestras independientes, no capturas ni despliegues de los proyectos privados de VYRA.",
     labCTA: "Abrir laboratorio interactivo",
     labOpenSource: "Inspeccionar código",
+    pythonExample: "Ejemplo de API Python + pruebas",
+    sqlExample: "SQL: esquema, índices y funciones ventana",
     labCards: [
       { number: "01", title: "Conciliación de catálogos", description: "Comparar CSV, detectar diferencias y validar entradas.", icon: "data" },
       { number: "02", title: "Simulador de idempotencia", description: "Repetir solicitudes y comprobar conflictos controlados.", icon: "api" },

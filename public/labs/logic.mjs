@@ -7,19 +7,20 @@
 export function parseCsv(input) {
   if (typeof input !== "string" || input.length > 200_000) throw new Error("CSV must be text under 200 KB.");
   const rows = [];
-  let row = [], cell = "", quoted = false, atCellStart = true;
+  let row = [], cell = "", quoted = false, closedQuote = false, atCellStart = true;
   const text = input.replace(/^\uFEFF/, "");
   for (let i = 0; i < text.length; i++) {
     const char = text[i];
     if (quoted) {
       if (char === '"' && text[i + 1] === '"') { cell += '"'; i++; }
-      else if (char === '"') { quoted = false; }
+      else if (char === '"') { quoted = false; closedQuote = true; }
       else cell += char;
       continue;
     }
-    if (char === '"' && atCellStart) { quoted = true; atCellStart = false; }
+    if (closedQuote && char !== "," && char !== "\n" && char !== "\r") throw new Error("Unexpected characters after closing quote.");
+    if (char === '"' && atCellStart) { quoted = true; atCellStart = false; closedQuote = false; }
     else if (char === "," || char === "\n" || char === "\r") {
-      row.push(cell); cell = ""; atCellStart = true;
+      row.push(cell); cell = ""; atCellStart = true; closedQuote = false;
       if (char !== ",") {
         if (char === "\r" && text[i + 1] === "\n") i++;
         if (row.some(c => c.trim() !== "")) rows.push(row);
@@ -54,10 +55,12 @@ export function compareCatalog(feedCsv, observedCsv) {
       if (!("sku" in row) || !("price" in row) || !cleanSku(row.sku))
         throw new Error(label + " row " + (index + 2) + ": required columns sku,price.");
     }
+    for (const row of rows) parsePrice(row.price);
     const skus = rows.map(r => cleanSku(r.sku));
     if (new Set(skus).size !== skus.length) throw new Error(label + " contains duplicate SKU values.");
   }
   const found = new Map(observed.map(row => [cleanSku(row.sku), row]));
+  const feedKeys = new Set(feed.map(row => cleanSku(row.sku)));
   const matched = new Set(), details = [];
   for (const row of feed) {
     const sku = cleanSku(row.sku);
@@ -69,7 +72,7 @@ export function compareCatalog(feedCsv, observedCsv) {
   }
   for (const row of observed) {
     const sku = cleanSku(row.sku);
-    if (!matched.has(sku) && !feed.some(f => cleanSku(f.sku) === sku))
+    if (!feedKeys.has(sku))
       details.push({ sku, status: "extra", expected: "-", observed: row.price });
   }
   return { details, count: Object.fromEntries(["match", "mismatch", "missing", "extra"].map(status => [status, details.filter(r => r.status === status).length])) };
@@ -108,8 +111,14 @@ export function summarizeEvents(input) {
   try { data = JSON.parse(input); } catch { throw new Error("Invalid JSON."); }
   if (!Array.isArray(data) || data.length > 5000) throw new Error("Expected an array of up to 5000 events.");
   const daily = new Map();
+  const validDate = s => {
+    if (typeof s !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
+    const [y, m, d] = s.split("-").map(Number);
+    const dt = new Date(Date.UTC(y, m-1, d));
+    return y >= 100 && dt.getUTCFullYear() === y && dt.getUTCMonth() + 1 === m && dt.getUTCDate() === d;
+  };
   for (const [i, item] of data.entries()) {
-    if (!item || typeof item !== "object" || !/^\d{4}-\d{2}-\d{2}$/.test(item.date) || Number.isNaN(Date.parse(item.date + "T00:00:00Z"))) {
+    if (!item || typeof item !== "object" || !validDate(item.date)) {
       throw new Error("Event " + (i + 1) + " requires a valid YYYY-MM-DD date.");
     }
     if (!Number.isFinite(item.duration_ms) || item.duration_ms < 0 || item.duration_ms > 60_000) {

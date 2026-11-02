@@ -59,3 +59,36 @@ test("public engineering examples are explicitly disclosed as independent sample
   assert.match(text("dist/labs/index.html"), /independently implemented public teaching demonstrations/);
   assert.match(text("dist/cases/index.html"), /not published/);
 });
+
+test("localized routes ship static content and independent metadata", () => {
+  for (const locale of ["en", "es"]) {
+    const homepage=text("dist/"+locale+"/index.html");
+    assert.match(homepage, /<main class="container" id="main"/);
+    assert.match(homepage, new RegExp('<html lang="'+locale+'">'));
+    assert.match(homepage, new RegExp('<link rel="canonical" href="https://natanaelprogimo-afk.github.io/portfolio/'+locale+'/'));
+    for (const route of ["labs", "cases"]) {
+      const page=text("dist/"+locale+"/"+route+"/index.html");
+      assert.match(page,new RegExp('<html lang="'+locale+'">'));
+      assert.match(page, /hreflang="es"/);
+      assert.match(page, /property="og:title"/);
+      assert.match(page, new RegExp('/portfolio/'+locale+'/'+route+'/'));
+    }
+    const lab=text("dist/"+locale+"/labs/index.html");
+    const prefix=process.env.GITHUB_PAGES === "true" ? "/portfolio/" : "/";
+    assert.ok(lab.includes('from "'+prefix+'labs/logic.mjs"'));
+  }
+  assert.match(text("dist/es/index.html"), /Problemas complejos/);
+  assert.match(text("dist/es/labs/index.html"), /Conciliación de catálogos/);
+  assert.match(text("dist/es/cases/index.html"), /Problema de ingeniería/);
+});
+
+test("generated recruiter PDFs contain live links and language metadata", () => {
+  for (const lang of ["en","es"]) {
+    const buffer=readFileSync(new URL("../dist/resume-"+lang+".pdf", import.meta.url));
+    const content=buffer.toString("latin1");
+    assert.match(content,/\/Annots \[7 0 R 8 0 R 9 0 R\]/);
+    assert.equal((content.match(/\/Subtype \/Link/g)||[]).length,3);
+    assert.match(content,/\/URI \(https:\/\/github\.com\/natanaelprogimo-afk\)/);
+    assert.match(content,new RegExp("/Lang \\("+(lang==="en"?"en-US":"es-UY")+"\\)"));
+  }
+});

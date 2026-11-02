@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/build-locales.mjs && node scripts/build-resumes.mjs && node scripts/render-social.mjs",
     "lint": "oxlint",
     "preview": "vite preview",
     "test:smoke": "node --test scripts/smoke.test.mjs",

@@ -3,9 +3,17 @@
 **Public site:** https://natanaelprogimo-afk.github.io/portfolio/  
 **Interactive demonstrations:** https://natanaelprogimo-afk.github.io/portfolio/labs/  
 **Engineering case studies:** https://natanaelprogimo-afk.github.io/portfolio/cases/  
-**Résumé:** downloadable English and Spanish PDFs + printable HTML.
+**Résumé:** downloadable English and Spanish PDFs with clickable link annotations and declared language + printable HTML as the more accessible alternative.
 
 A bilingual, recruiter-first developer portfolio built with React, TypeScript, Vite and responsive CSS.
+
+## New V3 additions
+
+- Independent static, search-readable English and Spanish entry pages with explicit canonical URLs and hreflang.
+- Language-specific lab and case-study paths.
+- Python standard-library API sample and SQLite analytical SQL examples, both with automated tests: [examples/README.md](examples/README.md).
+- Safer CSV/price/date validation and additional regression tests.
+- CI and Pages deployment run lint, Node tests, and Python tests before publishing.
 
 ## What is real and verifiable
 
@@ -52,7 +60,7 @@ GitHub Pages is enabled using GitHub Actions. Pushes to `main` trigger `.github/
 | Interactive demos | `public/labs/` |
 | Technical case studies | `public/cases/` |
 | Printable résumé | `public/resume.html` |
-| Downloadable résumés | `public/resume-en.pdf`, `public/resume-es.pdf` |
+| Downloadable résumés | `generated at build time by `scripts/build-resumes.mjs` (source versions also in `public/`) |
 | Search metadata | `index.html`, `public/sitemap.xml` |
 | Social preview | `public/og-preview.svg` |
 
