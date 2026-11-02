@@ -111,7 +111,7 @@ test("recruiter briefs are independently readable, honest and interlinked", () =
 test("public CV content has correct Spanish accents and official education, without sensitive ID", () => {
   const en=readFileSync(new URL("../dist/resume-en.pdf",import.meta.url)).toString("latin1");
   const es=readFileSync(new URL("../dist/resume-es.pdf",import.meta.url)).toString("latin1");
-  for(const required of ["años","aplicación","diseño","clínica","Técnico","Formación","Español","Inglés"]){
+  for(const required of ["años","aplicación","diseño","clínica","Tecnológico","FORMACIÓN","Español","Inglés"]){
     assert.ok(es.includes(required), "Missing correctly encoded Spanish expression: "+required);
   }
   assert.match(en, /UTU diplomas/);
