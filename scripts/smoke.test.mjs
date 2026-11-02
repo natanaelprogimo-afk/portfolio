@@ -190,7 +190,7 @@ test("V9 dual-track contact and conceptual diagram are explicit and accessible",
   const app=text("src/App.tsx");
   const style=text("src/v9.css");
   assert.match(app,/className="contact-paths"/);
-  assert.match(app,/className="contact-path-business"/);
+  assert.match(app,/className="contact-path contact-path-business"/);
   assert.match(app,/VYRA%20business%20software%20inquiry/);
   assert.match(app,/aria-current=\{activeSection === id \?/);
   assert.match(app,/className="visual-disclaimer"/);
