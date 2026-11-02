@@ -67,7 +67,7 @@ card("public",t.verified,list([
 ])),
 card("skills",t.skills,'<p>Python · TypeScript · JavaScript · C# · SQL · React · FastAPI · Node.js · Git</p><p>'+t.languages+'</p><p>'+t.education+'</p>'),
 card("private",t.private,list([t.a,t.b,t.c])),
-card("contact","Contact / Contacto",'<p>'+t.clients+'</p><p><a href="mailto:moralesalerson@gmail.com">moralesalerson@gmail.com</a></p><p><a href="https://github.com/natanaelprogimo-afk">GitHub</a> · <a href="https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/">LinkedIn</a></p>'),
+card("contact",lang==="es"?"Contacto":"Contact",'<p>'+t.clients+'</p><p><a href="mailto:moralesalerson@gmail.com">moralesalerson@gmail.com</a></p><p><a href="https://github.com/natanaelprogimo-afk">GitHub</a> · <a href="https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/">LinkedIn</a></p>'),
 '</div><p class="note"><strong>'+t.limits+':</strong> '+t.foot+'</p>',
 '<div class="actions"><button type="button" onclick="window.print()">'+t.print+'</button></div>',
 '</main><footer>© 2026 Alerson Morales · '+t.foot+'</footer></div></body></html>'

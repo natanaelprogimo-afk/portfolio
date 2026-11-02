@@ -339,3 +339,54 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
 .verified-kind{font-size:11px}
 .hero-meta a{font-size:12.5px}
 @media(max-width:650px){.diagram-caption{font-size:10px}.diagram-flow span{font-size:11px;padding:8px}}
+
+
+/* V7 — dual-audience journeys, clear commercial status, and touch targets */
+.visitor-routes{padding:72px 0 78px;background:#0e171d;border-bottom:1px solid #294239;scroll-margin-top:105px}
+.routes-heading{max-width:850px;margin-bottom:28px}
+.routes-heading h2{font-size:clamp(29px,4vw,49px);line-height:1.14;letter-spacing:-.052em;margin:14px 0}
+.routes-heading p{max-width:780px;color:#bfcdc7;font-size:15px;line-height:1.7}
+.routes-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.route-card{display:flex;flex-direction:column;min-width:0;padding:29px;border:1px solid #3a5d4e;border-radius:16px;background:linear-gradient(145deg,#192e2a,#101d25);box-shadow:0 4px 30px rgba(0,0,0,.1)}
+.route-card:nth-child(2){background:linear-gradient(145deg,#152839,#14251f);border-color:#4b6578}
+.route-top{display:flex;align-items:center;gap:13px;min-height:44px}
+.route-icon{display:grid;place-items:center;flex:none;width:44px;height:44px;border:1px solid #567c62;border-radius:10px;background:#254133;color:var(--accent)}
+.route-eyebrow{font:750 11px ui-monospace,Consolas,monospace;letter-spacing:.035em;line-height:1.5;color:#d7e9c9}
+.route-card h3{font-size:clamp(23px,2.4vw,29px);line-height:1.2;letter-spacing:-.045em;margin:21px 0 11px}
+.route-card > p{font-size:14px;line-height:1.75;color:#c7d6cd;max-width:570px}
+.route-card ul{list-style:none;padding:0;margin:19px 0 25px;display:grid;gap:13px}
+.route-card li{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;line-height:1.55;color:#d5e2d6}
+.route-card li svg{flex-shrink:0;color:var(--accent);margin-top:2px}
+.route-link{display:inline-flex;align-items:center;justify-content:space-between;gap:20px;min-height:49px;padding:12px 16px;margin-top:auto;border:1px solid #728d72;background:#253b30;border-radius:9px;text-decoration:none;color:#ecf8dc;font-size:13px;font-weight:850}
+.route-link:hover{background:#355540;border-color:var(--accent)}
+.routes-disclaimer{margin-top:18px;font-size:12px;line-height:1.7;color:#b6c5bc}
+.hero-cta .button{line-height:1.4;text-align:center}
+.hero-meta{gap:12px 20px}
+.hero-meta a{min-height:40px;align-items:center}
+.site-nav a{min-height:42px;display:inline-flex;align-items:center}
+.footer-top > div a{width:44px;height:44px}
+.language-switch,.menu-toggle{min-height:44px;min-width:44px}
+:where(a,button):focus-visible{outline:3px solid #d8ffac;outline-offset:3px}
+.contact-section :where(a,button):focus-visible{outline-color:#1a4b2b}
+@media(max-width:750px){
+  .visitor-routes{padding:54px 0 61px}
+  .routes-grid{grid-template-columns:1fr}
+  .route-card{padding:23px}
+}
+@media(max-width:360px){.route-card{padding:18px}.route-eyebrow{font-size:10px}.hero-cta .button{font-size:12.5px}}
+
+/* V7 additional mobile hierarchy and clear project status semantics */
+.project-status-guide{display:flex;flex-wrap:wrap;gap:9px 13px;align-items:center;margin:17px 0 23px;padding:17px;border:1px solid #456055;border-radius:11px;background:#16251f;color:#c5d6cd;font-size:12px;line-height:1.55}
+.project-status-guide strong{color:#f2fadf;margin-right:9px;font-size:12px}
+.project-status-guide span{display:inline-flex;align-items:center;gap:7px}
+.project-status-guide span:before{content:"";height:7px;width:7px;display:inline-block;flex:none;border:1px solid #9fca80;border-radius:50%;background:#607d51}
+.project-status-guide span:nth-of-type(2):before{background:#46576b;border-color:#97acc7}
+.project-status-guide span:nth-of-type(3):before{background:#736447;border-color:#d6b977}
+@media(max-width:650px){.project-status-guide{align-items:flex-start;flex-direction:column;padding:15px}.project-status-guide strong{margin-bottom:3px}}
+
+/* V7: replace repetitive full-size demo cards with compact, direct lab entrypoints */
+.verified-quick-links{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px}
+.verified-quick-links > span{font-size:12px;font-weight:800;color:#d0ddd4;margin-right:3px}
+.verified-quick-links a{display:inline-flex;align-items:center;justify-content:space-between;gap:7px;min-height:43px;border:1px solid #56745e;background:#1c3028;color:#e3f9ca;padding:9px 13px;border-radius:8px;text-decoration:none;font-size:12.5px;font-weight:750}
+.verified-quick-links a:hover{background:#2d4d36}
+@media(max-width:650px){.verified-quick-links{align-items:stretch}.verified-quick-links > span{flex-basis:100%}.verified-quick-links a{flex:1 1 100%;min-height:44px}}

@@ -7,6 +7,7 @@ import {
 import { projects, type Locale, type ProjectGroup } from "./data/projects";
 import { copy } from "./data/copy";
 import VerifiedWork from "./components/VerifiedWork";
+import VisitorRoutes from "./components/VisitorRoutes";
 
 const GITHUB = "https://github.com/natanaelprogimo-afk";
 const LINKEDIN = "https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/";
@@ -14,7 +15,7 @@ const EMAIL = "moralesalerson@gmail.com";
 
 
 
-const sectionIds = ["about", "work", "lab", "expertise", "approach", "contact"] as const;
+const sectionIds = ["start-here", "evidence", "about", "work", "expertise", "contact"] as const;
 const groupIds: Array<"all" | ProjectGroup> = ["all", "systems", "product", "client"];
 const iconList = [Code2, Database, Workflow, Layers3] as const;
 
@@ -130,16 +131,13 @@ export default function App() {
               <div className="eyebrow"><span className="tiny-square" /> {t.heroLabel}</div>
               <h1 id="hero-title">{t.heroLine1}<br /><em>{t.heroLine2}</em></h1>
               <p className="hero-description">{t.heroText}</p>
-              <div className="hero-cta">
-                <a className="button button-primary" href="#work">{t.heroWork}<ArrowUpRight size={18} aria-hidden="true"/></a>
-                <a className="button button-ghost" href="#evidence">{t.heroEvidence}<Code2 size={18} aria-hidden="true"/></a>
+              <div className="hero-cta" aria-label={t.audienceActions}>
+                <a className="button button-primary" href="#evidence">{t.heroEvidence}<ArrowUpRight size={18} aria-hidden="true"/></a>
+                <a className="button button-ghost" href={localPage("trust/")}>{t.heroBuyerAction}<ShieldCheck size={18} aria-hidden="true"/></a>
               </div>
               <div className="hero-meta" aria-label={t.socialLabel}>
-                <a href={GITHUB} target="_blank" rel="noopener noreferrer"><Code2 size={18} /> GitHub <ArrowUpRight size={13} /></a>
-                <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={18} /> LinkedIn <ArrowUpRight size={13} /></a>
-                <a className="hiring-brief-link" href={localPage("trust/")} target="_blank" rel="noopener noreferrer">
-                  <ShieldCheck size={17} aria-hidden="true"/>{t.businessTrust}<ArrowUpRight size={13} aria-hidden="true"/>
-                </a>
+                <a href={GITHUB} target="_blank" rel="noopener noreferrer"><Code2 size={18} aria-hidden="true"/> GitHub <ArrowUpRight size={13} aria-hidden="true"/></a>
+                <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={18} aria-hidden="true"/> LinkedIn <ArrowUpRight size={13} aria-hidden="true"/></a>
                 <a className="hiring-brief-link" href={localPage("hiring/")} target="_blank" rel="noopener noreferrer">
                   <BriefcaseBusiness size={17} aria-hidden="true"/>{t.hiringBrief}<ArrowUpRight size={13} aria-hidden="true"/>
                 </a>
@@ -148,7 +146,7 @@ export default function App() {
             </div>
 
             <div className="hero-visual" aria-label={t.visualTitle}>
-              <div className="visual-top"><span className="visual-dots"><i /><i /><i /></span><span>ALERSON / ENGINEERING</span><span className="visual-plus">+</span></div>
+              <div className="visual-top"><span className="visual-dots"><i /><i /><i /></span><span>{t.visualBrand}</span><span className="visual-plus">+</span></div>
               <div className="visual-body">
                 <span className="visual-kicker">{t.visualLabel}</span>
                 <h2>{t.visualTitle}</h2>
@@ -159,13 +157,13 @@ export default function App() {
                     return (
                       <div className="architecture-node" key={name}>
                         <span className="architecture-icon"><Icon size={20} strokeWidth={1.7} /></span>
-                        <div><small>0{index + 1} / LAYER</small><strong>{name}</strong></div>
+                        <div><small>0{index + 1} / {t.visualLayer}</small><strong>{name}</strong></div>
                         <Check size={16} className="node-check" aria-hidden="true" />
                       </div>
                     );
                   })}
                 </div>
-                <div className="visual-foot"><span><span className="live-dot" /> BUILD WITH INTENT</span><span>2026</span></div>
+                <div className="visual-foot"><span><span className="live-dot" /> {t.visualFoot}</span><span>2026</span></div>
               </div>
             </div>
           </div>
@@ -175,6 +173,7 @@ export default function App() {
           </div>
         </section>
 
+        <VisitorRoutes locale={locale}/>
         <VerifiedWork locale={locale}/>
 
         <div className="proof-strip">
@@ -216,6 +215,12 @@ export default function App() {
             <div className="section-intro">
               <h2 className="section-title" id="work-heading">{t.workTitle} <em>{t.workAccent}</em></h2>
               <p>{t.workIntro}</p>
+            </div>
+            <div className="project-status-guide" role="note" aria-label={t.projectGuideTitle}>
+              <strong>{t.projectGuideTitle}</strong>
+              <span>{t.projectGuidePublic}</span>
+              <span>{t.projectGuidePrivate}</span>
+              <span>{t.projectGuideClient}</span>
             </div>
             <div className="project-filters" role="group" aria-label={t.filterLabel}>
               {groupIds.map((group, index) => (
@@ -275,31 +280,6 @@ export default function App() {
           </div>
         </section>
 
-        <section className="section lab-section" id="lab" aria-labelledby="lab-heading">
-          <div className="container">
-            <span className="section-eyebrow">{t.labEyebrow}</span>
-            <div className="section-intro">
-              <h2 className="section-title" id="lab-heading">{t.labTitle} <em>{t.labAccent}</em></h2>
-              <p>{t.labIntro}</p>
-            </div>
-            <div className="lab-grid">
-              {t.labCards.map(item => (
-                <article key={item.number} className="lab-card">
-                  <span className="lab-number">EXAMPLE / {item.number}</span>
-                  <div className="lab-glyph"><Code2 size={28} strokeWidth={1.5}/><span>{item.icon === "data" ? "CSV" : item.icon === "api" ? "API" : "JSON"}</span></div>
-                  <h3>{item.title}</h3><p>{item.description}</p>
-                  <a href={localPage("labs/#" + (item.icon === "data" ? "catalog" : item.icon === "api" ? "retry" : "metrics"))} target="_blank" rel="noopener noreferrer">{t.labCTA}<ArrowUpRight size={16}/></a>
-                </article>
-              ))}
-            </div>
-            <a className="lab-source" href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/public/labs" target="_blank" rel="noopener noreferrer">{t.labOpenSource}<ArrowUpRight size={15}/></a>
-            <div className="engineering-links">
-              <a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/backend" target="_blank" rel="noopener noreferrer">{t.pythonExample} <ArrowUpRight size={15}/></a>
-              <a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/sql" target="_blank" rel="noopener noreferrer">{t.sqlExample} <ArrowUpRight size={15}/></a>
-            </div>
-          </div>
-        </section>
-
         <section className="section expertise-section" id="expertise" aria-labelledby="expertise-heading">
           <div className="container">
             <span className="section-eyebrow">{t.expertiseEyebrow}</span>
@@ -320,24 +300,6 @@ export default function App() {
           </div>
         </section>
 
-        <section className="section approach-section" id="approach" aria-labelledby="approach-heading">
-          <div className="container">
-            <span className="section-eyebrow">{t.approachEyebrow}</span>
-            <div className="section-intro">
-              <h2 className="section-title" id="approach-heading">{t.approachTitle} <em>{t.approachAccent}</em></h2>
-              <p>{t.approachIntro}</p>
-            </div>
-            <div className="steps">
-              {t.steps.map((step) => <article key={step.number} className="step">
-                <span className="step-number">{step.number} / 04</span>
-                <h3>{step.title}</h3>
-                <p>{step.desc}</p>
-                <ArrowUpRight size={19} aria-hidden="true" />
-              </article>)}
-            </div>
-          </div>
-        </section>
-
         <section className="contact-section" id="contact" aria-labelledby="contact-heading">
           <div className="container contact-inner">
             <div>
@@ -346,6 +308,7 @@ export default function App() {
               <p>{t.contactText}</p>
               <div className="contact-buttons">
                 <a className="button button-dark" href={"mailto:" + EMAIL + "?subject=Remote%20software%20engineering%20opportunity"}><Mail size={18} /> {t.contactAction} <ArrowUpRight size={16} /></a>
+                <a className="button button-outline" href={localPage("trust/")}>{t.contactBuyerAction}<ShieldCheck size={17} aria-hidden="true"/></a>
                 <a className="button button-outline" href={localPage("hiring/")} target="_blank" rel="noopener noreferrer">
                   {t.hiringBrief}<ArrowUpRight size={16} aria-hidden="true"/>
                 </a>

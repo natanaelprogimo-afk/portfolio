@@ -67,7 +67,33 @@ function decorate(html, locale,slug,title,description) {
   return html;
 }
 
-const original = text("index.html");
+// Structured professional identity for crawler visibility. This does not
+// claim an independent VYRA legal entity, public product availability or any certification.
+function professionalJsonLd(locale){
+  const body={
+    "@context":"https://schema.org",
+    "@type":"Person",
+    "@id":"https://natanaelprogimo-afk.github.io/portfolio/#alerson-morales",
+    name:"Alerson Morales",
+    url:site+locale+"/",
+    description:pageCopy[locale].description,
+    jobTitle:locale==="es"?"Desarrollador de software full-stack":"Full-Stack Software Developer",
+    knowsLanguage:["Spanish","English","Portuguese"],
+    knowsAbout:["Python","TypeScript","React","FastAPI","SQL","Backend Development","Software Testing"],
+    homeLocation:{"@type":"Country",name:"Uruguay"},
+    sameAs:[
+      "https://github.com/natanaelprogimo-afk",
+      "https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/"
+    ]
+  };
+  return '<script type="application/ld+json">'+JSON.stringify(body).replaceAll("<","\\u003c")+'</script>';
+}
+
+// Replace the generic root Person JSON-LD with exactly one localized
+// canonical Person entity per language. Never create duplicate schemas.
+const original = text("index.html").replace(
+  /<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/g, ""
+);
 for(const locale of ["en","es"]) {
   const c=pageCopy[locale];
   const fallback = '<main class="container" id="main" style="padding-top:7rem;padding-bottom:7rem">'
@@ -78,7 +104,8 @@ for(const locale of ["en","es"]) {
     +'<p>'+escape(c.note)+'</p>'
     +'<p><a href="mailto:moralesalerson@gmail.com">moralesalerson@gmail.com</a> · <a href="'+base+'resume-'+locale+'.pdf">CV / Résumé PDF</a></p>'
     +'</main>';
-  const html=decorate(original.replace('<div id="root"></div>','<div id="root">'+fallback+'</div>'),locale,"",c.title,c.description);
+  const html=decorate(original.replace('<div id="root"></div>','<div id="root">'+fallback+'</div>'),locale,"",c.title,c.description)
+    .replace("</head>",professionalJsonLd(locale)+"\n</head>");
   output(locale+"/index.html",html);
 }
 

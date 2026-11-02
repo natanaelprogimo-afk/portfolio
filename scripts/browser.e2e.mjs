@@ -55,6 +55,23 @@ try {
   await page.goto(origin+"/es/labs/#metrics",{waitUntil:"networkidle"});
   assert.equal(await page.locator("#tab-metrics").getAttribute("aria-selected"),"true");
   assert.equal(await page.locator("#panel-metrics").isVisible(),true);
+  // The first screen offers distinct recruiter and commercial buyer paths.
+  for (const language of ["en","es"]) {
+    await page.goto(origin+"/"+language+"/",{waitUntil:"networkidle"});
+    assert.equal(await page.locator("#start-here .route-card").count(),2);
+    assert.equal(await page.locator(".verified-quick-links a").count(),3);
+    assert.equal(await page.locator(".project-status-guide").count(),1);
+    assert.equal(await page.locator("#start-here .route-card a[href$='/"+language+"/hiring/']").count(),1);
+    assert.equal(await page.locator("#start-here .route-card a[href$='/"+language+"/trust/']").count(),1);
+    assert.equal(await page.locator(".hero-cta a[href$='/"+language+"/trust/']").count(),1);
+    assert.equal(await page.locator(".hero-cta a[href='#evidence']").count(),1);
+    const json = JSON.parse(await page.locator('script[type="application/ld+json"]').first().innerText());
+    assert.equal(json["@type"],"Person");
+    assert.equal(json.name,"Alerson Morales");
+    assert.equal(json.homeLocation.name,"Uruguay");
+    assert.ok(json.sameAs.some(uri=>uri.includes("github.com")));
+  }
+
   // Work samples should be visible near the first screen, with honest provenance.
   await page.goto(origin+"/en/#evidence",{waitUntil:"networkidle"});
   assert.equal(await page.locator("#evidence .verified-card").count(),3);
@@ -94,6 +111,7 @@ try {
     assert.equal(await page.locator("#readiness .card").count(),4);
     assert.equal(await page.locator("#security .card").count(),6);
     assert.equal(await page.locator("#buy li").count(),8);
+    assert.equal(await page.locator(".trust-toc a").count(),6);
     assert.equal(await page.locator('link[rel="canonical"]').count(),1);
     const copy=await page.locator("main").innerText();
     assert.ok(copy.includes("SOC 2"));
@@ -109,9 +127,9 @@ try {
   await page.goto(origin+"/en/",{waitUntil:"networkidle"});
   await page.getByRole("button",{name:"Open navigation"}).click();
   assert.equal(await page.getByRole("button",{name:"Close navigation"}).getAttribute("aria-expanded"),"true");
-  assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#about");
+  assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#start-here");
   await page.keyboard.press("Tab");
-  assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#work");
+  assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#evidence");
   await page.keyboard.press("Escape");
   assert.equal(await page.getByRole("button",{name:"Open navigation"}).getAttribute("aria-expanded"),"false");
   await page.waitForFunction(() => document.activeElement?.getAttribute("aria-label") === "Open navigation");
@@ -119,6 +137,12 @@ try {
   await page.getByRole("button",{name:"Close navigation"}).click();
 
   await page.screenshot({path:"qa-evidence/mobile-390.png",fullPage:true});
+  const routeDimensions=await page.locator("#start-here .route-card").evaluateAll(cards=>cards.map(c=>({
+    left:c.getBoundingClientRect().left,right:c.getBoundingClientRect().right,
+    windowWidth:document.documentElement.clientWidth
+  })));
+  assert.equal(routeDimensions.length,2);
+  assert.ok(routeDimensions.every(x=>x.left>=-1&&x.right<=x.windowWidth+1));
   await page.setViewportSize({width:320,height:844});
   await page.goto(origin+"/en/",{waitUntil:"networkidle"});
   const social=await page.evaluate(()=>{

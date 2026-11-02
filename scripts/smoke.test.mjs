@@ -35,9 +35,13 @@ test("public résumé omits identity documents and supports printing", () => {
 test("site contains navigation anchors and honest project statuses", () => {
   const app = text("src/App.tsx");
   const projectData = text("src/data/projects.ts");
-  for (const id of ["main", "top", "about", "work", "expertise", "approach", "contact"]) {
+  for (const id of ["main", "top", "about", "work", "expertise", "contact"]) {
     assert.ok(app.includes('id="' + id + '"'), "missing anchor: " + id);
   }
+  assert.match(text("src/components/VisitorRoutes.tsx"), /id="start-here"/);
+  assert.match(text("src/components/VerifiedWork.tsx"), /id="evidence"/);
+  assert.doesNotMatch(app,/className="section approach-section"/);
+  assert.doesNotMatch(app,/className="section lab-section"/);
   assert.match(app, /import\.meta\.env\.BASE_URL \+ "resume\.html"/);
   assert.match(projectData, /Not released/);
   assert.match(projectData, /Private/);
@@ -143,4 +147,19 @@ test("buyer trust pages disclose commercial limitations and independently inspec
   }
   assert.match(text("dist/en/trust/index.html"),/not a.*security certification/);
   assert.match(text("dist/es/trust/index.html"),/no garantía implementada/);
+});
+
+test("professional JSON-LD is valid, truthful and localized on homepages", () => {
+  for (const lang of ["en","es"]) {
+    const html = text("dist/"+lang+"/index.html");
+    const scripts=[...html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)];
+    assert.equal(scripts.length,1,"One JSON-LD person schema expected for "+lang);
+    const schema=JSON.parse(scripts[0][1]);
+    assert.equal(schema["@type"],"Person");
+    assert.equal(schema.name,"Alerson Morales");
+    assert.equal(schema.homeLocation.name,"Uruguay");
+    assert.ok(schema.sameAs.includes("https://github.com/natanaelprogimo-afk"));
+    assert.ok(schema.url.endsWith("/"+lang+"/"));
+    assert.doesNotMatch(html,/\"award\"|\"alumniOf\":\s*\[\s*\"University/);
+  }
 });
