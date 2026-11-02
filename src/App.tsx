@@ -257,7 +257,7 @@ export default function App() {
                       {locale === "en" ? "Full case study" : "Caso de estudio"} <ArrowUpRight size={14} />
                     </a>
                     <button type="button" aria-expanded={expanded === project.id}
-                      aria-controls={"notes-" + project.id}
+                      aria-controls={expanded === project.id ? "notes-" + project.id : undefined}
                       onClick={() => setExpanded(expanded === project.id ? null : project.id)}>
                       {expanded === project.id ? t.hideCase : t.caseStudy}
                       <ChevronDown size={17} className={expanded === project.id ? "rotate" : ""} />

@@ -163,3 +163,25 @@ test("professional JSON-LD is valid, truthful and localized on homepages", () =>
     assert.doesNotMatch(html,/\"award\"|\"alumniOf\":\s*\[\s*\"University/);
   }
 });
+
+test("deployment requires successful complete CI on exact main SHA", () => {
+  const deployment = text(".github/workflows/deploy.yml");
+  assert.match(deployment,/workflow_run:/);
+  assert.match(deployment,/workflows: \["Quality checks"\]/);
+  assert.match(deployment,/branches: \[main\]/);
+  assert.match(deployment,/workflow_run\.conclusion == 'success'/);
+  assert.match(deployment,/workflow_run\.head_sha/);
+  assert.doesNotMatch(deployment,/workflow_dispatch:/);
+  assert.doesNotMatch(deployment,/\n  push:\s*\n/);
+});
+test("project accordion only announces a control when its panel is present", () => {
+  const source=text("src/App.tsx");
+  assert.match(source,/aria-controls=\{expanded === project\.id \?/);
+});
+test("unused router dependency is removed from package and lockfile", () => {
+  const pkg=JSON.parse(text("package.json"));
+  const lock=JSON.parse(text("package-lock.json"));
+  assert.equal(pkg.dependencies["react-router-dom"],undefined);
+  assert.equal(lock.packages["node_modules/react-router-dom"],undefined);
+  assert.equal(lock.packages[""].dependencies["react-router-dom"],undefined);
+});
