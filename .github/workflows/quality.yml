@@ -27,3 +27,13 @@ jobs:
         run: npm run build
       - name: Lint
         run: npm run lint
+      - name: Smoke tests (root deployment)
+        run: npm run test:smoke
+      - name: Build for GitHub Pages
+        run: npm run build
+        env:
+          GITHUB_PAGES: 'true'
+      - name: Smoke tests (GitHub Pages)
+        run: npm run test:smoke
+        env:
+          GITHUB_PAGES: 'true'
