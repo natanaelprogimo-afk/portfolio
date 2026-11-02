@@ -31,6 +31,11 @@ jobs:
         run: |
           python3 -m unittest discover -s examples/backend -p "test_*.py" -v
           python3 -m unittest discover -s examples/sql -p "test_*.py" -v
+      - name: Validate seven-product anonymous readiness template
+        run: |
+          mkdir -p qa-evidence
+          npm run commercial:check > qa-evidence/commercial-readiness.json
+          npm run test:commercial
       - name: Unit tests and static smoke tests
         run: npm test
       - name: Install browser test runner (ephemeral)
