@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { projects, type Locale, type ProjectGroup } from "./data/projects";
 import { copy } from "./data/copy";
+import VerifiedWork from "./components/VerifiedWork";
 
 const GITHUB = "https://github.com/natanaelprogimo-afk";
 const LINKEDIN = "https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/";
@@ -26,6 +27,7 @@ export default function App() {
   });
   const [menuOpen, setMenuOpen] = useState(false);
   const firstNavRef = useRef<HTMLAnchorElement | null>(null);
+  const menuButtonRef = useRef<HTMLButtonElement | null>(null);
   const [filter, setFilter] = useState<"all" | ProjectGroup>("all");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [copyState, setCopyState] = useState<"idle"|"success"|"failure">("idle");
@@ -70,7 +72,16 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (menuOpen) firstNavRef.current?.focus();
+    if (!menuOpen) return;
+    firstNavRef.current?.focus();
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        window.requestAnimationFrame(() => menuButtonRef.current?.focus());
+      }
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
   }, [menuOpen]);
 
   const visibleProjects = projects.filter((project) => filter === "all" || project.group === filter);
@@ -88,7 +99,7 @@ export default function App() {
             <span className="brand-name">ALERSON<br />MORALES</span>
           </a>
 
-          <nav id="site-nav" className={menuOpen ? "site-nav open" : "site-nav"} aria-label="Main navigation">
+          <nav id="site-nav" className={menuOpen ? "site-nav open" : "site-nav"} aria-label={t.navLabel}>
             {sectionIds.map((id, i) => (
               <a key={id} ref={i === 0 ? firstNavRef : undefined} href={"#" + id} onClick={() => setMenuOpen(false)}>
                 <span>{String(i + 1).padStart(2, "0")}.</span> {t.nav[i]}
@@ -107,7 +118,7 @@ export default function App() {
               <Globe2 size={15} aria-hidden="true" /> {locale === "en" ? "ES" : "EN"}
             </button>
             <a href={"mailto:" + EMAIL} className="header-contact">{t.contact} <ArrowUpRight size={15} /></a>
-            <button className="menu-toggle" type="button" aria-controls="site-nav"
+            <button className="menu-toggle" ref={menuButtonRef} type="button" aria-controls="site-nav"
               aria-label={menuOpen ? t.navMenuClose : t.navMenu} aria-expanded={menuOpen}
               onClick={() => setMenuOpen(!menuOpen)}>
               {menuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -124,10 +135,10 @@ export default function App() {
               <h1 id="hero-title">{t.heroLine1}<br /><em>{t.heroLine2}</em></h1>
               <p className="hero-description">{t.heroText}</p>
               <div className="hero-cta">
-                <a className="button button-primary" href="#work">{t.heroWork}<ArrowUpRight size={18} /></a>
-                <a className="button button-ghost" href={"mailto:" + EMAIL}>{t.heroMail}<ArrowRight size={18} /></a>
+                <a className="button button-primary" href="#work">{t.heroWork}<ArrowUpRight size={18} aria-hidden="true"/></a>
+                <a className="button button-ghost" href="#evidence">{t.heroEvidence}<Code2 size={18} aria-hidden="true"/></a>
               </div>
-              <div className="hero-meta">
+              <div className="hero-meta" aria-label={t.socialLabel}>
                 <a href={GITHUB} target="_blank" rel="noopener noreferrer"><Code2 size={18} /> GitHub <ArrowUpRight size={13} /></a>
                 <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={18} /> LinkedIn <ArrowUpRight size={13} /></a>
                 <a href={import.meta.env.BASE_URL + (locale === "en" ? "resume-en.pdf" : "resume-es.pdf")} download>{locale === "en" ? "Résumé PDF" : "CV PDF"} <ArrowUpRight size={13} /></a>
@@ -161,6 +172,8 @@ export default function App() {
             <span>PYTHON <b>·</b> TYPESCRIPT <b>·</b> REACT <b>·</b> SQL</span>
           </div>
         </section>
+
+        <VerifiedWork locale={locale}/>
 
         <div className="proof-strip">
           <div className="container proof-grid">
@@ -202,7 +215,7 @@ export default function App() {
               <h2 className="section-title" id="work-heading">{t.workTitle} <em>{t.workAccent}</em></h2>
               <p>{t.workIntro}</p>
             </div>
-            <div className="project-filters" role="group" aria-label="Filter projects">
+            <div className="project-filters" role="group" aria-label={t.filterLabel}>
               {groupIds.map((group, index) => (
                 <button type="button" key={group} onClick={() => { setFilter(group); setExpanded(null); }}
                   className={filter === group ? "filter active" : "filter"} aria-pressed={filter === group}>
@@ -229,8 +242,8 @@ export default function App() {
                     <h3>{project.name}</h3>
                     <p>{project.summary[locale]}</p>
                   </div>
-                  <div className="tag-list" aria-label={t.labelTech}>
-                    {project.technologies.map((technology) => <span key={technology}>{technology}</span>)}
+                  <div className="tag-list" role="list" aria-label={t.labelTech}>
+                    {project.technologies.map((technology) => <span role="listitem" key={technology}>{technology}</span>)}
                   </div>
                   <div className="project-actions">
                     <a className="case-deep-link" href={localPage("cases/#" + project.id)} target="_blank" rel="noopener noreferrer">

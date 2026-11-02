@@ -309,3 +309,23 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
 .contact-side > span{color:#36573b}
 @media(max-width:650px){.hero-meta{column-gap:18px}}
 @media(max-width:360px){.hero-meta{gap:12px 16px}.hero-meta a{font-size:11px}}
+
+
+/* V4: evidence-led recruiter experience */
+.verified-section { background: #0c151a; border-bottom:1px solid var(--line); padding: 82px 0 76px; scroll-margin-top:95px; }
+.verified-heading { display:flex; justify-content:space-between; align-items:end; gap:32px; margin-bottom:28px; }
+.verified-title { font-size:clamp(29px,3.5vw,48px); line-height:1.12; letter-spacing:-.045em; max-width:700px; margin-top:15px; }
+.verified-heading > p { max-width:390px; color:#c0ceca; font-size:14px; line-height:1.7; }
+.verified-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; }
+.verified-card { display:flex; flex-direction:column; padding:26px; border:1px solid #3f5a51; border-radius:13px; min-width:0; background:linear-gradient(155deg,#172923 0%,#121c24 88%); }
+.verified-card-top { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.verified-icon { display:grid; place-items:center; width:42px; height:42px; border-radius:9px; color:var(--accent); border:1px solid #4b654c; background:#20352a; flex-shrink:0; }
+.verified-kind { color:#c4e09e; font:750 10px ui-monospace,Consolas,monospace; letter-spacing:.04em; text-align:right; }
+.verified-card h3 { font-size:23px; letter-spacing:-.04em; line-height:1.2; margin:22px 0 12px; }
+.verified-card p { color:#c4d2cf; font-size:14px; line-height:1.7; flex:1; }
+.verified-tech { display:block; margin-top:23px; color:#b2c3b9; font-size:11.5px; }
+.verified-card a { display:inline-flex; align-items:center; gap:9px; align-self:flex-start; margin-top:16px; color:var(--accent); font-size:14px; font-weight:800; text-decoration:underline; text-underline-offset:4px; }
+.verified-card a:hover { color:#e0ffbc; }
+.verified-disclaimer { margin-top:17px; color:#aabcb4; font-size:12px; line-height:1.7; }
+@media(max-width:900px) { .verified-heading { flex-direction:column; align-items:start; } .verified-heading > p { max-width:680px; } .verified-grid { grid-template-columns:1fr; } .verified-card { min-height:0; } }
+@media(max-width:650px) { .verified-section {padding:60px 0;} .verified-card {padding:20px;} .verified-title{font-size:clamp(31px,8vw,43px);} }
