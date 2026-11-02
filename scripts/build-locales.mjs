@@ -196,6 +196,9 @@ for(const locale of ["en","es"]){
   let labs=locale==="es"?translate(labsEnglish,labSpanish):labsEnglish;
   let cases=locale==="es"?translate(casesEnglish,caseSpanish):casesEnglish;
   if (locale === "es") {
+    labs=labs.replaceAll("No son <strong>no</strong> capturas","<strong>No son capturas</strong>");
+  }
+  if (locale === "es") {
     labs=labs.replaceAll("AM. / ENGINEERING LAB", "AM. / LABORATORIO TÉCNICO")
       .replaceAll("Engineering examples", "Ejemplos de ingeniería")
       .replaceAll("Skip to content", "Saltar al contenido")

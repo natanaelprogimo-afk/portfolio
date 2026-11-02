@@ -90,6 +90,7 @@ SKU-004,10.00</textarea></div>
 <script type="module">
   import { compareCatalog, createIdempotencyLedger, serializeReportCsv, summarizeEvents } from "./logic.mjs";
   const tabs = ["catalog","retry","metrics"];
+  const spanish = document.documentElement.lang === "es";
   function switchTab(name) {
     for (const key of tabs) {
       const on = key === name, btn = document.getElementById("tab-"+key);
@@ -112,11 +113,11 @@ SKU-004,10.00</textarea></div>
   function error(id,err){const target=output(id),p=document.createElement("pre");p.textContent=err instanceof Error?err.message:String(err);p.style.color="#ffbfb9";target.append(p);}
   function renderTable(id,rows,columns){const target=output(id),table=document.createElement("table"),thead=document.createElement("thead"),tbody=document.createElement("tbody"),head=document.createElement("tr");
     columns.forEach(([key,label])=>{const th=document.createElement("th");th.scope="col";th.textContent=label;head.append(th);});thead.append(head);
-    rows.forEach(row=>{const tr=document.createElement("tr");columns.forEach(([key])=>{const td=document.createElement("td");td.textContent=String(row[key]);tr.append(td);});tbody.append(tr);});
+    rows.forEach(row=>{const tr=document.createElement("tr");columns.forEach(([key])=>{const td=document.createElement("td");td.textContent = key==="status" && spanish ? ({match:"Coincide",mismatch:"Diferencia",missing:"Faltante",extra:"Adicional"}[row[key]] ?? row[key]) : String(row[key]);tr.append(td);});tbody.append(tr);});
     table.append(thead,tbody);target.append(table);
   }
-  const catalogColumns=[["sku","SKU"],["status","Status"],["expected","Feed"],["observed","Observed"]];
-  const metricColumns=[["date","Date"],["requests","Requests"],["successful","OK"],["errors","Errors"],["successRate","Success %"],["averageMs","Mean ms"]];
+  const catalogColumns=[["sku","SKU"],["status",spanish?"Estado":"Status"],["expected",spanish?"Esperado":"Feed"],["observed",spanish?"Observado":"Observed"]];
+  const metricColumns=[["date",spanish?"Fecha":"Date"],["requests",spanish?"Solicitudes":"Requests"],["successful","OK"],["errors",spanish?"Errores":"Errors"],["successRate",spanish?"Éxito %":"Success %"],["averageMs",spanish?"Media ms":"Mean ms"]];
   let catalogRows=null,metricRows=null;
   const updateExport=(id,enabled)=>{document.getElementById(id).disabled=!enabled;};
   function saveCsv(rows,columns,filename){
