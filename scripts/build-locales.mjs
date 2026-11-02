@@ -42,6 +42,7 @@ function decorate(html, locale,slug,title,description) {
   const canonical=baseUrl(locale,slug);
   html=html.replace(/<html lang="[^"]*">/,'<html lang="'+locale+'">');
   html=html.replace(/<link rel="canonical"[^>]*\/?>\s*/g,"");
+  html=html.replace(/<link rel="alternate" hreflang="[^"]+" href="[^"]+" \/>\s*/g, "");
   // Static social metadata for every URL; avoid depending on client-side JavaScript.
   if (!html.includes('property="og:image"')) {
     html=html.replace("</head>", '<meta property="og:type" content="website" />\n'

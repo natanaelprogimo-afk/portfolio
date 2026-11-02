@@ -1,83 +1,67 @@
 # Alerson Morales — Software Engineering Portfolio
 
-**Public site:** https://natanaelprogimo-afk.github.io/portfolio/  
-**Interactive demonstrations:** https://natanaelprogimo-afk.github.io/portfolio/labs/  
-**Engineering case studies:** https://natanaelprogimo-afk.github.io/portfolio/cases/  
-**Résumé:** downloadable English and Spanish PDFs with clickable link annotations and declared language + printable HTML as the more accessible alternative.
+**Web:** https://natanaelprogimo-afk.github.io/portfolio/en/  
+**Español:** https://natanaelprogimo-afk.github.io/portfolio/es/  
+**Live engineering lab:** https://natanaelprogimo-afk.github.io/portfolio/en/labs/  
+**Engineering case studies:** https://natanaelprogimo-afk.github.io/portfolio/en/cases/
 
-A bilingual, recruiter-first developer portfolio built with React, TypeScript, Vite and responsive CSS.
+Recruiter-oriented portfolio written with React, TypeScript and Vite. Public code examples are **independently implemented** and use synthetic data; they are not copies or live deployments of VYRA private products.
 
-## New V3 additions
+## What an interviewer can verify
 
-- Independent static, search-readable English and Spanish entry pages with explicit canonical URLs and hreflang.
-- Language-specific lab and case-study paths.
-- Python standard-library API sample and SQLite analytical SQL examples, both with automated tests: [examples/README.md](examples/README.md).
-- Safer CSV/price/date validation and additional regression tests.
-- CI and Pages deployment run lint, Node tests, and Python tests before publishing.
+- [Browser-based examples](https://natanaelprogimo-afk.github.io/portfolio/en/labs/) with editable test input: CSV reconciliation, request idempotency and event metrics.
+- [Python API example](examples/backend/service.py) using the standard library, input validation, SQLite, and idempotency, with [automated tests](examples/backend/test_service.py).
+- [SQL examples](examples/sql/) with synthetic schemas, indexed queries, a window function, a query plan and tests.
+- [Five portfolio case studies](https://natanaelprogimo-afk.github.io/portfolio/en/cases/) with explicit limitations for private work.
+- One-page English/Spanish PDF résumés and a printable HTML résumé. Private identity documents are intentionally omitted.
 
-## What is real and verifiable
+## Run it locally
 
-- 5 clearly labeled project case studies, including public code and private projects.
-- Three **independent public engineering exercises** with working in-browser behavior:
-  - CSV feed reconciliation and validation.
-  - Idempotency and conflict handling.
-  - Structured event aggregation.
-- Source for the examples: `public/labs/logic.mjs`, with Node unit tests in `scripts/labs.test.mjs`.
-- The public examples use **synthetic data** and are **not** published screenshots or code from private VYRA apps.
-- Private project statuses and evidence boundaries are explained in `public/cases/index.html`.
-
-## Start locally
-
-Requires Node.js 22.12+.
+Requires Node.js 22.12+ and Python 3.11+ for the backend/SQL tests.
 
 ```bash
 npm ci
 npm run dev
 ```
 
-## Verify
+## Quality checks
 
 ```bash
 npm run build
 npm run lint
 npm test
+python -m unittest discover -s examples/backend -p "test_*.py" -v
+python -m unittest discover -s examples/sql -p "test_*.py" -v
 ```
 
-Smoke tests include the published assets, correct Vite base path, résumé PDF signatures, privacy check, and sample provenance.
+CI additionally executes a real Chrome browser regression suite across desktop and mobile widths, checking navigation, hash linking, language, lab tabs and PDFs. GitHub Pages deployment runs build/lint and tests before publication.
 
-## Publish
+## Source map
 
-GitHub Pages is enabled using GitHub Actions. Pushes to `main` trigger `.github/workflows/deploy.yml` with `GITHUB_PAGES=true`; PRs run `quality.yml`. Inspect workflow success and live routes after each release.
-
-## Maintain
-
-| Area | Source |
+| Area | Path |
 | --- | --- |
-| Main page and interactions | `src/App.tsx` |
-| Bilingual copy | `src/data/copy.ts` |
-| Project statuses/evidence | `src/data/projects.ts` |
-| Main design | `src/index.css` |
-| Interactive demos | `public/labs/` |
-| Technical case studies | `public/cases/` |
-| Printable résumé | `public/resume.html` |
-| Downloadable résumés | `generated at build time by `scripts/build-resumes.mjs` (source versions also in `public/`) |
-| Search metadata | `index.html`, `public/sitemap.xml` |
-| Social preview | `public/og-preview.svg` |
+| React app | `src/App.tsx` |
+| Public engineering proof | `src/components/VerifiedWork.tsx` |
+| Translated copy | `src/data/copy.ts` |
+| Project data and statuses | `src/data/projects.ts` |
+| Design system | `src/index.css` |
+| Static locale builder | `scripts/build-locales.mjs` |
+| Interactive lab | `public/labs/` |
+| Public backend and SQL examples | `examples/` |
+| Case studies | `public/cases/` |
+| PDF résumé generator | `scripts/build-resumes.mjs` |
+| SEO and Open Graph assets | `index.html`, `public/og-preview.svg`, `scripts/render-social.mjs` |
+| Test workflows | `.github/workflows/quality.yml`, `.github/workflows/deploy.yml` |
 
-## Honest evidence policy
+## Evidence policy
 
-- Never publish private customer code, API keys, test credentials or confidential screenshots.
-- Don't describe internal prototypes as public production releases.
-- Don't invent customer testimonials, revenue, conversion figures or benchmarks.
-- Screenshots of private projects may be added after visual inspection, provenance verification, and permission checks.
-- PDF résumés intentionally omit identity document numbers, addresses and private data.
-- The social preview is provided as SVG; some social services may require a raster PNG/JPG for image previews.
+Private repositories, credentials, client data and unapproved media are not made public. Client website completions are stated without invented URLs or conversion figures. The private fitness app remains in design and testing. Original screenshots and videos will only be added after verification and permission review.
 
-## Remaining independent work
+## Known outstanding improvements
 
-- Verify screenshots from the original private projects and permissions for the two client sites.
-- Publish stronger public code samples with full build/run steps when disclosure is safe.
-- Run third-party Lighthouse and accessibility audits on production; no scores are claimed without measurements.
-- GitHub profile README and repository metadata may need settings-level access not exposed by the current GitHub connector.
+- Original, authorized screenshots and recorded walkthroughs for private applications.
+- Client website references where public portfolio use is permitted.
+- GitHub repository About metadata still needs editing through an authenticated account session.
+- Formal WCAG 2.2 manual assistive-technology review and live Core Web Vitals measurements.
 
-© 2026 Alerson Morales. Private projects retain their original ownership and licensing terms.
+© 2026 Alerson Morales. Separate private products retain their respective rights and licenses.

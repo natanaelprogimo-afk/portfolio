@@ -37,13 +37,9 @@ export default function App() {
   useEffect(() => {
     document.documentElement.lang = locale;
     try { window.localStorage.setItem("alerson-portfolio-lang", locale); } catch { /* browsing still works without storage */ }
-    document.title = locale === "en"
-      ? "Alerson Morales | Full-Stack Software Engineer"
-      : "Alerson Morales | Desarrollador Full-Stack";
+    document.title = t.seoTitle;
     const desc = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    if (desc) desc.content = locale === "en"
-      ? "Alerson Morales is a software engineer in Uruguay building full-stack applications, backend systems, and AI automation. Explore selected work and contact him for remote roles."
-      : "Alerson Morales es desarrollador de software en Uruguay. Conocé sus proyectos full-stack, backend y automatización con IA.";
+    if (desc) desc.content = t.seoDescription;
     const sharedTitle = document.title;
     const sharedDescription = desc?.content ?? "";
     const metaUpdates: Array<[string, string]> = [
@@ -56,7 +52,7 @@ export default function App() {
       const meta = document.querySelector<HTMLMetaElement>(selector);
       if (meta) meta.content = value;
     }
-  }, [locale]);
+  }, [locale, t.seoDescription, t.seoTitle]);
 
   useEffect(() => {
     const hash = window.location.hash.slice(1);

@@ -40,6 +40,7 @@ jobs:
       - name: Verify tests and generated routes
         run: |
           npm test
+          npm run test:integrity
           python3 -m unittest discover -s examples/backend -p "test_*.py" -v
           python3 -m unittest discover -s examples/sql -p "test_*.py" -v
         env:
