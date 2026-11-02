@@ -22,7 +22,8 @@ let browser;
 try {
   await awaitServer();
   browser=await chromium.launch({headless:true,channel:"chrome",args:["--no-sandbox"]});
-  const page=await browser.newPage({viewport:{width:1366,height:900},reducedMotion:"reduce"});
+  const context=await browser.newContext({viewport:{width:1366,height:900},reducedMotion:"reduce"});
+  const page=await context.newPage();
   const routes=["/en/","/es/","/en/labs/","/es/labs/","/en/cases/","/es/cases/","/en/hiring/","/es/hiring/"];
   const reports=[];
   const failures=[];
