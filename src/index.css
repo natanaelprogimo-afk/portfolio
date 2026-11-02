@@ -301,3 +301,11 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
 .engineering-links a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--accent);padding:12px 15px;border-radius:8px;border:1px solid rgba(201,243,138,.4);background:#16221f}
 .engineering-links a:hover{background:#26392b}
 @media(max-width:450px){.engineering-links a{width:100%;justify-content:space-between}}
+
+/* V3 verified accessibility and small-viewport corrections */
+.hero-meta{flex-wrap:wrap;row-gap:15px}
+.hero-meta a{white-space:nowrap}
+#main:focus{outline:none}
+.contact-side > span{color:#36573b}
+@media(max-width:650px){.hero-meta{column-gap:18px}}
+@media(max-width:360px){.hero-meta{gap:12px 16px}.hero-meta a{font-size:11px}}

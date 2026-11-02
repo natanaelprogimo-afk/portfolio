@@ -17,7 +17,8 @@ export function parseCsv(input) {
       else cell += char;
       continue;
     }
-    if (char === '"' && atCellStart) { quoted = true; atCellStart = false; }
+    if (closedQuote && char !== "," && char !== "\n" && char !== "\r") throw new Error("Unexpected characters after closing quote.");
+    if (char === '"' && atCellStart) { quoted = true; atCellStart = false; closedQuote = false; }
     else if (char === "," || char === "\n" || char === "\r") {
       row.push(cell); cell = ""; atCellStart = true; closedQuote = false;
       if (char !== ",") {

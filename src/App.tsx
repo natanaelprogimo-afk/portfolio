@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowDown, ArrowRight, ArrowUpRight, Check, ChevronDown, Code2,
   Database, ExternalLink, Globe2, Layers3, BriefcaseBusiness, Mail,
@@ -25,6 +25,7 @@ export default function App() {
     catch { return "en"; }
   });
   const [menuOpen, setMenuOpen] = useState(false);
+  const firstNavRef = useRef<HTMLAnchorElement | null>(null);
   const [filter, setFilter] = useState<"all" | ProjectGroup>("all");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [copyState, setCopyState] = useState<"idle"|"success"|"failure">("idle");
@@ -41,13 +42,44 @@ export default function App() {
     if (desc) desc.content = locale === "en"
       ? "Alerson Morales is a software engineer in Uruguay building full-stack applications, backend systems, and AI automation. Explore selected work and contact him for remote roles."
       : "Alerson Morales es desarrollador de software en Uruguay. Conocé sus proyectos full-stack, backend y automatización con IA.";
+    const sharedTitle = document.title;
+    const sharedDescription = desc?.content ?? "";
+    const metaUpdates: Array<[string, string]> = [
+      ['meta[property="og:title"]', sharedTitle],
+      ['meta[property="og:description"]', sharedDescription],
+      ['meta[name="twitter:title"]', sharedTitle],
+      ['meta[name="twitter:description"]', sharedDescription]
+    ];
+    for (const [selector, value] of metaUpdates) {
+      const meta = document.querySelector<HTMLMetaElement>(selector);
+      if (meta) meta.content = value;
+    }
   }, [locale]);
+
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+    const frame = window.requestAnimationFrame(() => {
+      let target: HTMLElement | null = null;
+      try { target = document.getElementById(decodeURIComponent(hash)); }
+      catch { return; }
+      target?.scrollIntoView({ block: "start" });
+      if (hash === "main") target?.focus({ preventScroll: true });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
+    if (menuOpen) firstNavRef.current?.focus();
+  }, [menuOpen]);
 
   const visibleProjects = projects.filter((project) => filter === "all" || project.group === filter);
 
   return (
     <>
-      <a className="skip-link" href="#main">{t.skip}</a>
+      <a className="skip-link" href="#main" onClick={() => {
+        window.requestAnimationFrame(() => document.getElementById("main")?.focus({ preventScroll: true }));
+      }}>{t.skip}</a>
 
       <header className="site-header">
         <div className="container header-inner">
@@ -58,7 +90,7 @@ export default function App() {
 
           <nav id="site-nav" className={menuOpen ? "site-nav open" : "site-nav"} aria-label="Main navigation">
             {sectionIds.map((id, i) => (
-              <a key={id} href={"#" + id} onClick={() => setMenuOpen(false)}>
+              <a key={id} ref={i === 0 ? firstNavRef : undefined} href={"#" + id} onClick={() => setMenuOpen(false)}>
                 <span>{String(i + 1).padStart(2, "0")}.</span> {t.nav[i]}
               </a>
             ))}
@@ -76,7 +108,7 @@ export default function App() {
             </button>
             <a href={"mailto:" + EMAIL} className="header-contact">{t.contact} <ArrowUpRight size={15} /></a>
             <button className="menu-toggle" type="button" aria-controls="site-nav"
-              aria-label={t.navMenu} aria-expanded={menuOpen}
+              aria-label={menuOpen ? t.navMenuClose : t.navMenu} aria-expanded={menuOpen}
               onClick={() => setMenuOpen(!menuOpen)}>
               {menuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -84,7 +116,7 @@ export default function App() {
         </div>
       </header>
 
-      <main id="main">
+      <main id="main" tabIndex={-1}>
         <section className="hero" id="top" aria-labelledby="hero-title">
           <div className="container hero-layout">
             <div className="hero-copy">
