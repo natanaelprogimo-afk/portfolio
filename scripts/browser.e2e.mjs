@@ -41,7 +41,7 @@ try {
   assert.equal(await page.evaluate(()=>document.activeElement?.id),"main","Skip link should focus main");
 
   await page.goto(origin+"/",{waitUntil:"networkidle"});
-  await page.getByRole("button",{name:"Switch to Spanish"}).click();
+  await page.getByRole("button",{name:/Switch to Spanish/}).click();
   await page.waitForURL("**/es/");
   assert.equal(await page.locator("html").getAttribute("lang"),"es");
   assert.ok((await page.locator("h1").innerText()).includes("Problemas complejos"));
@@ -57,6 +57,25 @@ try {
   assert.ok(await page.evaluate(()=>scrollY > 100),"Deep link to public proof should scroll");
   assert.equal(await page.locator("#evidence a[href*='examples/backend']").count(),1);
   assert.equal(await page.locator("#evidence a[href*='examples/sql']").count(),1);
+
+  // Editable data and local CSV export are demonstrably functional.
+  await page.goto(origin+"/en/labs/#catalog",{waitUntil:"networkidle"});
+  assert.equal(await page.locator("#export-catalog").isDisabled(),false);
+  assert.ok((await page.locator("#summary-catalog").innerText()).includes("Mismatches: 1"));
+  const csvEvent=page.waitForEvent("download");
+  await page.locator("#export-catalog").click();
+  const csvFile=await csvEvent;
+  assert.equal(csvFile.suggestedFilename(),"catalog-reconciliation.csv");
+  const {readFileSync}=await import("node:fs");
+  const csvContent=readFileSync(await csvFile.path(),"utf8");
+  assert.ok(csvContent.includes('"SKU","Status","Feed","Observed"'));
+  assert.ok(csvContent.includes('"SKU-002","mismatch"'));
+  await page.locator("#feed").fill("sku,price\\nSKU-001,not-a-price".replace("\\n","\n"));
+  await page.locator("#run-catalog").click();
+  assert.equal(await page.locator("#export-catalog").isDisabled(),true);
+  await page.goto(origin+"/en/labs/#metrics",{waitUntil:"networkidle"});
+  await page.locator("#run-metrics").click();
+  assert.equal(await page.locator("#export-metrics").isDisabled(),false);
 
   await page.goto(origin+"/en/cases/",{waitUntil:"networkidle"});
   assert.equal(await page.locator("h1").count(),1);

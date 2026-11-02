@@ -92,3 +92,18 @@ test("generated recruiter PDFs contain live links and language metadata", () => 
     assert.match(content,new RegExp("/Lang \\("+(lang==="en"?"en-US":"es-UY")+"\\)"));
   }
 });
+
+test("recruiter briefs are independently readable, honest and interlinked", () => {
+  for (const locale of ["en", "es"]) {
+    const html = text("dist/" + locale + "/hiring/index.html");
+    assert.match(html, new RegExp('<html lang="' + locale + '">'));
+    assert.match(html, /rel="canonical"/);
+    assert.match(html, /hreflang="en"/);
+    assert.match(html, /hreflang="es"/);
+    assert.match(html, /mailto:moralesalerson@gmail.com/);
+    assert.match(html, /examples\/backend/);
+    assert.match(html, /examples\/sql/);
+    assert.match(html, /window\.print\(\)/);
+    assert.doesNotMatch(html, /\b\d{1,2}\.\d{3}\.\d{3}-\d\b/);
+  }
+});

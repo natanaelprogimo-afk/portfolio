@@ -90,7 +90,7 @@ export default function App() {
 
       <header className="site-header">
         <div className="container header-inner">
-          <a className="brand" href="#top" aria-label="Alerson Morales — home">
+          <a className="brand" href="#top">
             <span className="brand-mark">AM<span>.</span></span>
             <span className="brand-name">ALERSON<br />MORALES</span>
           </a>
@@ -105,7 +105,7 @@ export default function App() {
 
           <div className="header-actions">
             <button className="language-switch" type="button"
-              aria-label={locale === "en" ? "Switch to Spanish" : "Cambiar a inglés"}
+              aria-label={locale === "en" ? "ES — Switch to Spanish" : "EN — Cambiar a inglés"}
               onClick={() => {
                 const next = locale === "en" ? "es" : "en";
                 try { window.localStorage.setItem("alerson-portfolio-lang", next); } catch { /* optional preference */ }
@@ -137,6 +137,9 @@ export default function App() {
               <div className="hero-meta" aria-label={t.socialLabel}>
                 <a href={GITHUB} target="_blank" rel="noopener noreferrer"><Code2 size={18} /> GitHub <ArrowUpRight size={13} /></a>
                 <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={18} /> LinkedIn <ArrowUpRight size={13} /></a>
+                <a className="hiring-brief-link" href={localPage("hiring/")} target="_blank" rel="noopener noreferrer">
+                  <BriefcaseBusiness size={17} aria-hidden="true"/>{t.hiringBrief}<ArrowUpRight size={13} aria-hidden="true"/>
+                </a>
                 <a href={import.meta.env.BASE_URL + (locale === "en" ? "resume-en.pdf" : "resume-es.pdf")} download>{locale === "en" ? "Résumé PDF" : "CV PDF"} <ArrowUpRight size={13} /></a>
               </div>
             </div>
@@ -340,6 +343,9 @@ export default function App() {
               <p>{t.contactText}</p>
               <div className="contact-buttons">
                 <a className="button button-dark" href={"mailto:" + EMAIL + "?subject=Remote%20software%20engineering%20opportunity"}><Mail size={18} /> {t.contactAction} <ArrowUpRight size={16} /></a>
+                <a className="button button-outline" href={localPage("hiring/")} target="_blank" rel="noopener noreferrer">
+                  {t.hiringBrief}<ArrowUpRight size={16} aria-hidden="true"/>
+                </a>
                 <a className="button button-outline" href={import.meta.env.BASE_URL + "resume.html"} target="_blank" rel="noopener noreferrer">{t.contactCv} <ArrowRight size={18} /></a>
                 <a className="resume-quiet-link" href={import.meta.env.BASE_URL + "resume-en.pdf"} download>{t.cvEn} (PDF)</a>
                 <a className="resume-quiet-link" href={import.meta.env.BASE_URL + "resume-es.pdf"} download>{t.cvEs} (PDF)</a>

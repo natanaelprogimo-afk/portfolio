@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { compareCatalog, createIdempotencyLedger, parseCsv, summarizeEvents } from "../public/labs/logic.mjs";
+import { compareCatalog, createIdempotencyLedger, parseCsv, serializeReportCsv, summarizeEvents } from "../public/labs/logic.mjs";
 
 test("CSV supports RFC-style escaped quotes, BOM, and CRLF", () => {
   assert.deepEqual(parseCsv('\uFEFFsku,price,note\r\nABC,12.50,"a,b""c"\r\n'), [{ sku:"ABC",price:"12.50",note:'a,b"c' }]);
@@ -54,4 +54,15 @@ test("Rejects malformed prices even when SKU is missing in other file", () => {
 });
 test("CSV rejects unexpected unquoted text after a quoted field", () => {
   assert.throws(() => parseCsv('sku,price\n"A"trailing,12'), /Unexpected characters/);
+});
+
+test("CSV report serialization quotes data and mitigates formula injection", () => {
+  const report = serializeReportCsv([{sku:'=cmd',note:'a,b"c',price:12.5}],[
+    ["sku","SKU"],["note","Note"],["price","Price"]
+  ]);
+  assert.match(report, /^"SKU","Note","Price"\r\n/);
+  assert.match(report, /"'=cmd"/);
+  assert.match(report, /"a,b""c"/);
+  assert.match(report, /"12.5"/);
+  assert.throws(() => serializeReportCsv([], []), /bounded table/);
 });
