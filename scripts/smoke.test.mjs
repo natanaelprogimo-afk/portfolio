@@ -35,9 +35,13 @@ test("public résumé omits identity documents and supports printing", () => {
 test("site contains navigation anchors and honest project statuses", () => {
   const app = text("src/App.tsx");
   const projectData = text("src/data/projects.ts");
-  for (const id of ["main", "top", "about", "work", "expertise", "approach", "contact"]) {
+  for (const id of ["main", "top", "about", "work", "expertise", "contact"]) {
     assert.ok(app.includes('id="' + id + '"'), "missing anchor: " + id);
   }
+  assert.match(text("src/components/VisitorRoutes.tsx"), /id="start-here"/);
+  assert.match(text("src/components/VerifiedWork.tsx"), /id="evidence"/);
+  assert.doesNotMatch(app,/className="section approach-section"/);
+  assert.doesNotMatch(app,/className="section lab-section"/);
   assert.match(app, /import\.meta\.env\.BASE_URL \+ "resume\.html"/);
   assert.match(projectData, /Not released/);
   assert.match(projectData, /Private/);
