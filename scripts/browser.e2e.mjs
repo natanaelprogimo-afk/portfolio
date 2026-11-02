@@ -72,6 +72,22 @@ try {
     assert.ok(json.sameAs.some(uri=>uri.includes("github.com")));
   }
 
+  // V9: distinct, functional buyer and recruiter contact entry points.
+  for(const lang of ["en","es"]){
+    await page.goto(origin+"/"+lang+"/#contact",{waitUntil:"networkidle"});
+    assert.equal(await page.locator(".contact-paths .contact-path").count(),2);
+    const links=await page.locator(".contact-paths a[href^='mailto:']").evaluateAll(items=>items.map(a=>a.getAttribute("href")));
+    assert.equal(links.length,2);
+    assert.ok(links.some(uri=>uri.includes("Remote%20software%20engineering")));
+    assert.ok(links.some(uri=>uri.includes("VYRA%20business")));
+    assert.equal(await page.locator(".contact-path a[href$='/"+lang+"/hiring/']").count(),1);
+    assert.equal(await page.locator(".contact-path a[href$='/"+lang+"/trust/']").count(),1);
+    assert.equal(await page.locator(".hero-visual .visual-disclaimer").count(),1);
+  }
+  await page.goto(origin+"/en/",{waitUntil:"networkidle"});
+  await page.locator('.site-nav a[href="#work"]').click();
+  await page.waitForFunction(()=>document.querySelector('.site-nav a[href="#work"]')?.getAttribute('aria-current')==='location');
+
   // Work samples should be visible near the first screen, with honest provenance.
   await page.goto(origin+"/en/#evidence",{waitUntil:"networkidle"});
   assert.equal(await page.locator("#evidence .verified-card").count(),3);
@@ -163,6 +179,14 @@ try {
   })));
   assert.ok(buttons.length>=3 && buttons.every(x=>x.h>=43&&x.w>=43),
     "Project filters should have at least 44px targets: "+JSON.stringify(buttons));
+  await page.locator('a[href="#contact"]').first().click();
+  const contactWidths=await page.locator('.contact-path').evaluateAll(items=>items.map(node=>{
+    const box=node.getBoundingClientRect();
+    return {left:box.left,right:box.right,viewport:document.documentElement.clientWidth};
+  }));
+  assert.equal(contactWidths.length,2);
+  assert.ok(contactWidths.every(x=>x.left>=-1&&x.right<=x.viewport+1),
+    "Contact entry cards must fit narrow screens: "+JSON.stringify(contactWidths));
   const social=await page.evaluate(()=>{
     const links=[...document.querySelectorAll(".hero-meta a")];
     return links.map(el=>({text:el.textContent,x:el.getBoundingClientRect().x,right:el.getBoundingClientRect().right}));

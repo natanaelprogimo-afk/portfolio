@@ -32,6 +32,7 @@ export default function App() {
   const [filter, setFilter] = useState<"all" | ProjectGroup>("all");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [copyState, setCopyState] = useState<"idle"|"success"|"failure">("idle");
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const t = copy[locale];
   const localPage = (path: string) => import.meta.env.BASE_URL + locale + "/" + path;
 
@@ -81,6 +82,19 @@ export default function App() {
     return () => document.removeEventListener("keydown", closeOnEscape);
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (!("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver((entries) => {
+      const selected=entries.find(entry=>entry.isIntersecting);
+      if (selected) setActiveSection(selected.target.id);
+    },{rootMargin:"-22% 0px -65% 0px",threshold:0});
+    for(const id of sectionIds){
+      const node=document.getElementById(id);
+      if(node)observer.observe(node);
+    }
+    return ()=>observer.disconnect();
+  }, []);
+
   const visibleProjects = projects.filter((project) => filter === "all" || project.group === filter);
 
   return (
@@ -98,7 +112,7 @@ export default function App() {
 
           <nav id="site-nav" className={menuOpen ? "site-nav open" : "site-nav"} aria-label={t.navLabel}>
             {sectionIds.map((id, i) => (
-              <a key={id} ref={i === 0 ? firstNavRef : undefined} href={"#" + id} onClick={() => setMenuOpen(false)}>
+              <a key={id} ref={i === 0 ? firstNavRef : undefined} href={"#" + id} aria-current={activeSection === id ? "location" : undefined} onClick={() => {setActiveSection(id);setMenuOpen(false);}}>
                 <span>{String(i + 1).padStart(2, "0")}.</span> {t.nav[i]}
               </a>
             ))}
@@ -145,7 +159,7 @@ export default function App() {
               </div>
             </div>
 
-            <div className="hero-visual" aria-label={t.visualTitle}>
+            <aside className="hero-visual" aria-label={t.visualOverviewLabel}>
               <div className="visual-top"><span className="visual-dots"><i /><i /><i /></span><span>{t.visualBrand}</span><span className="visual-plus">+</span></div>
               <div className="visual-body">
                 <span className="visual-kicker">{t.visualLabel}</span>
@@ -164,8 +178,9 @@ export default function App() {
                   })}
                 </div>
                 <div className="visual-foot"><span><span className="live-dot" /> {t.visualFoot}</span><span>2026</span></div>
+                <p className="visual-disclaimer">{t.visualDisclaimer}</p>
               </div>
-            </div>
+            </aside>
           </div>
           <div className="container hero-bottom">
             <a href="#about" className="scroll-cue">{t.heroScroll} <ArrowDown size={15} /></a>
@@ -306,22 +321,38 @@ export default function App() {
               <span className="section-eyebrow">{t.contactEyebrow}</span>
               <h2 id="contact-heading" className="section-title">{t.contactTitle} <em>{t.contactAccent}</em></h2>
               <p>{t.contactText}</p>
-              <div className="contact-buttons">
-                <a className="button button-dark" href={"mailto:" + EMAIL + "?subject=Remote%20software%20engineering%20opportunity"}><Mail size={18} /> {t.contactAction} <ArrowUpRight size={16} /></a>
-                <a className="button button-outline" href={localPage("trust/")}>{t.contactBuyerAction}<ShieldCheck size={17} aria-hidden="true"/></a>
-                <a className="button button-outline" href={localPage("hiring/")} target="_blank" rel="noopener noreferrer">
-                  {t.hiringBrief}<ArrowUpRight size={16} aria-hidden="true"/>
-                </a>
-                <a className="button button-outline" href={import.meta.env.BASE_URL + "resume.html"} target="_blank" rel="noopener noreferrer">{t.contactCv} <ArrowRight size={18} /></a>
-                <a className="resume-quiet-link" href={import.meta.env.BASE_URL + "resume-en.pdf"} download>{t.cvEn} (PDF)</a>
-                <a className="resume-quiet-link" href={import.meta.env.BASE_URL + "resume-es.pdf"} download>{t.cvEs} (PDF)</a>
+              <div className="contact-paths">
+                <article className="contact-path">
+                  <span className="contact-path-label">{t.contactHiringLabel}</span>
+                  <h3>{t.contactHiringTitle}</h3>
+                  <p>{t.contactHiringDesc}</p>
+                  <a className="button button-dark" href={"mailto:" + EMAIL + "?subject=Remote%20software%20engineering%20opportunity"}>
+                    <Mail size={18} aria-hidden="true"/>{t.contactHiringAction}<ArrowUpRight size={16} aria-hidden="true"/>
+                  </a>
+                  <a className="contact-secondary" href={localPage("hiring/")}>{t.hiringBrief}<ArrowUpRight size={15} aria-hidden="true"/></a>
+                </article>
+                <article className="contact-path contact-path-business">
+                  <span className="contact-path-label">{t.contactBusinessLabel}</span>
+                  <h3>{t.contactBusinessTitle}</h3>
+                  <p>{t.contactBusinessDesc}</p>
+                  <a className="button button-dark" href={"mailto:" + EMAIL + "?subject=VYRA%20business%20software%20inquiry"}>
+                    <Mail size={18} aria-hidden="true"/>{t.contactBusinessAction}<ArrowUpRight size={16} aria-hidden="true"/>
+                  </a>
+                  <a className="contact-secondary" href={localPage("trust/")}>{t.contactBuyerAction}<ShieldCheck size={15} aria-hidden="true"/></a>
+                </article>
+              </div>
+              <div className="contact-utilities">
+                <span>{t.contactCvLabel}</span>
+                <a href={import.meta.env.BASE_URL + "resume.html"}>{t.contactCv}<ArrowUpRight size={15} aria-hidden="true"/></a>
+                <a href={import.meta.env.BASE_URL + "resume-en.pdf"} download>{t.cvEn} (PDF)</a>
+                <a href={import.meta.env.BASE_URL + "resume-es.pdf"} download>{t.cvEs} (PDF)</a>
                 <button className="copy-email-button" type="button" onClick={async () => {
                   try {
                     if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
                     await navigator.clipboard.writeText(EMAIL);
                     setCopyState("success");
                   } catch { setCopyState("failure"); }
-                }}>{locale === "en" ? "Copy email" : "Copiar correo"} <Mail size={15} /></button>
+                }}>{locale === "en" ? "Copy email" : "Copiar correo"} <Mail size={15} aria-hidden="true"/></button>
                 <span className="copy-email-status" aria-live="polite">
                   {copyState === "success" ? (locale === "en" ? "Address copied" : "Correo copiado") :
                    copyState === "failure" ? (locale === "en" ? "Use the email link above" : "Usa el enlace de correo") : ""}
