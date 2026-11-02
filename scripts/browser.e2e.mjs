@@ -123,6 +123,18 @@ try {
   await page.goto(origin+"/es/",{waitUntil:"networkidle"});
   assert.equal(await page.locator('a[href$="/es/trust/"]').count()>=1,true);
 
+  // Check honest control semantics and accessible touch targets at 390px.
+  await page.goto(origin+"/en/#work",{waitUntil:"networkidle"});
+  const notesButton=page.locator(".project-card .project-actions button").first();
+  assert.equal(await notesButton.getAttribute("aria-expanded"),"false");
+  assert.equal(await notesButton.getAttribute("aria-controls"),null);
+  await notesButton.click();
+  assert.equal(await notesButton.getAttribute("aria-expanded"),"true");
+  const notesId=await notesButton.getAttribute("aria-controls");
+  assert.ok(notesId && await page.locator("#"+notesId).isVisible());
+  await notesButton.click();
+  assert.equal(await notesButton.getAttribute("aria-controls"),null);
+
   await page.setViewportSize({width:390,height:844});
   await page.goto(origin+"/en/",{waitUntil:"networkidle"});
   await page.getByRole("button",{name:"Open navigation"}).click();
@@ -145,6 +157,12 @@ try {
   assert.ok(routeDimensions.every(x=>x.left>=-1&&x.right<=x.windowWidth+1));
   await page.setViewportSize({width:320,height:844});
   await page.goto(origin+"/en/",{waitUntil:"networkidle"});
+  // Usability goal: interactive controls are not hard to tap on narrow screens.
+  const buttons=await page.locator(".project-filters button").evaluateAll(items=>items.map(el=>({
+    h:el.getBoundingClientRect().height,w:el.getBoundingClientRect().width
+  })));
+  assert.ok(buttons.length>=3 && buttons.every(x=>x.h>=43&&x.w>=43),
+    "Project filters should have at least 44px targets: "+JSON.stringify(buttons));
   const social=await page.evaluate(()=>{
     const links=[...document.querySelectorAll(".hero-meta a")];
     return links.map(el=>({text:el.textContent,x:el.getBoundingClientRect().x,right:el.getBoundingClientRect().right}));

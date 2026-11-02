@@ -1,9 +1,12 @@
 name: Deploy GitHub Pages
 
+# A successful full quality run on main is required before deployment.
+# A PR check cannot publish: this trigger is restricted to the main branch.
 on:
-  push:
+  workflow_run:
+    workflows: ["Quality checks"]
+    types: [completed]
     branches: [main]
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -16,14 +19,18 @@ concurrency:
 
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout
+      - name: Checkout the exact commit that passed QA
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -31,13 +38,18 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
-      - name: Typecheck and lint
-        run: npm run lint
-      - name: Build for project Pages path
-        run: npm run build
+      - name: Confirm production commit matches the quality run
+        env:
+          EXPECTED_COMMIT: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$EXPECTED_COMMIT"
+      - name: Lint and build Pages output
+        run: |
+          npm run lint
+          npm run build
         env:
           GITHUB_PAGES: 'true'
-      - name: Verify tests and generated routes
+      - name: Verify generated output before publication
         run: |
           npm test
           npm run test:integrity

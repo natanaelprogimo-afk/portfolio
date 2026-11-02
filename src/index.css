@@ -390,3 +390,19 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
 .verified-quick-links a{display:inline-flex;align-items:center;justify-content:space-between;gap:7px;min-height:43px;border:1px solid #56745e;background:#1c3028;color:#e3f9ca;padding:9px 13px;border-radius:8px;text-decoration:none;font-size:12.5px;font-weight:750}
 .verified-quick-links a:hover{background:#2d4d36}
 @media(max-width:650px){.verified-quick-links{align-items:stretch}.verified-quick-links > span{flex-basis:100%}.verified-quick-links a{flex:1 1 100%;min-height:44px}}
+
+/* V8: keyboard, mobile touch and reduced motion refinements */
+:where(.filter,.project-actions button,.project-actions a,.copy-email-button,
+       .resume-quiet-link,.hero-meta a,.scroll-cue,.case-deep-link,
+       .footer-brand,.verified-card a,.site-nav a){min-height:44px}
+.filter,.project-actions button,.project-actions a,.copy-email-button,
+.resume-quiet-link,.scroll-cue,.case-deep-link{display:inline-flex;align-items:center}
+:where(.project-notes, .route-card, .verified-card){overflow-wrap:anywhere}
+:where(.route-card,.verified-card,.project-card):focus-within{border-color:var(--accent)}
+:where(a,button):focus-visible{outline:3px solid #d8ffac;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;
+    animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important}
+}
+@media(max-width:360px){.hero-meta a{min-height:44px}}

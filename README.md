@@ -7,6 +7,14 @@
 
 Recruiter-oriented portfolio written with React, TypeScript and Vite. Public code examples are **independently implemented** and use synthetic data; they are not copies or live deployments of VYRA private products.
 
+## V8: release integrity and touch-accessibility improvements
+
+- Pages deploys are triggered **only** by the successful full `Quality checks` workflow on `main`, checking out the **exact SHA** that passed Chrome and axe-core.
+- Removed unused `react-router-dom` and orphaned packages from the locked dependency tree.
+- Increased small interactive targets and made accordion `aria-controls` conditional on the actual visible panel; expanded browser tests verify the behavior.
+- Strengthened keyboard focus states and reduced-motion treatment.
+- These measures improve **portfolio release safety**; they are not independent SaaS security certification or measured customer Core Web Vitals.
+
 ## V7: two distinct journeys for hiring and SaaS/agent due diligence
 
 - The homepage now routes **recruiters** to the bilingual hiring brief and **prospective VYRA buyers** to the trust center, without suggesting unverified products are already available.
