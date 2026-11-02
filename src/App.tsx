@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   ArrowDown, ArrowRight, ArrowUpRight, Check, ChevronDown, Code2,
-  Database, ExternalLink, Github, Globe2, Layers3, Linkedin, Mail,
+  Database, ExternalLink, Globe2, Layers3, BriefcaseBusiness, Mail,
   Menu, ShieldCheck, Workflow, X
 } from "lucide-react";
 import { projects, type Locale, type ProjectGroup } from "./data/projects";
@@ -236,8 +236,8 @@ export default function App() {
                 <a className="button button-ghost" href={"mailto:" + EMAIL}>{t.heroMail}<ArrowRight size={18} /></a>
               </div>
               <div className="hero-meta">
-                <a href={GITHUB} target="_blank" rel="noopener noreferrer"><Github size={18} /> GitHub <ArrowUpRight size={13} /></a>
-                <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"><Linkedin size={18} /> LinkedIn <ArrowUpRight size={13} /></a>
+                <a href={GITHUB} target="_blank" rel="noopener noreferrer"><Code2 size={18} /> GitHub <ArrowUpRight size={13} /></a>
+                <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={18} /> LinkedIn <ArrowUpRight size={13} /></a>
               </div>
             </div>
 
@@ -417,8 +417,8 @@ export default function App() {
         <div className="container footer-top">
           <a href="#top" className="footer-brand">ALERSON MORALES<span>.</span></a>
           <div>
-            <a href={GITHUB} target="_blank" rel="noopener noreferrer" aria-label="GitHub"><Github size={20} /></a>
-            <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><Linkedin size={20} /></a>
+            <a href={GITHUB} target="_blank" rel="noopener noreferrer" aria-label="GitHub"><Code2 size={20} /></a>
+            <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><BriefcaseBusiness size={20} /></a>
             <a href="#top" aria-label={t.footerTop}><ArrowUpRight size={20} /></a>
           </div>
         </div>
