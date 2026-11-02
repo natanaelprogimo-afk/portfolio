@@ -19,13 +19,17 @@ const iconList = [Code2, Database, Workflow, Layers3] as const;
 
 export default function App() {
   const [locale, setLocale] = useState<Locale>(() => {
+    const segment = window.location.pathname.match(/\/(en|es)\/?$/)?.[1];
+    if (segment === "es" || segment === "en") return segment;
     try { return window.localStorage.getItem("alerson-portfolio-lang") === "es" ? "es" : "en"; }
     catch { return "en"; }
   });
   const [menuOpen, setMenuOpen] = useState(false);
   const [filter, setFilter] = useState<"all" | ProjectGroup>("all");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [copyState, setCopyState] = useState<"idle"|"success"|"failure">("idle");
   const t = copy[locale];
+  const localPage = (path: string) => import.meta.env.BASE_URL + locale + "/" + path;
 
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -63,7 +67,11 @@ export default function App() {
           <div className="header-actions">
             <button className="language-switch" type="button"
               aria-label={locale === "en" ? "Switch to Spanish" : "Cambiar a inglés"}
-              onClick={() => setLocale(locale === "en" ? "es" : "en")}>
+              onClick={() => {
+                const next = locale === "en" ? "es" : "en";
+                try { window.localStorage.setItem("alerson-portfolio-lang", next); } catch { /* optional preference */ }
+                window.location.assign(import.meta.env.BASE_URL + next + "/" + window.location.hash);
+              }}>
               <Globe2 size={15} aria-hidden="true" /> {locale === "en" ? "ES" : "EN"}
             </button>
             <a href={"mailto:" + EMAIL} className="header-contact">{t.contact} <ArrowUpRight size={15} /></a>
@@ -193,7 +201,7 @@ export default function App() {
                     {project.technologies.map((technology) => <span key={technology}>{technology}</span>)}
                   </div>
                   <div className="project-actions">
-                    <a className="case-deep-link" href={import.meta.env.BASE_URL + "cases/#" + project.id} target="_blank" rel="noopener noreferrer">
+                    <a className="case-deep-link" href={localPage("cases/#" + project.id)} target="_blank" rel="noopener noreferrer">
                       {locale === "en" ? "Full case study" : "Caso de estudio"} <ArrowUpRight size={14} />
                     </a>
                     <button type="button" aria-expanded={expanded === project.id}
@@ -203,7 +211,7 @@ export default function App() {
                       <ChevronDown size={17} className={expanded === project.id ? "rotate" : ""} />
                     </button>
                     {project.id === "catalog-integrity" && (
-                      <a href={import.meta.env.BASE_URL + "labs/"} target="_blank" rel="noopener noreferrer">{locale === "en" ? "Independent public sample" : "Ejemplo público independiente"} <ExternalLink size={15}/></a>
+                      <a href={localPage("labs/")} target="_blank" rel="noopener noreferrer">{locale === "en" ? "Independent public sample" : "Ejemplo público independiente"} <ExternalLink size={15}/></a>
                     )}
                     {project.source ? <a target="_blank" rel="noopener noreferrer" href={project.source}>{t.source}<ExternalLink size={15} /></a> : <span className="project-private"><ShieldCheck size={14} /> {locale === "en" ? "Private" : "Privado"}</span>}
                   </div>
@@ -233,7 +241,7 @@ export default function App() {
                   <span className="lab-number">EXAMPLE / {item.number}</span>
                   <div className="lab-glyph"><Code2 size={28} strokeWidth={1.5}/><span>{item.icon === "data" ? "CSV" : item.icon === "api" ? "API" : "JSON"}</span></div>
                   <h3>{item.title}</h3><p>{item.description}</p>
-                  <a href={import.meta.env.BASE_URL + "labs/#" + (item.icon === "data" ? "catalog" : item.icon === "api" ? "retry" : "metrics")} target="_blank" rel="noopener noreferrer">{t.labCTA}<ArrowUpRight size={16}/></a>
+                  <a href={localPage("labs/#" + (item.icon === "data" ? "catalog" : item.icon === "api" ? "retry" : "metrics"))} target="_blank" rel="noopener noreferrer">{t.labCTA}<ArrowUpRight size={16}/></a>
                 </article>
               ))}
             </div>
@@ -290,6 +298,17 @@ export default function App() {
                 <a className="button button-outline" href={import.meta.env.BASE_URL + "resume.html"} target="_blank" rel="noopener noreferrer">{t.contactCv} <ArrowRight size={18} /></a>
                 <a className="resume-quiet-link" href={import.meta.env.BASE_URL + "resume-en.pdf"} download>{t.cvEn} (PDF)</a>
                 <a className="resume-quiet-link" href={import.meta.env.BASE_URL + "resume-es.pdf"} download>{t.cvEs} (PDF)</a>
+                <button className="copy-email-button" type="button" onClick={async () => {
+                  try {
+                    if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
+                    await navigator.clipboard.writeText(EMAIL);
+                    setCopyState("success");
+                  } catch { setCopyState("failure"); }
+                }}>{locale === "en" ? "Copy email" : "Copiar correo"} <Mail size={15} /></button>
+                <span className="copy-email-status" aria-live="polite">
+                  {copyState === "success" ? (locale === "en" ? "Address copied" : "Correo copiado") :
+                   copyState === "failure" ? (locale === "en" ? "Use the email link above" : "Usa el enlace de correo") : ""}
+                </span>
               </div>
             </div>
             <div className="contact-side">

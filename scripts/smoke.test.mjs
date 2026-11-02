@@ -59,3 +59,25 @@ test("public engineering examples are explicitly disclosed as independent sample
   assert.match(text("dist/labs/index.html"), /independently implemented public teaching demonstrations/);
   assert.match(text("dist/cases/index.html"), /not published/);
 });
+
+test("localized routes ship static content and independent metadata", () => {
+  for (const locale of ["en", "es"]) {
+    const homepage=text("dist/"+locale+"/index.html");
+    assert.match(homepage, /<main class="container" id="main"/);
+    assert.match(homepage, new RegExp('<html lang="'+locale+'">'));
+    assert.match(homepage, new RegExp('<link rel="canonical" href="https://natanaelprogimo-afk.github.io/portfolio/'+locale+'/'));
+    for (const route of ["labs", "cases"]) {
+      const page=text("dist/"+locale+"/"+route+"/index.html");
+      assert.match(page,new RegExp('<html lang="'+locale+'">'));
+      assert.match(page, /hreflang="es"/);
+      assert.match(page, /property="og:title"/);
+      assert.match(page, new RegExp('/portfolio/'+locale+'/'+route+'/'));
+    }
+    const lab=text("dist/"+locale+"/labs/index.html");
+    const prefix=process.env.GITHUB_PAGES === "true" ? "/portfolio/" : "/";
+    assert.ok(lab.includes('from "'+prefix+'labs/logic.mjs"'));
+  }
+  assert.match(text("dist/es/index.html"), /Problemas complejos/);
+  assert.match(text("dist/es/labs/index.html"), /Conciliación de catálogos/);
+  assert.match(text("dist/es/cases/index.html"), /Problema de ingeniería/);
+});

@@ -291,3 +291,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
 
 .case-deep-link{display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-size:12px;font-weight:800}
 .case-deep-link:hover{color:#e2ffb7}
+
+/* Recruiter-friendly copy controls */
+.copy-email-button{display:inline-flex;align-items:center;gap:7px;background:transparent;color:#234530;border:1px solid #7e9a72;border-radius:8px;padding:11px 13px;font-size:12px;font-weight:800;cursor:pointer}
+.copy-email-button:hover{background:rgba(27,61,31,.09)}
+.copy-email-status{font-size:12px;font-weight:750;color:#29452e;min-height:1em}

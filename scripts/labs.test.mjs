@@ -42,3 +42,16 @@ test("Event aggregation rejects invalid durations and shapes", () => {
   assert.throws(()=>summarizeEvents('[{"date":"2026-10-31","duration_ms":-2,"ok":true}]'), /duration_ms/);
   assert.throws(()=>summarizeEvents('[{"date":"xxx","duration_ms":10,"ok":true}]'), /date/);
 });
+
+test("Rejects invalid calendar dates including impossible February days", () => {
+  assert.throws(() => summarizeEvents('[{"date":"2026-02-30","duration_ms":100,"ok":true}]'), /valid YYYY-MM-DD/);
+  assert.throws(() => summarizeEvents('[{"date":"2025-02-29","duration_ms":100,"ok":true}]'), /valid YYYY-MM-DD/);
+  assert.equal(summarizeEvents('[{"date":"2024-02-29","duration_ms":100,"ok":true}]')[0].date, "2024-02-29");
+});
+test("Rejects malformed prices even when SKU is missing in other file", () => {
+  assert.throws(() => compareCatalog("sku,price\nMISSING,oops", "sku,price\nFOUND,2.00"), /Invalid price/);
+  assert.throws(() => compareCatalog("sku,price\nA,1.00", "sku,price\nA,1.00\nEXTRA,not-a-price"), /Invalid price/);
+});
+test("CSV rejects unexpected unquoted text after a quoted field", () => {
+  assert.throws(() => parseCsv('sku,price\n"A"trailing,12'), /Unexpected characters/);
+});
