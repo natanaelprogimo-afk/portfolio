@@ -1,0 +1,47 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
+
+const text = (path) => readFileSync(new URL("../" + path, import.meta.url), "utf8");
+
+test("generated site ships the required static resources", () => {
+  for (const path of ["dist/index.html", "dist/resume.html", "dist/favicon.svg", "dist/robots.txt", "dist/sitemap.xml"]) {
+    assert.ok(existsSync(new URL("../" + path, import.meta.url)), path + " is missing");
+  }
+  const assetDir = new URL("../dist/assets/", import.meta.url);
+  const assets = readdirSync(assetDir);
+  assert.ok(assets.some((name) => /^index-.*\.js$/.test(name)), "built JS is missing");
+  assert.ok(assets.some((name) => /^index-.*\.css$/.test(name)), "built CSS is missing");
+});
+
+test("SEO metadata and Pages asset paths are valid", () => {
+  const index = text("dist/index.html");
+  assert.match(index, /Alerson Morales \| Full-Stack Software Engineer/);
+  assert.match(index, /rel="canonical"/);
+  assert.match(index, /application\/ld\+json/);
+  const prefix = process.env.GITHUB_PAGES === "true" ? "/portfolio/" : "/";
+  assert.ok(index.includes(prefix + "assets/"), "invalid deployment base path");
+});
+
+test("public résumé omits identity documents and supports printing", () => {
+  const resume = text("dist/resume.html");
+  assert.match(resume, /Alerson Morales/);
+  assert.match(resume, /window\.print\(\)/);
+  assert.match(resume, /mailto:moralesalerson@gmail\.com/);
+  assert.doesNotMatch(resume, /\b\d{1,2}\.\d{3}\.\d{3}-\d\b/, "national ID-like value exposed");
+  assert.doesNotMatch(resume, /Cédula de identidad:\s*\d/i);
+});
+
+test("site contains navigation anchors and honest project statuses", () => {
+  const app = text("src/App.tsx");
+  const projectData = text("src/data/projects.ts");
+  for (const id of ["main", "top", "about", "work", "expertise", "approach", "contact"]) {
+    assert.ok(app.includes('id="' + id + '"'), "missing anchor: " + id);
+  }
+  assert.match(app, /import\.meta\.env\.BASE_URL \+ "resume\.html"/);
+  assert.match(projectData, /Not released/);
+  assert.match(projectData, /Private/);
+  assert.match(projectData, /2 websites completed/);
+  assert.doesNotMatch(projectData, /Live & functional/);
+  assert.doesNotMatch(app, /Natael/);
+});
