@@ -1,6 +1,7 @@
 export const copy = {
   en: {
     hiringBrief: "Hiring brief",
+    businessTrust: "VYRA · Buyer trust & security",
     seoTitle: "Alerson Morales | Full-Stack Developer in Uruguay",
     seoDescription: "Alerson Morales builds full-stack applications, Python/FastAPI backends and AI automation. Explore tested public code and case studies. Open to remote roles.",
     skip: "Skip to content",
@@ -108,6 +109,7 @@ export const copy = {
   },
   es: {
     hiringBrief: "Perfil para reclutadores",
+    businessTrust: "VYRA · Confianza y seguridad comercial",
     seoTitle: "Alerson Morales | Desarrollador Full-Stack en Uruguay",
     seoDescription: "Alerson Morales desarrolla aplicaciones full-stack, backend con Python y FastAPI y automatización con IA. Proyectos verificables y disponibilidad remota.",
     skip: "Saltar al contenido",

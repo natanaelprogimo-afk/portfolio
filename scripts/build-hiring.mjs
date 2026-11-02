@@ -54,7 +54,7 @@ const html=[
 '<link rel="icon" href="'+base+'favicon.svg" type="image/svg+xml"><style>'+css+'</style></head><body>',
 '<a class="skip" href="#main">'+(lang==="en"?"Skip to content":"Saltar al contenido")+'</a>',
 '<div class="wrap"><header class="top"><a class="brand" href="'+p+'">AM. / ALERSON MORALES</a>',
-'<nav aria-label="'+(lang==="en"?"Navigation":"Navegación")+'"><a href="'+p+'">'+t.portfolio+'</a><a href="'+p+'cases/">'+t.cases+'</a>',
+'<nav aria-label="'+(lang==="en"?"Navigation":"Navegación")+'"><a href="'+p+'">'+t.portfolio+'</a><a href="'+p+'cases/">'+t.cases+'</a><a href="'+p+'trust/">'+(lang==="en"?"VYRA trust":"Confianza VYRA")+'</a>',
 '<a lang="'+(lang==="en"?"es":"en")+'" href="'+base+(lang==="en"?"es":"en")+'/hiring/">'+(lang==="en"?"Español":"English")+'</a></nav></header>',
 '<main id="main" tabindex="-1"><span class="kicker">'+t.label+'</span><h1>'+t.heading+'</h1><p class="lead">'+t.lead+'</p>',
 '<div class="actions"><a href="'+p+'labs/">'+t.demo+' ↗</a><a href="'+base+'resume-'+lang+'.pdf">'+t.resume+' ↗</a>',
