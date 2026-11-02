@@ -217,6 +217,15 @@ for(const locale of ["en","es"]){
   // Hash tabs stay in sync with fresh navigation and back/forward.
   labs=labs.replace('  document.getElementById("run-catalog").click();',
     '  addEventListener("hashchange", () => { const key = location.hash.slice(1); if (tabs.includes(key)) switchTab(key); });\n  document.getElementById("run-catalog").click();');
+  if (locale === "es") {
+    labs=labs.replaceAll("Download comparison CSV","Descargar CSV de comparación")
+      .replaceAll("Download metrics CSV","Descargar CSV de métricas")
+      .replaceAll("Matches: ","Coincidencias: ")
+      .replaceAll("Mismatches: ","Diferencias: ")
+      .replaceAll("Missing: ","Faltantes: ")
+      .replaceAll("Extra: ","Adicionales: ")
+      .replaceAll("Days analyzed: ","Días analizados: ");
+  }
   labs=decorate(labs,locale,"labs/",locale==="es"?"Laboratorio de ingeniería | Alerson Morales":"Engineering Lab | Alerson Morales",locale==="es"?"Ejemplos públicos y ejecutables: CSV, idempotencia y métricas de eventos.":"Three executable public demos: CSV validation, idempotency and metrics.");
   // The original case-study page links to ../resume.html; localized case URLs
   // have no /en/resume.html or /es/resume.html, so point to the matching PDF.

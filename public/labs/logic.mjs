@@ -136,3 +136,19 @@ export function summarizeEvents(input) {
     averageMs: +(totalLatency / requests).toFixed(1)
   }));
 }
+
+/**
+ * Serialize a fixed-schema report for spreadsheet review.
+ * Text beginning with formula trigger characters is escaped against CSV injection.
+ */
+export function serializeReportCsv(rows, columns) {
+  if (!Array.isArray(rows) || !Array.isArray(columns) || columns.length === 0 || rows.length > 5000)
+    throw new Error("CSV report requires a valid bounded table.");
+  const escape = value => {
+    let text = String(value ?? "");
+    if (/^[\s]*[=+\-@]/.test(text)) text = "'" + text;
+    return '"' + text.replaceAll('"', '""') + '"';
+  };
+  return [columns.map(([_, label]) => escape(label)).join(","),
+    ...rows.map(row => columns.map(([key]) => escape(row[key])).join(","))].join("\r\n") + "\r\n";
+}

@@ -24,7 +24,7 @@
     .footer{border-top:1px solid var(--line);padding:35px 0 60px;color:var(--dim);font-size:13px;line-height:1.9}.footer a{margin-right:19px}
     @media(max-width:650px){.fields{grid-template-columns:1fr}.intro{padding-top:53px}.panel{padding:20px}.panel h2{font-size:26px}.wrap{padding:0 16px}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
-  .skip-link{position:absolute;top:-100px;left:16px;z-index:100;background:#e5facb;color:#0c1a11;padding:12px 16px;border-radius:7px;font-size:14px;font-weight:800}.skip-link:focus{top:12px}.tabs button{font-size:13px;min-height:44px}.field label{font-size:13px}.hint{font-size:13px}.top nav a{font-size:14px}.panel>p,.notice{font-size:14px}#main:focus{outline:none}
+  .skip-link{position:absolute;top:-100px;left:16px;z-index:100;background:#e5facb;color:#0c1a11;padding:12px 16px;border-radius:7px;font-size:14px;font-weight:800}.skip-link:focus{top:12px}.tabs button{font-size:13px;min-height:44px}.field label{font-size:13px}.hint{font-size:13px}.top nav a{font-size:14px}.result-summary{margin:14px 0 0;color:#d1ecc4;font-size:13px;line-height:1.6;font-weight:750}.controls button:disabled{opacity:.55;cursor:not-allowed}.panel>p,.notice{font-size:14px}#main:focus{outline:none}
 </style>
 </head>
 <body><a class="skip-link" href="#main">Skip to content</a>
@@ -56,7 +56,8 @@ SKU-001,29.99
 SKU-002,24.99
 SKU-004,10.00</textarea></div>
     </div>
-    <div class="controls"><button class="run" id="run-catalog" type="button">Compare catalogs →</button><span class="hint">Local-only · no API calls</span></div>
+    <div class="controls"><button class="run" id="run-catalog" type="button">Compare catalogs →</button><button class="reset" id="export-catalog" type="button" disabled>Download comparison CSV</button><span class="hint">Local-only · no API calls</span></div>
+    <p class="result-summary" id="summary-catalog" role="status" aria-live="polite"></p>
     <div class="result" id="result-catalog" role="status" aria-live="polite"><span class="status">Press Compare catalogs to execute.</span></div>
   </section>
 
@@ -80,13 +81,14 @@ SKU-004,10.00</textarea></div>
   {"date":"2026-10-31","duration_ms":120,"ok":true},
   {"date":"2026-10-31","duration_ms":220,"ok":true}
 ]</textarea></div>
-    <div class="controls"><button class="run" id="run-metrics" type="button">Analyze events →</button><span class="hint">A working aggregation, not a SQL engine</span></div>
+    <div class="controls"><button class="run" id="run-metrics" type="button">Analyze events →</button><button class="reset" id="export-metrics" type="button" disabled>Download metrics CSV</button><span class="hint">A working aggregation, not a SQL engine</span></div>
+    <p class="result-summary" id="summary-metrics" role="status" aria-live="polite"></p>
     <div class="result" id="result-metrics" role="status" aria-live="polite"><span class="status">Press Analyze events to execute.</span></div>
   </section>
 </main>
 <footer class="wrap footer"><a href="../">← Back to portfolio</a><a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/public/labs">View public source code</a><div>© 2026 Alerson Morales · Synthetic examples · All processing is client-side.</div></footer>
 <script type="module">
-  import { compareCatalog, createIdempotencyLedger, summarizeEvents } from "./logic.mjs";
+  import { compareCatalog, createIdempotencyLedger, serializeReportCsv, summarizeEvents } from "./logic.mjs";
   const tabs = ["catalog","retry","metrics"];
   function switchTab(name) {
     for (const key of tabs) {
@@ -113,9 +115,37 @@ SKU-004,10.00</textarea></div>
     rows.forEach(row=>{const tr=document.createElement("tr");columns.forEach(([key])=>{const td=document.createElement("td");td.textContent=String(row[key]);tr.append(td);});tbody.append(tr);});
     table.append(thead,tbody);target.append(table);
   }
+  const catalogColumns=[["sku","SKU"],["status","Status"],["expected","Feed"],["observed","Observed"]];
+  const metricColumns=[["date","Date"],["requests","Requests"],["successful","OK"],["errors","Errors"],["successRate","Success %"],["averageMs","Mean ms"]];
+  let catalogRows=null,metricRows=null;
+  const updateExport=(id,enabled)=>{document.getElementById(id).disabled=!enabled;};
+  function saveCsv(rows,columns,filename){
+    const bytes=serializeReportCsv(rows,columns);
+    const url=URL.createObjectURL(new Blob([bytes],{type:"text/csv;charset=utf-8"}));
+    const anchor=document.createElement("a");
+    anchor.href=url;anchor.download=filename;document.body.append(anchor);anchor.click();anchor.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  document.getElementById("export-catalog").addEventListener("click",()=>{
+    if(catalogRows)saveCsv(catalogRows,catalogColumns,"catalog-reconciliation.csv");
+  });
+  document.getElementById("export-metrics").addEventListener("click",()=>{
+    if(metricRows)saveCsv(metricRows,metricColumns,"event-metrics.csv");
+  });
   document.getElementById("run-catalog").addEventListener("click",()=>{
-    try{const result=compareCatalog(text("feed"),text("observed"));renderTable("result-catalog",result.details,[["sku","SKU"],["status","Status"],["expected","Feed"],["observed","Observed"]]);}
-    catch(err){error("result-catalog",err);}
+    try {
+      const result=compareCatalog(text("feed"),text("observed"));
+      catalogRows=result.details;
+      renderTable("result-catalog",result.details,catalogColumns);
+      const {match,mismatch,missing,extra}=result.count;
+      document.getElementById("summary-catalog").textContent=
+        "Matches: "+match+" · Mismatches: "+mismatch+" · Missing: "+missing+" · Extra: "+extra;
+      updateExport("export-catalog",true);
+    } catch(err) {
+      catalogRows=null;updateExport("export-catalog",false);
+      document.getElementById("summary-catalog").textContent="";
+      error("result-catalog",err);
+    }
   });
   const ledger=createIdempotencyLedger();
   function submitRequest(fail){try{renderJson("result-retry",ledger.execute(text("idempotency-key"),JSON.parse(text("request-payload")),fail));}catch(err){error("result-retry",err);}}
@@ -123,8 +153,16 @@ SKU-004,10.00</textarea></div>
   document.getElementById("run-failure").addEventListener("click",()=>submitRequest(true));
   document.getElementById("reset-retry").addEventListener("click",()=>{ledger.reset();renderJson("result-retry",{reset:true,processed:0});});
   document.getElementById("run-metrics").addEventListener("click",()=>{
-    try{renderTable("result-metrics",summarizeEvents(text("events")),[["date","Date"],["requests","Requests"],["successful","OK"],["errors","Errors"],["successRate","Success %"],["averageMs","Mean ms"]]);}
-    catch(err){error("result-metrics",err);}
+    try{
+      metricRows=summarizeEvents(text("events"));
+      renderTable("result-metrics",metricRows,metricColumns);
+      document.getElementById("summary-metrics").textContent="Days analyzed: "+metricRows.length;
+      updateExport("export-metrics",true);
+    } catch(err){
+      metricRows=null;updateExport("export-metrics",false);
+      document.getElementById("summary-metrics").textContent="";
+      error("result-metrics",err);
+    }
   });
   const initialTab = location.hash.slice(1);
   if (tabs.includes(initialTab)) switchTab(initialTab);

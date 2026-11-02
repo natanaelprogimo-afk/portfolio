@@ -34,9 +34,11 @@ jobs:
       - name: Unit tests and static smoke tests
         run: npm test
       - name: Install browser test runner (ephemeral)
-        run: npm install --no-save --no-package-lock playwright@1.56.1
+        run: npm install --no-save --no-package-lock playwright@1.56.1 @axe-core/playwright@4.14.0
       - name: Browser E2E - Chrome desktop/mobile
         run: node scripts/browser.e2e.mjs
+      - name: Automated WCAG accessibility regression
+        run: node scripts/accessibility.e2e.mjs
       - name: Store real browser screenshots
         if: always()
         uses: actions/upload-artifact@v4

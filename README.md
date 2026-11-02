@@ -7,6 +7,13 @@
 
 Recruiter-oriented portfolio written with React, TypeScript and Vite. Public code examples are **independently implemented** and use synthetic data; they are not copies or live deployments of VYRA private products.
 
+## V5: recruiter brief, exportable examples and accessibility audits
+
+- [English recruiter brief](https://natanaelprogimo-afk.github.io/portfolio/en/hiring/) and [Spanish recruiter brief](https://natanaelprogimo-afk.github.io/portfolio/es/hiring/): standalone, printable, source-backed one-page professional summary.
+- Browser lab supports local CSV report downloads for catalog reconciliation and event metrics. Export escapes spreadsheet-formula prefixes; downloads occur only from direct user actions, without external requests.
+- CI runs the working browser demo flows and an automated axe-core accessibility audit for English/Spanish home, lab, cases and hiring pages. Serious/critical findings block merges. This does not replace manual WCAG validation.
+- No private code, identifiers or fabricated statistics have been added.
+
 ## What an interviewer can verify
 
 - [Browser-based examples](https://natanaelprogimo-afk.github.io/portfolio/en/labs/) with editable test input: CSV reconciliation, request idempotency and event metrics.
@@ -46,6 +53,8 @@ CI additionally executes a real Chrome browser regression suite across desktop a
 | Project data and statuses | `src/data/projects.ts` |
 | Design system | `src/index.css` |
 | Static locale builder | `scripts/build-locales.mjs` |
+| Recruiter brief generator | `scripts/build-hiring.mjs` |
+| Accessibility regression | `scripts/accessibility.e2e.mjs` |
 | Interactive lab | `public/labs/` |
 | Public backend and SQL examples | `examples/` |
 | Case studies | `public/cases/` |
