@@ -7,6 +7,8 @@
 
 ## Executive diagnosis
 
+V7 deliberately removes two duplicative homepage sections (the generic four-step approach block and repeated three-card lab teaser). The direct links to all three interactive lab examples remain in the condensed, accessible public evidence section. The more specific in-depth material is still available in /labs and /cases. This reduces long-scroll friction without removing the underlying examples.
+
 The existing V6 foundation already has strong engineering evidence, multilingual URLs, a running browser lab, source-backed code examples, standalone recruiter/trust pages, automated CI, and a transparent private-versus-public distinction. It does not require a total redesign.
 
 The measured public homepage length before V7 was approximately 8,100px desktop, 12,696px at 390px and 13,683px at 320px. The visual audit also verified no horizontal overflow at 390px and 320px, working skip link and Escape menu focus return. The strongest outstanding concern is **audience ambiguity**: the homepage primarily sells engineering credibility while simultaneously offering recruiter and buyer links as peers in a crowded social link row. Recruiters and potential SaaS buyers need different immediate questions answered.

@@ -59,6 +59,7 @@ try {
   for (const language of ["en","es"]) {
     await page.goto(origin+"/"+language+"/",{waitUntil:"networkidle"});
     assert.equal(await page.locator("#start-here .route-card").count(),2);
+    assert.equal(await page.locator(".verified-quick-links a").count(),3);
     assert.equal(await page.locator(".project-status-guide").count(),1);
     assert.equal(await page.locator("#start-here .route-card a[href$='/"+language+"/hiring/']").count(),1);
     assert.equal(await page.locator("#start-here .route-card a[href$='/"+language+"/trust/']").count(),1);
@@ -128,7 +129,7 @@ try {
   assert.equal(await page.getByRole("button",{name:"Close navigation"}).getAttribute("aria-expanded"),"true");
   assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#start-here");
   await page.keyboard.press("Tab");
-  assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#about");
+  assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#evidence");
   await page.keyboard.press("Escape");
   assert.equal(await page.getByRole("button",{name:"Open navigation"}).getAttribute("aria-expanded"),"false");
   await page.waitForFunction(() => document.activeElement?.getAttribute("aria-label") === "Open navigation");

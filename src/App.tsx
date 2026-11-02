@@ -15,7 +15,7 @@ const EMAIL = "moralesalerson@gmail.com";
 
 
 
-const sectionIds = ["start-here", "about", "work", "lab", "expertise", "contact"] as const;
+const sectionIds = ["start-here", "evidence", "about", "work", "expertise", "contact"] as const;
 const groupIds: Array<"all" | ProjectGroup> = ["all", "systems", "product", "client"];
 const iconList = [Code2, Database, Workflow, Layers3] as const;
 
@@ -173,8 +173,8 @@ export default function App() {
           </div>
         </section>
 
-        <VerifiedWork locale={locale}/>
         <VisitorRoutes locale={locale}/>
+        <VerifiedWork locale={locale}/>
 
         <div className="proof-strip">
           <div className="container proof-grid">
@@ -280,31 +280,6 @@ export default function App() {
           </div>
         </section>
 
-        <section className="section lab-section" id="lab" aria-labelledby="lab-heading">
-          <div className="container">
-            <span className="section-eyebrow">{t.labEyebrow}</span>
-            <div className="section-intro">
-              <h2 className="section-title" id="lab-heading">{t.labTitle} <em>{t.labAccent}</em></h2>
-              <p>{t.labIntro}</p>
-            </div>
-            <div className="lab-grid">
-              {t.labCards.map(item => (
-                <article key={item.number} className="lab-card">
-                  <span className="lab-number">{t.labExample} / {item.number}</span>
-                  <div className="lab-glyph"><Code2 size={28} strokeWidth={1.5}/><span>{item.icon === "data" ? "CSV" : item.icon === "api" ? "API" : "JSON"}</span></div>
-                  <h3>{item.title}</h3><p>{item.description}</p>
-                  <a href={localPage("labs/#" + (item.icon === "data" ? "catalog" : item.icon === "api" ? "retry" : "metrics"))} target="_blank" rel="noopener noreferrer">{t.labCTA}<ArrowUpRight size={16}/></a>
-                </article>
-              ))}
-            </div>
-            <a className="lab-source" href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/public/labs" target="_blank" rel="noopener noreferrer">{t.labOpenSource}<ArrowUpRight size={15}/></a>
-            <div className="engineering-links">
-              <a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/backend" target="_blank" rel="noopener noreferrer">{t.pythonExample} <ArrowUpRight size={15}/></a>
-              <a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/sql" target="_blank" rel="noopener noreferrer">{t.sqlExample} <ArrowUpRight size={15}/></a>
-            </div>
-          </div>
-        </section>
-
         <section className="section expertise-section" id="expertise" aria-labelledby="expertise-heading">
           <div className="container">
             <span className="section-eyebrow">{t.expertiseEyebrow}</span>
@@ -321,24 +296,6 @@ export default function App() {
                   <div className="tag-list">{item.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
                 </article>;
               })}
-            </div>
-          </div>
-        </section>
-
-        <section className="section approach-section" id="approach" aria-labelledby="approach-heading">
-          <div className="container">
-            <span className="section-eyebrow">{t.approachEyebrow}</span>
-            <div className="section-intro">
-              <h2 className="section-title" id="approach-heading">{t.approachTitle} <em>{t.approachAccent}</em></h2>
-              <p>{t.approachIntro}</p>
-            </div>
-            <div className="steps">
-              {t.steps.map((step) => <article key={step.number} className="step">
-                <span className="step-number">{step.number} / 04</span>
-                <h3>{step.title}</h3>
-                <p>{step.desc}</p>
-                <ArrowUpRight size={19} aria-hidden="true" />
-              </article>)}
             </div>
           </div>
         </section>

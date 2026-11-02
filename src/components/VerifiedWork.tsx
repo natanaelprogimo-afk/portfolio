@@ -80,6 +80,18 @@ export default function VerifiedWork({ locale }: { locale: Locale }) {
             );
           })}
         </div>
+        <nav className="verified-quick-links" aria-label={locale === "en" ? "Explore specific live exercises" : "Explorar ejercicios específicos"}>
+          <span>{locale === "en" ? "Try a specific example:" : "Probar un ejemplo específico:"}</span>
+          {[
+            {id:"catalog",en:"CSV reconciliation",es:"Conciliación CSV"},
+            {id:"retry",en:"Retry & idempotency",es:"Reintentos e idempotencia"},
+            {id:"metrics",en:"Event metrics",es:"Métricas de eventos"}
+          ].map(example=>(
+            <a key={example.id} href={import.meta.env.BASE_URL+locale+"/labs/#"+example.id}>
+              {example[locale]} <ArrowUpRight size={15} aria-hidden="true"/>
+            </a>
+          ))}
+        </nav>
         <p className="verified-disclaimer">{t.evidenceDisclaimer}</p>
       </div>
     </section>
