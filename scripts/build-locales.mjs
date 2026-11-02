@@ -201,6 +201,9 @@ for(const locale of ["en","es"]){
   labs=labs.replace('  document.getElementById("run-catalog").click();',
     '  addEventListener("hashchange", () => { const key = location.hash.slice(1); if (tabs.includes(key)) switchTab(key); });\n  document.getElementById("run-catalog").click();');
   labs=decorate(labs,locale,"labs/",locale==="es"?"Laboratorio de ingeniería | Alerson Morales":"Engineering Lab | Alerson Morales",locale==="es"?"Ejemplos públicos y ejecutables: CSV, idempotencia y métricas de eventos.":"Three executable public demos: CSV validation, idempotency and metrics.");
+  // The original case-study page links to ../resume.html; localized case URLs
+  // have no /en/resume.html or /es/resume.html, so point to the matching PDF.
+  cases=cases.replace('href="../resume.html"', 'href="'+base+'resume-'+locale+'.pdf"');
   cases=decorate(cases,locale,"cases/",locale==="es"?"Casos técnicos | Alerson Morales":"Engineering Case Studies | Alerson Morales",locale==="es"?"Decisiones de ingeniería, arquitectura, alcance y evidencias del trabajo de Alerson Morales.":"Engineering architectures, constraints and verifiable work by Alerson Morales.");
   output(locale+"/labs/index.html",labs);
   output(locale+"/cases/index.html",cases);
