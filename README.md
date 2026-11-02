@@ -7,6 +7,13 @@
 
 Recruiter-oriented portfolio written with React, TypeScript and Vite. Public code examples are **independently implemented** and use synthetic data; they are not copies or live deployments of VYRA private products.
 
+## Career preparation (2026)
+
+- [LinkedIn professional copy](docs/LINKEDIN_PROFILE_READY.md) — prepared; requires authenticated owner review before publishing
+- [GitHub profile README](docs/GITHUB_PROFILE_README.md) — prepared; copy into a public same-username profile repository
+- [Hiring and résumé checklist](docs/CAREER_PUBLISHING_CHECKLIST.md) — verification and privacy gates
+- Two public PDF résumés generated on each build; Spanish copy retains accents, with future role-specific DOCX/PDF templates supplied separately to the owner
+
 ## V5: recruiter brief, exportable examples and accessibility audits
 
 - [English recruiter brief](https://natanaelprogimo-afk.github.io/portfolio/en/hiring/) and [Spanish recruiter brief](https://natanaelprogimo-afk.github.io/portfolio/es/hiring/): standalone, printable, source-backed one-page professional summary.

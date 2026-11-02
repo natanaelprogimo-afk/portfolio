@@ -107,3 +107,21 @@ test("recruiter briefs are independently readable, honest and interlinked", () =
     assert.doesNotMatch(html, /\b\d{1,2}\.\d{3}\.\d{3}-\d\b/);
   }
 });
+
+test("public CV content has correct Spanish accents and official education, without sensitive ID", () => {
+  const en=readFileSync(new URL("../dist/resume-en.pdf",import.meta.url)).toString("latin1");
+  const es=readFileSync(new URL("../dist/resume-es.pdf",import.meta.url)).toString("latin1");
+  for(const required of ["años","aplicación","diseño","clínica","Técnico","Formación","Español","Inglés"]){
+    assert.ok(es.includes(required), "Missing correctly encoded Spanish expression: "+required);
+  }
+  assert.match(en, /UTU diplomas/);
+  assert.doesNotMatch(es, /\b(?:anos|Ingles|Espanol|Formacion|Automatizacion)\b/);
+  assert.doesNotMatch(es, /5\.610\.747/);
+});
+test("professional profile copy includes no invented seniority or identity number", () => {
+  for(const file of ["docs/LINKEDIN_PROFILE_READY.md","docs/GITHUB_PROFILE_README.md"]){
+    const data=text(file);
+    assert.match(data, /Alerson Morales/);
+    assert.doesNotMatch(data, /5\.610\.747/);
+  }
+});
