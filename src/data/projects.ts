@@ -1,134 +1,146 @@
+export type Locale = "en" | "es";
+export type ProjectGroup = "systems" | "product" | "client";
+
 export interface Project {
   id: string;
-  title: string;
-  category: string;
-  description: string;
-  longDescription: string;
-  features: string[];
-  challenges: string;
+  number: string;
+  name: string;
+  group: ProjectGroup;
+  category: Record<Locale, string>;
+  status: Record<Locale, string>;
+  summary: Record<Locale, string>;
+  challenge: Record<Locale, string>;
+  approach: Record<Locale, string>;
+  evidence: Record<Locale, string>;
   technologies: string[];
-  featured?: boolean;
-  status: string;
-  github?: string;
-  demo?: string;
+  source?: string;
 }
 
 export const projects: Project[] = [
   {
-    id: "vyra",
-    title: "VYRA Fitness",
-    category: "Mobile Application",
-    description:
-      "A comprehensive fitness platform that combines workout tracking, nutrition logging, hydration monitoring, sleep analysis, step counting, intermittent fasting timers, and progress visualization — all in one mobile experience built with React Native.",
-    longDescription:
-      "VYRA Fitness was born from the need to consolidate multiple fitness tracking tools into a single, cohesive mobile experience. Instead of juggling separate apps for workouts, nutrition, hydration, and sleep, VYRA brings everything together with a clean, intuitive interface. The app features real-time data synchronization through Supabase, custom workout plan creation, macro and calorie tracking with a food database, hydration reminders, sleep quality scoring, step counting integration, and intermittent fasting timers with progress rings. The backend handles user authentication, data persistence, and cross-device sync.",
-    features: [
-      "Custom workout creation and tracking",
-      "Nutrition logging with macro calculations",
-      "Hydration tracking with smart reminders",
-      "Sleep quality analysis and scoring",
-      "Step counter integration",
-      "Intermittent fasting timer",
-      "Progress charts and statistics",
-      "User authentication and cloud sync",
-    ],
-    challenges:
-      "The main challenge was designing a cohesive data architecture that connects all health metrics while keeping the app performant on mobile. Managing real-time state across multiple tracking modules required careful optimization of re-renders and efficient Supabase queries.",
-    technologies: [
-      "React Native",
-      "Expo",
-      "TypeScript",
-      "Supabase",
-      "Node.js",
-    ],
-    featured: true,
-    status: "In active development",
+    id: "ai-automation",
+    number: "01",
+    name: "AI Automation Factory",
+    group: "systems",
+    category: { en: "AI systems / backend", es: "Sistemas de IA / backend" },
+    status: { en: "Private · In development", es: "Privado · En desarrollo" },
+    summary: {
+      en: "An agent-oriented application with API workflows, human approval checkpoints, and operational controls for responsible automation.",
+      es: "Una aplicación orientada a agentes con flujos de API, aprobaciones humanas y controles operativos para automatización responsable."
+    },
+    challenge: {
+      en: "Automation needs more than a model response: actions must be controlled, observable and safe to retry.",
+      es: "La automatización exige más que respuestas de modelos: las acciones deben controlarse, observarse y admitir reintentos seguros."
+    },
+    approach: {
+      en: "Worked on a full-stack architecture spanning an API, agent execution, approvals, idempotency, limits and an operational dashboard.",
+      es: "Trabajé en una arquitectura full-stack con API, ejecución de agentes, aprobaciones, idempotencia, límites y panel operativo."
+    },
+    evidence: {
+      en: "Private source. Architecture and a technical walkthrough can be discussed without exposing credentials or customer data.",
+      es: "Código privado. Puedo explicar la arquitectura y el funcionamiento técnico sin exponer credenciales ni datos de clientes."
+    },
+    technologies: ["Python", "FastAPI", "React", "PostgreSQL", "Redis"]
   },
-
   {
-    id: "ai-products",
-    title: "AI Products Platform",
-    category: "AI · Backend · SaaS",
-    description:
-      "A serverless SaaS platform for AI-powered digital products, featuring license key activation, credit-based usage management, secure API authentication, and fully automated delivery — built on Cloudflare's edge infrastructure.",
-    longDescription:
-      "This platform enables the sale and delivery of AI-powered digital products with a complete backend infrastructure. When a customer purchases a product through Gumroad, the system automatically generates a license key, provisions API credits, and activates their account. The AI features are powered by Workers AI running on Cloudflare's edge network, ensuring low-latency responses worldwide. The platform includes a license validation system, credit consumption tracking, rate limiting, and a complete API for product integration. All data is stored in Cloudflare D1 (SQLite at the edge), making the entire infrastructure serverless and globally distributed.",
-    features: [
-      "Automatic license key generation on purchase",
-      "Credit-based AI usage management",
-      "Gumroad webhook integration for automated delivery",
-      "API key authentication and rate limiting",
-      "Workers AI integration for content generation",
-      "Edge-deployed with Cloudflare Workers",
-      "D1 database for serverless data storage",
-      "Usage analytics and credit tracking",
-    ],
-    challenges:
-      "Building a complete SaaS backend on a serverless, edge-first architecture required rethinking traditional patterns. Implementing reliable license validation, credit management, and webhook processing without a traditional server demanded careful design of the D1 schema and Worker routing.",
-    technologies: [
-      "TypeScript",
-      "Cloudflare Workers",
-      "Workers AI",
-      "D1",
-      "Gumroad API",
-    ],
-    featured: true,
-    status: "In active development",
+    id: "vyra-fitness",
+    number: "02",
+    name: "VYRA Fitness",
+    group: "product",
+    category: { en: "Mobile app / product", es: "Aplicación móvil / producto" },
+    status: { en: "Design & testing · Not released", es: "Diseño y pruebas · Sin publicar" },
+    summary: {
+      en: "An all-in-one fitness app concept bringing workouts, nutrition, hydration and progress tracking into one experience.",
+      es: "Una aplicación integral de fitness que reúne entrenamientos, nutrición, hidratación y seguimiento del progreso."
+    },
+    challenge: {
+      en: "Bring several distinct health-tracking journeys together without overwhelming the mobile interface.",
+      es: "Integrar distintos flujos de seguimiento de salud sin sobrecargar la interfaz móvil."
+    },
+    approach: {
+      en: "Designed and iterated on a React Native / Expo application structure, reusable UI and data-backed tracking flows.",
+      es: "Diseñé e iteré una estructura con React Native / Expo, interfaz reutilizable y flujos de seguimiento basados en datos."
+    },
+    evidence: {
+      en: "Private development repository. The app is in design and testing; it is not listed as an App Store or Google Play release.",
+      es: "Repositorio privado de desarrollo. La aplicación está en diseño y pruebas; no se presenta como publicada en las tiendas."
+    },
+    technologies: ["React Native", "Expo", "TypeScript", "Supabase"]
   },
-
   {
-    id: "ganchoviral",
-    title: "GanchoViral",
-    category: "AI Tool",
-    description:
-      "An AI-powered content creation tool that generates high-converting hooks for TikTok, Instagram Reels, and YouTube Shorts — designed to help creators capture attention in the first 3 seconds of their videos.",
-    longDescription:
-      "GanchoViral solves a specific problem for content creators: writing the opening hook that determines whether viewers keep watching or scroll away. The tool uses AI to analyze successful viral content patterns and generate multiple hook variations tailored to the creator's topic, niche, and platform. Users input their video topic, select their target platform, and receive a set of optimized hooks ranked by estimated engagement potential. The interface is intentionally minimal — no sign-ups, no complex dashboards — just a focused tool that does one thing well.",
-    features: [
-      "AI-powered hook generation for short-form video",
-      "Platform-specific optimization (TikTok, Reels, Shorts)",
-      "Multiple hook variations per request",
-      "Topic and niche customization",
-      "Clean, distraction-free interface",
-      "Serverless backend with Cloudflare Workers",
-    ],
-    challenges:
-      "The key challenge was prompt engineering: creating AI prompts that consistently generate hooks matching the style and tone of genuinely viral content, while avoiding generic or clickbait-style output. Iterative testing with real content creator feedback was essential.",
-    technologies: [
-      "JavaScript",
-      "HTML/CSS",
-      "AI API",
-      "Cloudflare Workers",
-    ],
-    featured: true,
-    status: "Live & functional",
+    id: "catalog-integrity",
+    number: "03",
+    name: "Catalog Integrity Engine",
+    group: "systems",
+    category: { en: "Data validation / automation", es: "Validación de datos / automatización" },
+    status: { en: "Internal prototype", es: "Prototipo interno" },
+    summary: {
+      en: "A catalog comparison workflow to flag mismatches between structured product feeds and observed product information.",
+      es: "Un flujo de comparación de catálogos que detecta diferencias entre feeds estructurados y la información de productos."
+    },
+    challenge: {
+      en: "Catalog drift makes prices and product data inconsistent across different sources.",
+      es: "La desincronización del catálogo provoca diferencias de precios y datos entre fuentes."
+    },
+    approach: {
+      en: "Built comparison logic with explicit match and mismatch outputs, then validated it through controlled sample runs.",
+      es: "Desarrollé lógica comparativa con resultados explícitos de coincidencia y diferencia, validada con ejecuciones de muestra."
+    },
+    evidence: {
+      en: "Internal engineering work; sample runs are not a claim of production adoption or commercial revenue.",
+      es: "Trabajo de ingeniería interno; las ejecuciones de muestra no implican adopción productiva ni ingresos comerciales."
+    },
+    technologies: ["TypeScript", "Node.js", "Cloudflare Workers", "Apify"]
   },
-
   {
-    id: "automated-reports",
-    title: "Automated Business Reports",
-    category: "Automation · AI",
-    description:
-      "An intelligent reporting automation system that collects business data from multiple sources, processes it with AI analysis, and generates structured weekly reports — eliminating hours of manual data compilation.",
-    longDescription:
-      "This system was built to solve the repetitive, time-consuming task of compiling weekly business reports. It connects to multiple data sources via APIs, aggregates key metrics, and uses AI to generate written summaries and insights. The reports are structured with consistent formatting, include trend analysis, and highlight anomalies or notable changes from the previous period. The entire pipeline runs automatically on a schedule, delivering finished reports without any manual intervention.",
-    features: [
-      "Multi-source data aggregation via APIs",
-      "AI-powered analysis and summary generation",
-      "Automated weekly report scheduling",
-      "Trend detection and anomaly highlighting",
-      "Consistent structured report formatting",
-      "Zero manual intervention after setup",
-    ],
-    challenges:
-      "The biggest challenge was building reliable data normalization across different API response formats and ensuring the AI analysis produced actionable insights rather than generic summaries. Error handling for API failures and data inconsistencies was critical for production reliability.",
-    technologies: [
-      "JavaScript",
-      "REST APIs",
-      "AI Integration",
-      "Automation",
-    ],
-    featured: true,
-    status: "Live & functional",
+    id: "client-websites",
+    number: "04",
+    name: "Client Website Builds",
+    group: "client",
+    category: { en: "Client work / web", es: "Trabajo para clientes / web" },
+    status: { en: "2 websites completed", es: "2 sitios web completados" },
+    summary: {
+      en: "Two completed website projects: one for a dental practice and another for a paint retailer.",
+      es: "Dos proyectos web completados: uno para una clínica dental y otro para una tienda de pinturas."
+    },
+    challenge: {
+      en: "Translate different business needs into websites that are clear, practical and easy to navigate.",
+      es: "Convertir necesidades comerciales distintas en sitios claros, prácticos y fáciles de recorrer."
+    },
+    approach: {
+      en: "Implemented end-to-end site experiences, focusing on responsive structure and understandable presentation.",
+      es: "Implementé experiencias web completas, centradas en estructura adaptable y presentación comprensible."
+    },
+    evidence: {
+      en: "Client work reported as completed; public URLs, screenshots and measurable outcomes are not currently available for independent review.",
+      es: "Trabajo declarado como completado; por ahora no hay URL, capturas ni métricas públicas disponibles para su revisión."
+    },
+    technologies: ["Web development", "Responsive UI", "Frontend"]
   },
+  {
+    id: "portfolio",
+    number: "05",
+    name: "Developer Portfolio",
+    group: "product",
+    category: { en: "Frontend / open source", es: "Frontend / código público" },
+    status: { en: "Public repository", es: "Repositorio público" },
+    summary: {
+      en: "The website you are viewing: a bilingual, accessible portfolio designed for direct technical evaluation.",
+      es: "El sitio que estás viendo: un portafolio bilingüe y accesible diseñado para facilitar la evaluación técnica."
+    },
+    challenge: {
+      en: "Make technical depth legible in seconds, without exaggerated claims or broken demo links.",
+      es: "Mostrar profundidad técnica en segundos, sin afirmaciones exageradas ni enlaces a demos inexistentes."
+    },
+    approach: {
+      en: "Built a responsive React and TypeScript interface with real project status, semantic HTML and zero external UI services.",
+      es: "Construí una interfaz adaptable con React y TypeScript, estados reales, HTML semántico y sin servicios visuales externos."
+    },
+    evidence: {
+      en: "The implementation is available in the public GitHub repository linked below.",
+      es: "La implementación está disponible en el repositorio público de GitHub enlazado abajo."
+    },
+    technologies: ["React", "TypeScript", "Vite", "CSS"],
+    source: "https://github.com/natanaelprogimo-afk/portfolio"
+  }
 ];
