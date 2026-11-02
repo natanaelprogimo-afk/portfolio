@@ -179,7 +179,7 @@ try {
   })));
   assert.ok(buttons.length>=3 && buttons.every(x=>x.h>=43&&x.w>=43),
     "Project filters should have at least 44px targets: "+JSON.stringify(buttons));
-  await page.locator('a[href="#contact"]').first().click();
+  await page.goto(origin+"/en/#contact",{waitUntil:"networkidle"});
   const contactWidths=await page.locator('.contact-path').evaluateAll(items=>items.map(node=>{
     const box=node.getBoundingClientRect();
     return {left:box.left,right:box.right,viewport:document.documentElement.clientWidth};
