@@ -12,7 +12,7 @@ function make(lang) {
   };
   const rule = y => {page+="0.8 0.86 0.82 RG 0.7 w 42 "+y+" m 553 "+y+" l S\n";};
   text("ALERSON MORALES",42,795,26,true,[.96,.98,.95]);
-  text(english?"Full-Stack Developer | Backend & Automation":"Desarrollador Full-Stack | Backend y Automatizacion",42,764,12,true,[.8,.96,.58]);
+  text(english?"Full-Stack Developer | Backend & Automation":"Desarrollador Full-Stack | Backend y Automatización",42,764,12,true,[.8,.96,.58]);
   text("Uruguay | 100% Remote | moralesalerson@gmail.com",42,746,9.2,false,[.89,.94,.89]);
   let y=699;
   const section=s=>{text(s.toUpperCase(),42,y,10,true,[.10,.36,.32]);rule(y-6);y-=25;};
@@ -37,42 +37,51 @@ function make(lang) {
       "React, Next.js, React Native, Expo, FastAPI and Node.js",
       "REST APIs, PostgreSQL, MySQL, Supabase, Git, automated testing"]);
     section("Education and languages");
-    lines(["IT-focused technical upper-secondary program - completed 2025 in Uruguay.",
-      "Additional training: PC Operator Basic/Advanced and IT/Web Design.",
+    lines(["Technical upper-secondary diploma in Informatics - completed 2025.",
+      "UTU diplomas: PC Operator Basic/Advanced and Informatics/Web Design.",
       "Spanish: native | English: C1 | Portuguese: intermediate."]);
     section("Links");
-    link("Portfolio: natanaelprogimo-afk.github.io/portfolio/","https://natanaelprogimo-afk.github.io/portfolio/");
+    link("Portfolio: natanaelprogimo-afk.github.io/portfolio/en/","https://natanaelprogimo-afk.github.io/portfolio/");
     link("GitHub: github.com/natanaelprogimo-afk","https://github.com/natanaelprogimo-afk");
     link("LinkedIn: alerson-anatael-morales-pintos-4a4634325","https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/");
   }else{
     section("Perfil profesional");
-    lines(["Desarrollador independiente y fundador de VYRA. Programo desde los 12 anos.",
-      "Trabajo en software full-stack, backend con Python, aplicaciones moviles e IA.",
-      "Busco trabajo de ingenieria de software remoto con equipos internacionales."]);
+    lines(["Desarrollador independiente y fundador de VYRA. Programo desde los 12 años.",
+      "Trabajo en software full-stack, backend con Python, aplicaciones móviles e IA.",
+      "Busco trabajo de ingeniería de software remoto con equipos internacionales."]);
     section("Proyectos");
     lines(["VYRA | Fundador y desarrollador (independiente, en curso)",
       "- AI Automation Factory: plataforma privada con FastAPI, React y aprobaciones.",
-      "- VYRA Fitness: aplicacion React Native / Expo en diseno y pruebas, sin publicar.",
-      "- Catalog Integrity Engine: prototipo privado para comparar catalogos.",
+      "- VYRA Fitness: aplicación React Native / Expo en diseño y pruebas, sin publicar.",
+      "- Catalog Integrity Engine: prototipo privado para comparar catálogos.",
       "Desarrollo web | Dos sitios completos para clientes",
-      "- Sitios terminados para una clinica dental y una tienda de pinturas.",
-      "Codigo publico | API Python, ejemplos SQL y laboratorio JavaScript."]);
-    section("Competencias tecnicas");
+      "- Sitios terminados para una clínica dental y una tienda de pinturas.",
+      "Código público | API Python, ejemplos SQL y laboratorio JavaScript."]);
+    section("Competencias técnicas");
     lines(["Python, JavaScript, TypeScript, C#, SQL, Java, PHP, HTML y CSS",
       "React, Next.js, React Native, Expo, FastAPI y Node.js",
-      "API REST, PostgreSQL, MySQL, Supabase, Git y pruebas automaticas"]);
-    section("Formacion e idiomas");
-    lines(["Bachillerato tecnico de Informatica - finalizado en Uruguay en 2025.",
-      "Formacion adicional: Operador PC Basico/Avanzado e Informatica/Diseño Web.",
-      "Espanol: nativo | Ingles: C1 | Portugues: intermedio."]);
+      "API REST, PostgreSQL, MySQL, Supabase, Git y pruebas automáticas"]);
+    section("Formación e idiomas");
+    lines(["Bachillerato Tecnológico en Informática - finalizado en Uruguay en 2025.",
+      "Diplomas UTU: Operador PC Básico/Avanzado e Informática/Diseño Web.",
+      "Español: nativo | Inglés: C1 | Portugués: intermedio."]);
     section("Enlaces");
-    link("Portafolio: natanaelprogimo-afk.github.io/portfolio/","https://natanaelprogimo-afk.github.io/portfolio/");
+    link("Portafolio: natanaelprogimo-afk.github.io/portfolio/es/","https://natanaelprogimo-afk.github.io/portfolio/");
     link("GitHub: github.com/natanaelprogimo-afk","https://github.com/natanaelprogimo-afk");
     link("LinkedIn: alerson-anatael-morales-pintos-4a4634325","https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/");
   }
   if(y<65)throw new Error("PDF content overflow: "+lang);
-  text(english?"Public resume: no ID numbers, secrets or customer details.":"CV publico: sin cedula, secretos ni datos de clientes.",42,42,8,false,[.35,.42,.42]);
-  const encoded = s => Buffer.from(s,"latin1");
+  if(!english && !page.includes("Bachillerato Tecnológico en Informática"))throw new Error("Missing complete Spanish degree name");
+  text(english?"Public resume: no ID numbers, secrets or customer details.":"CV público: sin cédula ni datos privados de clientes.",42,42,8,false,[.35,.42,.42]);
+  // Standard Helvetica with WinAnsiEncoding supports the Spanish accented
+  // characters used here; reject unsupported glyphs instead of silently
+  // corrupting downloadable résumé text.
+  const encoded = s => {
+    for(const ch of s) {
+      if(ch.codePointAt(0)>255) throw new Error("Unsupported PDF glyph U+"+ch.codePointAt(0).toString(16));
+    }
+    return Buffer.from(s,"latin1");
+  };
   const stream = encoded(page);
   const obj = [
     "<< /Type /Catalog /Pages 2 0 R /Lang ("+(english?"en-US":"es-UY")+") >>",
