@@ -27,6 +27,10 @@ jobs:
         run: npm run build
       - name: Lint
         run: npm run lint
+      - name: Python standard-library test suite
+        run: |
+          python3 -m unittest discover -s examples/backend -p "test_*.py" -v
+          python3 -m unittest discover -s examples/sql -p "test_*.py" -v
       - name: Unit tests and static smoke tests
         run: npm test
       - name: Build for GitHub Pages

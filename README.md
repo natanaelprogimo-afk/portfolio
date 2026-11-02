@@ -7,6 +7,14 @@
 
 A bilingual, recruiter-first developer portfolio built with React, TypeScript, Vite and responsive CSS.
 
+## New V3 additions
+
+- Independent static, search-readable English and Spanish entry pages with explicit canonical URLs and hreflang.
+- Language-specific lab and case-study paths.
+- Python standard-library API sample and SQLite analytical SQL examples, both with automated tests: [examples/README.md](examples/README.md).
+- Safer CSV/price/date validation and additional regression tests.
+- CI and Pages deployment run lint, Node tests, and Python tests before publishing.
+
 ## What is real and verifiable
 
 - 5 clearly labeled project case studies, including public code and private projects.

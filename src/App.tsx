@@ -18,7 +18,7 @@ const groupIds: Array<"all" | ProjectGroup> = ["all", "systems", "product", "cli
 const iconList = [Code2, Database, Workflow, Layers3] as const;
 
 export default function App() {
-  const [locale, setLocale] = useState<Locale>(() => {
+  const [locale] = useState<Locale>(() => {
     const segment = window.location.pathname.match(/\/(en|es)\/?$/)?.[1];
     if (segment === "es" || segment === "en") return segment;
     try { return window.localStorage.getItem("alerson-portfolio-lang") === "es" ? "es" : "en"; }
@@ -246,6 +246,10 @@ export default function App() {
               ))}
             </div>
             <a className="lab-source" href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/public/labs" target="_blank" rel="noopener noreferrer">{t.labOpenSource}<ArrowUpRight size={15}/></a>
+            <div className="engineering-links">
+              <a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/backend" target="_blank" rel="noopener noreferrer">{t.pythonExample} <ArrowUpRight size={15}/></a>
+              <a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/sql" target="_blank" rel="noopener noreferrer">{t.sqlExample} <ArrowUpRight size={15}/></a>
+            </div>
           </div>
         </section>
 
