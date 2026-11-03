@@ -175,6 +175,9 @@ SKU-004,10.00</textarea></div>
     }));
   };
   window.addEventListener("hashchange",activateFromHash);
+  // Browser restoration can override a scroll requested by a deferred module;
+  // reapply once the full document has loaded.
+  window.addEventListener("load",() => requestAnimationFrame(activateFromHash),{once:true});
   activateFromHash();
   document.getElementById("run-catalog").click();
 </script>
