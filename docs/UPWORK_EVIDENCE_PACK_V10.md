@@ -14,13 +14,13 @@ The code paths identify internal sources for verification; they are **not instru
 
 **Description (406/600):**
 
-Independent, testable browser demo using synthetic CSV feeds. Parses quoted fields, checks duplicate keys and invalid prices, compares product records, and groups match/mismatch/missing/extra results. Includes deterministic sample inputs, a downloadable CSV report, and automated Node.js test cases. Demonstrates a reusable approach to data-quality workflows; not a client contract or private VYRA release.
+Independent Python standard-library CSV reconciliation demo using synthetic product feeds. Validates required columns, duplicate SKUs and prices; compares records as match, mismatch, missing or extra; exports a spreadsheet-safe CSV report. Includes reproducible unittest checks and local CLI instructions. Separate from the JavaScript browser lab and not presented as completed client work.
 
 **Skills (confirm actual Upwork tags):** Python · Data Cleaning · Data Validation · CSV · Automation
 
-**Public source proof to verify before posting:** `public/labs/logic.mjs and scripts/labs.test.mjs`
+**Public source proof to verify before posting:** `examples/csv/reconcile.py, examples/csv/test_reconcile.py and examples/csv/fixtures/`
 
-**Required original visuals:** Authentic browser capture: two CSV inputs → compare → categorized result table → downloaded report; include evidence of automated test output.
+**Required original visuals:** Authentic terminal capture: run the Python command on the fictional fixtures, show status totals and exported CSV report, then run the Python unittest suite.
 
 **Remaining publication gates:** browser/terminal screenshots captured from the actual implementation; test results rerun on a named commit; no private data; copyrights checked; confirm Upwork category/tag acceptance; manually check preview and publish through the Upwork editor.
 
