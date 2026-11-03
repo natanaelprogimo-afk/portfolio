@@ -1,5 +1,7 @@
 export const copy = {
   en: {
+    workCasesLabel: "CASES",
+    footerContact: "Jump to contact",
     visualOverviewLabel: "Conceptual software architecture diagram",
     visualDisclaimer: "Illustrative structure · Not a screenshot or production status indicator.",
     contactHiringLabel: "01 / FOR HIRING TEAMS",
@@ -110,7 +112,7 @@ export const copy = {
       { number: "02", title: "Idempotency simulator", description: "Replay requests and inspect safe conflict handling.", icon: "api" },
       { number: "03", title: "Event metrics", description: "Aggregate and validate JSON event streams by day.", icon: "metrics" }
     ],
-    expertiseEyebrow: "04 / EXPERTISE",
+    expertiseEyebrow: "03 / EXPERTISE",
     expertiseTitle: "My toolkit is broad.",
     expertiseAccent: "My focus is delivery.",
     expertiseIntro: "The right stack follows the problem. These are technologies I use or have worked with, not claims of equal depth in every tool.",
@@ -130,7 +132,7 @@ export const copy = {
       { number: "03", title: "Implement", desc: "Build readable code in small, testable increments." },
       { number: "04", title: "Validate", desc: "Check behavior, edge cases, accessibility and operational limitations." }
     ],
-    contactEyebrow: "06 / CONTACT",
+    contactEyebrow: "04 / CONTACT",
     contactTitle: "Let's build something",
     contactAccent: "worth using.",
     contactText: "I'm interested in 100% remote opportunities with teams worldwide, as well as technically meaningful collaborations. If you're hiring, tell me about the problem your team is solving.",
@@ -145,6 +147,8 @@ export const copy = {
     labelTech: "Technology"
   },
   es: {
+    workCasesLabel: "CASOS",
+    footerContact: "Ir a contacto",
     visualOverviewLabel: "Diagrama conceptual de arquitectura de software",
     visualDisclaimer: "Esquema ilustrativo · No es una captura ni un indicador de producción.",
     contactHiringLabel: "01 / PARA RECLUTADORES",
@@ -255,7 +259,7 @@ export const copy = {
       { number: "02", title: "Simulador de idempotencia", description: "Repetir solicitudes y comprobar conflictos controlados.", icon: "api" },
       { number: "03", title: "Métricas de eventos", description: "Validar y agrupar eventos JSON por fecha.", icon: "metrics" }
     ],
-    expertiseEyebrow: "04 / ESPECIALIDADES",
+    expertiseEyebrow: "03 / ESPECIALIDADES",
     expertiseTitle: "Muchas herramientas.",
     expertiseAccent: "Una prioridad: entregar.",
     expertiseIntro: "La tecnología se elige según el problema. Estas son herramientas con las que trabajo o he trabajado, sin afirmar que domino todas por igual.",
@@ -275,7 +279,7 @@ export const copy = {
       { number: "03", title: "Implementar", desc: "Escribir código legible en incrementos pequeños y verificables." },
       { number: "04", title: "Validar", desc: "Comprobar comportamiento, casos límite, accesibilidad y restricciones." }
     ],
-    contactEyebrow: "06 / CONTACTO",
+    contactEyebrow: "04 / CONTACTO",
     contactTitle: "Construyamos algo",
     contactAccent: "que valga la pena.",
     contactText: "Me interesan oportunidades 100 % remotas con equipos de cualquier país y colaboraciones técnicamente relevantes. Si estás contratando, contame qué problema busca resolver tu equipo.",

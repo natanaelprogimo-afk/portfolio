@@ -7,6 +7,16 @@
 
 Recruiter-oriented portfolio written with React, TypeScript and Vite. Public code examples are **independently implemented** and use synthetic data; they are not copies or live deployments of VYRA private products.
 
+## V10: published-site accessibility and evidence priorities
+
+- Independent live visual audit found long-scroll UX, menu focus escape, lab hash navigation that did not scroll, mobile translated recruiter navigation wrapping, and Spanish UI remnants.
+- Navigation now traps keyboard focus inside the expanded mobile header, restores focus on Escape and disables background scrolling while open.
+- Direct engineering-lab hashes select **and scroll to** the selected panel, including future hash changes.
+- Work cards order inspectable public work before client-reported and private prototypes. Card numbering and generic Spanish technologies are presentation-localized.
+- Responsive contact shortcut, reduced mobile card density and bilingual section numbering improve discoverability.
+- CI exercises hash navigation, mobile keyboard focus, Spanish project labels and recruiter-header layout.
+- [Upwork portfolio editorial package](docs/UPWORK_EVIDENCE_PACK_V10.md) contains accurately scoped draft cases; it is **not** uploaded to Upwork and carries no invented customer or revenue evidence.
+
 ## V9: premium evidence-led UX refresh and buyer vs recruiter contact
 
 - A new layered editorial design system in `src/v9.css`: compact navigation and hero, stronger readable contrast, cleaner project cards, clear evidence paths and mobile-first layouts (320px+).

@@ -72,14 +72,33 @@ export default function App() {
   useEffect(() => {
     if (!menuOpen) return;
     firstNavRef.current?.focus();
-    const closeOnEscape = (event: KeyboardEvent) => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onMenuKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        event.preventDefault();
         setMenuOpen(false);
         menuButtonRef.current?.focus();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const header = document.querySelector<HTMLElement>(".site-header");
+      if (!header) return;
+      const controls = Array.from(header.querySelectorAll<HTMLElement>("a[href], button:not(:disabled)"))
+        .filter(node => node.getClientRects().length > 0 && getComputedStyle(node).visibility !== "hidden");
+      if (!controls.length) return;
+      const first = controls[0], last = controls[controls.length - 1];
+      if (event.shiftKey && (document.activeElement === first || !header.contains(document.activeElement))) {
+        event.preventDefault(); last.focus();
+      } else if (!event.shiftKey && (document.activeElement === last || !header.contains(document.activeElement))) {
+        event.preventDefault(); first.focus();
       }
     };
-    document.addEventListener("keydown", closeOnEscape);
-    return () => document.removeEventListener("keydown", closeOnEscape);
+    document.addEventListener("keydown", onMenuKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onMenuKeyDown);
+      document.body.style.overflow = originalOverflow;
+    };
   }, [menuOpen]);
 
   useEffect(() => {
@@ -95,7 +114,19 @@ export default function App() {
     return ()=>observer.disconnect();
   }, []);
 
-  const visibleProjects = projects.filter((project) => filter === "all" || project.group === filter);
+  const publicFirstOrder: Record<string, number> = {
+    portfolio: 0, "client-websites": 1, "catalog-integrity": 2,
+    "ai-automation": 3, "vyra-fitness": 4
+  };
+  const visibleProjects = projects
+    .filter((project) => filter === "all" || project.group === filter)
+    .sort((a,b) => publicFirstOrder[a.id] - publicFirstOrder[b.id]);
+  const displayTechnology = (technology: string) =>
+    locale === "es" ? ({
+      "Web development": "Desarrollo web",
+      "Responsive UI": "Interfaz adaptable",
+      "Frontend": "Desarrollo frontend"
+    } as Record<string,string>)[technology] ?? technology : technology;
 
   return (
     <>
@@ -225,7 +256,7 @@ export default function App() {
           <div className="container">
             <div className="section-topline">
               <span className="section-eyebrow">{t.workEyebrow}</span>
-              <span className="section-count">/ 05 CASES</span>
+              <span className="section-count">/ {String(projects.length).padStart(2,"0")} {t.workCasesLabel}</span>
             </div>
             <div className="section-intro">
               <h2 className="section-title" id="work-heading">{t.workTitle} <em>{t.workAccent}</em></h2>
@@ -246,16 +277,16 @@ export default function App() {
               ))}
             </div>
             <div className="project-grid">
-              {visibleProjects.map((project) => (
+              {visibleProjects.map((project, index) => (
                 <article className="project-card" key={project.id}>
                   <div className="project-card-top">
-                    <span className="project-index">{project.number} / 05</span>
+                    <span className="project-index">{String(index+1).padStart(2,"0")} / {String(visibleProjects.length).padStart(2,"0")}</span>
                     <span className="project-status"><span className="status-ring" />{project.status[locale]}</span>
                   </div>
                   <div className="project-diagram" role="img" aria-label={locale === "en" ? "Conceptual architecture diagram, not a product screenshot" : "Diagrama conceptual de arquitectura; no es captura del producto"}>
                     <span className="diagram-caption">{locale === "en" ? "ARCHITECTURE CONCEPT / NOT A SCREENSHOT" : "CONCEPTO ARQUITECTÓNICO / NO ES CAPTURA"}</span>
                     <div className="diagram-flow">
-                      <span>{project.technologies[0]}</span><ArrowRight size={15} aria-hidden="true"/><span>{project.technologies[1] ?? "UI"}</span><ArrowRight size={15} aria-hidden="true"/><span>{project.technologies[2] ?? "Data"}</span>
+                      <span>{displayTechnology(project.technologies[0])}</span><ArrowRight size={15} aria-hidden="true"/><span>{displayTechnology(project.technologies[1] ?? "UI")}</span><ArrowRight size={15} aria-hidden="true"/><span>{displayTechnology(project.technologies[2] ?? (locale === "es" ? "Datos" : "Data"))}</span>
                     </div>
                     <div className="diagram-footer"><span>{project.id.toUpperCase()}</span><Layers3 size={17}/></div>
                   </div>
@@ -265,7 +296,7 @@ export default function App() {
                     <p>{project.summary[locale]}</p>
                   </div>
                   <div className="tag-list" role="list" aria-label={t.labelTech}>
-                    {project.technologies.map((technology) => <span role="listitem" key={technology}>{technology}</span>)}
+                    {project.technologies.map((technology) => <span role="listitem" key={technology}>{displayTechnology(technology)}</span>)}
                   </div>
                   <div className="project-actions">
                     <a className="case-deep-link" href={localPage("cases/#" + project.id)} target="_blank" rel="noopener noreferrer">
@@ -374,6 +405,7 @@ export default function App() {
           <div>
             <a href={GITHUB} target="_blank" rel="noopener noreferrer" aria-label="GitHub"><Code2 size={20} /></a>
             <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><BriefcaseBusiness size={20} /></a>
+            <a href="#contact" aria-label={t.footerContact}><Mail size={20} /></a>
             <a href="#top" aria-label={t.footerTop}><ArrowUpRight size={20} /></a>
           </div>
         </div>

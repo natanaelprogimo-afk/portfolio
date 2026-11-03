@@ -72,6 +72,31 @@ try {
     assert.ok(json.sameAs.some(uri=>uri.includes("github.com")));
   }
 
+  // V10: direct exercise hashes reveal the active panel, not just the tab selection.
+  for(const exercise of ["catalog","retry","metrics"]){
+    await page.goto(origin+"/en/labs/#"+exercise,{waitUntil:"networkidle"});
+    await page.waitForTimeout(150);
+    const landing=await page.evaluate(id=>({
+      scroll:window.scrollY,
+      panelTop:document.getElementById("panel-"+id)?.getBoundingClientRect().top,
+      viewport:window.innerHeight,
+      maxScroll:document.documentElement.scrollHeight-window.innerHeight
+    }),exercise);
+    assert.ok(landing.scroll>80, "Deep link did not scroll into view: "+exercise+" "+JSON.stringify(landing));
+    assert.ok((landing.panelTop??Infinity)<landing.viewport,
+      "Deep-linked exercise is not visible: "+exercise+" "+JSON.stringify(landing));
+    assert.equal(await page.locator("#tab-"+exercise).getAttribute("aria-selected"),"true");
+  }
+  await page.goto(origin+"/es/",{waitUntil:"networkidle"});
+  assert.ok((await page.locator(".section-count").innerText()).includes("CASOS"));
+  assert.ok((await page.locator(".project-grid .project-card").first().innerText()).includes("Developer Portfolio"));
+  assert.ok((await page.locator(".project-grid").innerText()).includes("Interfaz adaptable"));
+  await page.goto(origin+"/es/hiring/",{waitUntil:"networkidle"});
+  await page.setViewportSize({width:390,height:844});
+  const navRows=await page.locator(".top nav a").evaluateAll(a=>a.map(x=>Math.round(x.getBoundingClientRect().top)));
+  assert.equal(new Set(navRows).size,1,"Spanish hiring header should remain on one navigation row");
+  await page.setViewportSize({width:1366,height:900});
+
   // V9: distinct, functional buyer and recruiter contact entry points.
   for(const lang of ["en","es"]){
     await page.goto(origin+"/"+lang+"/#contact",{waitUntil:"networkidle"});
@@ -158,6 +183,11 @@ try {
   assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#start-here");
   await page.keyboard.press("Tab");
   assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#evidence");
+  for(let k=0;k<13;k++){
+    await page.keyboard.press("Tab");
+    assert.ok(await page.evaluate(()=>document.querySelector(".site-header")?.contains(document.activeElement)),
+      "Focus must remain inside the open mobile navigation");
+  }
   await page.keyboard.press("Escape");
   assert.equal(await page.getByRole("button",{name:"Open navigation"}).getAttribute("aria-expanded"),"false");
   await page.waitForFunction(() => document.activeElement?.getAttribute("aria-label") === "Open navigation");
