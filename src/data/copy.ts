@@ -63,7 +63,7 @@ export const copy = {
     heroLabel: "INDEPENDENT FULL-STACK DEVELOPER · VYRA FOUNDER · URUGUAY",
     heroLine1: "Complex problems.",
     heroLine2: "Clear software.",
-    heroText: "I'm Alerson Morales, an independent developer and VYRA founder. I build testable web and backend software, and develop private SaaS and AI-agent projects with clear limits and responsible oversight.",
+    heroText: "I develop Python automations, REST APIs, React/Next.js applications and reliable data workflows. Explore runnable examples, tested source code and honest project case studies. I also build private VYRA software.",
     heroWork: "Explore selected work",
     heroMail: "Contact me",
     heroScroll: "Scroll to explore",
@@ -210,7 +210,7 @@ export const copy = {
     heroLabel: "DESARROLLADOR FULL-STACK · FUNDADOR DE VYRA · URUGUAY",
     heroLine1: "Problemas complejos.",
     heroLine2: "Software claro.",
-    heroText: "Soy Alerson Morales, desarrollador independiente y fundador de VYRA. Creo aplicaciones web y backend verificables y desarrollo proyectos privados de SaaS y agentes de IA con límites y supervisión responsable.",
+    heroText: "Desarrollo automatizaciones con Python, API REST, aplicaciones React/Next.js y flujos de datos fiables. Puedes revisar ejemplos ejecutables, pruebas y proyectos documentados. También desarrollo software privado de VYRA.",
     heroWork: "Explorar proyectos",
     heroMail: "Contactarme",
     heroScroll: "Deslizar para explorar",
@@ -266,7 +266,7 @@ export const copy = {
     expertiseCards: [
       { title: "Web y frontend", desc: "Interfaces accesibles y adaptables, y aplicaciones full-stack.", tags: ["React", "Next.js", "TypeScript", "JavaScript", "HTML / CSS"] },
       { title: "Backend y datos", desc: "Diseño de API, flujos de datos, persistencia e integraciones.", tags: ["Python", "Node.js", "C#", "SQL", "PostgreSQL", "MySQL"] },
-      { title: "Automatización e IA", desc: "Flujos estructurados, integración de modelos y supervisión humana.", tags: ["REST APIs", "FastAPI", "Cloudflare", "Automation", "AI integration"] },
+      { title: "Automatización e IA", desc: "Flujos estructurados, integración de modelos y supervisión humana.", tags: ["REST APIs", "FastAPI", "Cloudflare", "Automatización", "Integración de IA"] },
       { title: "Móvil y metodología", desc: "Desarrollo multiplataforma e iteración disciplinada.", tags: ["React Native", "Expo", "Supabase", "Git", "Testing"] }
     ],
     approachEyebrow: "05 / MÉTODO",

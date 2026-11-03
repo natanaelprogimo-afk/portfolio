@@ -50,7 +50,7 @@ function decorate(html, locale,slug,title,description) {
       +'<meta property="og:description" content="'+escape(description)+'" />\n'
       +'<meta property="og:url" content="'+canonical+'" />\n'
       +'<meta property="og:image" content="'+site+'og-preview.svg" />\n'
-      +'<meta name="twitter:card" content="summary" />\n'
+      +'<meta name="twitter:card" content="summary_large_image" />\n'
       +'<meta name="twitter:title" content="'+escape(title)+'" />\n'
       +'<meta name="twitter:description" content="'+escape(description)+'" />\n</head>');
   }
@@ -64,6 +64,10 @@ function decorate(html, locale,slug,title,description) {
   html=html.replace(/(<meta property="og:locale" content=")[^"]*(")/,'$1'+(locale==="en"?"en_US":"es_UY")+'$2');
   html=html.replace(/(<meta name="twitter:title" content=")[^"]*(")/,'$1'+escape(title)+'$2');
   html=html.replace(/(<meta name="twitter:description" content=")[^"]*(")/,'$1'+escape(description)+'$2');
+  html=html.replace(/(<meta property="og:image:alt" content=")[^"]*(")/,
+    '$1'+escape(locale === "es" ? "Alerson Morales: ingeniería de software, proyectos y ejemplos públicos" : "Alerson Morales: software engineering, selected work and public examples")+'$2');
+  html=html.replace(/(<meta name="twitter:image:alt" content=")[^"]*(")/,
+    '$1'+escape(locale === "es" ? "Portafolio de ingeniería de Alerson Morales" : "Alerson Morales engineering portfolio")+'$2');
   return html;
 }
 

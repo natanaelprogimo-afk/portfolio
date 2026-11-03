@@ -58,7 +58,7 @@ const html=[
 '<a lang="'+(lang==="en"?"es":"en")+'" href="'+base+(lang==="en"?"es":"en")+'/hiring/">'+(lang==="en"?"Español":"English")+'</a></nav></header>',
 '<main id="main" tabindex="-1"><span class="kicker">'+t.label+'</span><h1>'+t.heading+'</h1><p class="lead">'+t.lead+'</p>',
 '<div class="actions"><a href="'+p+'labs/">'+t.demo+' ↗</a><a href="'+base+'resume-'+lang+'.pdf">'+t.resume+' ↗</a>',
-'<a href="mailto:moralesalerson@gmail.com?subject=Remote%20software%20engineering%20opportunity">'+t.email+' ↗</a></div>',
+'<a href="mailto:moralesalerson@gmail.com?subject='+encodeURIComponent(lang==="es"?"Oportunidad laboral remota de programación":"Remote software engineering opportunity")+'">'+t.email+' ↗</a></div>',
 '<div class="grid">',
 card("public",t.verified,list([
 '<a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/backend">'+t.sample1+'</a>',
@@ -67,7 +67,7 @@ card("public",t.verified,list([
 ])),
 card("skills",t.skills,'<p>Python · TypeScript · JavaScript · C# · SQL · React · FastAPI · Node.js · Git</p><p>'+t.languages+'</p><p>'+t.education+'</p>'),
 card("private",t.private,list([t.a,t.b,t.c])),
-card("contact",lang==="es"?"Contacto":"Contact",'<p>'+t.clients+'</p><p><a href="mailto:moralesalerson@gmail.com">moralesalerson@gmail.com</a></p><p><a href="https://github.com/natanaelprogimo-afk">GitHub</a> · <a href="https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/">LinkedIn</a></p>'),
+card("contact",lang==="es"?"Contacto":"Contact",'<p>'+t.clients+'</p><p><a href="mailto:moralesalerson@gmail.com">moralesalerson@gmail.com</a></p><p><a href="https://github.com/natanaelprogimo-afk">GitHub</a> · <a href="https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/">LinkedIn</a> · <a href="https://www.upwork.com/freelancers/~016487e77ebf028c40">Upwork</a></p>'),
 '</div><p class="note"><strong>'+t.limits+':</strong> '+t.foot+'</p>',
 '<div class="actions"><button type="button" onclick="window.print()">'+t.print+'</button></div>',
 '</main><footer>© 2026 Alerson Morales · '+t.foot+'</footer></div></body></html>'
