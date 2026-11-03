@@ -10,6 +10,7 @@ import VerifiedWork from "./components/VerifiedWork";
 import VisitorRoutes from "./components/VisitorRoutes";
 
 const GITHUB = "https://github.com/natanaelprogimo-afk";
+const UPWORK = "https://www.upwork.com/freelancers/~016487e77ebf028c40";
 const LINKEDIN = "https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/";
 const EMAIL = "moralesalerson@gmail.com";
 
@@ -182,6 +183,7 @@ export default function App() {
               </div>
               <div className="hero-meta" aria-label={t.socialLabel}>
                 <a href={GITHUB} target="_blank" rel="noopener noreferrer"><Code2 size={18} aria-hidden="true"/> GitHub <ArrowUpRight size={13} aria-hidden="true"/></a>
+                <a href={UPWORK} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={18} aria-hidden="true"/> Upwork <ArrowUpRight size={13} aria-hidden="true"/></a>
                 <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={18} aria-hidden="true"/> LinkedIn <ArrowUpRight size={13} aria-hidden="true"/></a>
                 <a className="hiring-brief-link" href={localPage("hiring/")} target="_blank" rel="noopener noreferrer">
                   <BriefcaseBusiness size={17} aria-hidden="true"/>{t.hiringBrief}<ArrowUpRight size={13} aria-hidden="true"/>
@@ -357,7 +359,7 @@ export default function App() {
                   <span className="contact-path-label">{t.contactHiringLabel}</span>
                   <h3>{t.contactHiringTitle}</h3>
                   <p>{t.contactHiringDesc}</p>
-                  <a className="button button-dark" href={"mailto:" + EMAIL + "?subject=Remote%20software%20engineering%20opportunity"}>
+                  <a className="button button-dark" href={"mailto:" + EMAIL + "?subject=" + encodeURIComponent(locale === "es" ? "Oportunidad laboral remota de programación" : "Remote software engineering opportunity")}>
                     <Mail size={18} aria-hidden="true"/>{t.contactHiringAction}<ArrowUpRight size={16} aria-hidden="true"/>
                   </a>
                   <a className="contact-secondary" href={localPage("hiring/")}>{t.hiringBrief}<ArrowUpRight size={15} aria-hidden="true"/></a>
@@ -366,10 +368,11 @@ export default function App() {
                   <span className="contact-path-label">{t.contactBusinessLabel}</span>
                   <h3>{t.contactBusinessTitle}</h3>
                   <p>{t.contactBusinessDesc}</p>
-                  <a className="button button-dark" href={"mailto:" + EMAIL + "?subject=VYRA%20business%20software%20inquiry"}>
+                  <a className="button button-dark" href={"mailto:" + EMAIL + "?subject=" + encodeURIComponent(locale === "es" ? "Consulta sobre software empresarial VYRA" : "VYRA business software inquiry")}>
                     <Mail size={18} aria-hidden="true"/>{t.contactBusinessAction}<ArrowUpRight size={16} aria-hidden="true"/>
                   </a>
                   <a className="contact-secondary" href={localPage("trust/")}>{t.contactBuyerAction}<ShieldCheck size={15} aria-hidden="true"/></a>
+                  <a className="contact-secondary" href={UPWORK} target="_blank" rel="noopener noreferrer">{locale === "es" ? "Contratar servicios freelance en Upwork" : "Hire freelance development on Upwork"}<ArrowUpRight size={15} aria-hidden="true"/></a>
                 </article>
               </div>
               <div className="contact-utilities">
