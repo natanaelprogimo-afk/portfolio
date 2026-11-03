@@ -54,7 +54,7 @@ class CsvReconciliationTests(unittest.TestCase):
         self.assertEqual(rows["a"]["title"], "Hello, world")
 
     def test_spreadsheet_formula_is_escaped(self):
-        feed = load_catalog(self.write("formula.csv", "sku,price,title\nA,20,\"=HYPERLINK(\\\"bad\\\")\"\n"))
+        feed = load_catalog(self.write("formula.csv", "sku,price,title\nA,20,=1+1\n"))
         rows = reconcile(feed, feed)
         # The outgoing CSV must not permit leading spreadsheet formulas.
         rows[0]["Feed Title"] = " \t=1+1"
