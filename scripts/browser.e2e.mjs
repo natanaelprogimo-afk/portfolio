@@ -75,7 +75,16 @@ try {
   // V10: direct exercise hashes reveal the active panel, not just the tab selection.
   for(const exercise of ["catalog","retry","metrics"]){
     await page.goto(origin+"/en/labs/#"+exercise,{waitUntil:"networkidle"});
-    await page.waitForFunction((id)=>window.scrollY>180 && document.getElementById("panel-"+id)?.getBoundingClientRect().top < 130,exercise);
+    await page.waitForTimeout(150);
+    const landing=await page.evaluate(id=>({
+      scroll:window.scrollY,
+      panelTop:document.getElementById("panel-"+id)?.getBoundingClientRect().top,
+      viewport:window.innerHeight,
+      maxScroll:document.documentElement.scrollHeight-window.innerHeight
+    }),exercise);
+    assert.ok(landing.scroll>80, "Deep link did not scroll into view: "+exercise+" "+JSON.stringify(landing));
+    assert.ok((landing.panelTop??Infinity)<landing.viewport,
+      "Deep-linked exercise is not visible: "+exercise+" "+JSON.stringify(landing));
     assert.equal(await page.locator("#tab-"+exercise).getAttribute("aria-selected"),"true");
   }
   await page.goto(origin+"/es/",{waitUntil:"networkidle"});
