@@ -103,8 +103,10 @@ try {
     assert.equal(await page.locator(".contact-paths .contact-path").count(),2);
     const links=await page.locator(".contact-paths a[href^='mailto:']").evaluateAll(items=>items.map(a=>a.getAttribute("href")));
     assert.equal(links.length,2);
-    assert.ok(links.some(uri=>uri.includes("Remote%20software%20engineering")));
-    assert.ok(links.some(uri=>uri.includes("VYRA%20business")));
+    assert.ok(links.some(uri=>uri.includes(lang === "es" ? "Oportunidad%20laboral%20remota" : "Remote%20software%20engineering")));
+    assert.ok(links.some(uri=>uri.includes(lang === "es" ? "Consulta%20sobre%20software" : "VYRA%20business")));
+    assert.equal(await page.locator('.hero-meta a[href*="upwork.com/freelancers/"]').count(),1);
+    assert.equal(await page.locator('.contact-path-business a[href*="upwork.com/freelancers/"]').count(),1);
     assert.equal(await page.locator(".contact-path a[href$='/"+lang+"/hiring/']").count(),1);
     assert.equal(await page.locator(".contact-path a[href$='/"+lang+"/trust/']").count(),1);
     assert.equal(await page.locator(".hero-visual .visual-disclaimer").count(),1);
