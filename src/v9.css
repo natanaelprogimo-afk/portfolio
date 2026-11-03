@@ -288,3 +288,17 @@ body{background:var(--bg)}
   :where(.route-card,.project-card,.contact-path,.hero-visual){border:1px solid CanvasText}
   :where(.button,.route-link,.contact-secondary){border:1px solid LinkText}
 }
+
+/* V10: focus-visible menu boundary, compact case hierarchy and readable anchor destinations. */
+#contact{scroll-margin-top:120px}
+.project-grid{align-items:start}
+.project-card{min-height:0}
+.project-card:has(.project-notes){border-color:#8fc393}
+@media(max-width:650px){
+  .project-card{gap:14px;padding:19px}
+  .project-diagram{height:94px;padding:12px}
+  .diagram-footer{font-size:10px}
+  .project-info p{line-height:1.6}
+  .project-actions{gap:6px}
+  .contact-section{padding:50px 0 48px}
+}

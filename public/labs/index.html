@@ -12,7 +12,7 @@
     .eyebrow{color:var(--lime);font-size:11px;font-weight:850;letter-spacing:.12em}.intro{padding:80px 0 40px}.intro h1{font-size:clamp(43px,6vw,76px);line-height:1;letter-spacing:-.07em;max-width:850px;margin:16px 0 23px}.intro h1 span{color:var(--lime)}.intro p{max-width:770px;color:var(--dim);font-size:16px;line-height:1.8}
     .notice{padding:17px 20px;border:1px solid #536848;border-radius:10px;background:#17251a;color:#d9e9d0;font-size:13px;line-height:1.75;margin:10px 0 30px}
     .tabs{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0}.tabs button{border:1px solid var(--line);padding:12px 19px;border-radius:9px;background:#162026;color:#d9e5de;cursor:pointer;font-size:12px;font-weight:800}.tabs button[aria-selected=true]{background:var(--lime);color:#132014;border-color:var(--lime)}
-    .panel{border:1px solid var(--line);border-radius:17px;background:#111a21;padding:32px;margin-bottom:50px}.panel[hidden]{display:none}
+    .panel{scroll-margin-top:22px;border:1px solid var(--line);border-radius:17px;background:#111a21;padding:32px;margin-bottom:50px}.panel[hidden]{display:none}
     .panel h2{font-size:30px;letter-spacing:-.045em;margin:0 0 10px}.panel>p{font-size:14px;color:var(--dim);line-height:1.8;max-width:850px;margin:0 0 30px}
     .fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.field{min-width:0;display:flex;flex-direction:column;gap:8px}.field label{font-size:12px;font-weight:750;color:var(--lime)}
     textarea,input{display:block;width:100%;padding:14px;background:#0b1117;color:#e7f2ec;border:1px solid #34484c;border-radius:9px;min-height:46px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;line-height:1.6}
@@ -165,8 +165,17 @@ SKU-004,10.00</textarea></div>
       error("result-metrics",err);
     }
   });
-  const initialTab = location.hash.slice(1);
-  if (tabs.includes(initialTab)) switchTab(initialTab);
+  // Direct links must both select and reveal their panel, not merely change ARIA state.
+  const activateFromHash = () => {
+    const name=location.hash.slice(1);
+    if(!tabs.includes(name)) return;
+    switchTab(name);
+    requestAnimationFrame(() => document.getElementById("panel-"+name)?.scrollIntoView({
+      block:"start",behavior:"instant"
+    }));
+  };
+  window.addEventListener("hashchange",activateFromHash);
+  activateFromHash();
   document.getElementById("run-catalog").click();
 </script>
 </body></html>

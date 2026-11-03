@@ -199,3 +199,17 @@ test("V9 dual-track contact and conceptual diagram are explicit and accessible",
   assert.match(style,/forced-colors:active/);
   assert.doesNotMatch(app,/LIVE SAAS|100% SECURE|SOC 2 CERTIFIED/);
 });
+
+test("V10 evidence ordering, translations and hash navigation are present",()=>{
+ const app=text("src/App.tsx"), content=text("src/data/copy.ts");
+ const lab=text("public/labs/index.html"), hiring=text("scripts/build-hiring.mjs");
+ assert.match(app,/publicFirstOrder/);
+ assert.match(app,/project: 0|portfolio: 0/);
+ assert.match(app,/workCasesLabel/);
+ assert.match(content,/workCasesLabel: "CASOS"/);
+ assert.match(content,/contactEyebrow: "04 \/ CONTACTO"/);
+ assert.match(lab,/activateFromHash/);
+ assert.match(lab,/scrollIntoView/);
+ assert.match(hiring,/top nav\{gap:7px/);
+ assert.match(app,/originalOverflow/);
+});
