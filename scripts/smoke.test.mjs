@@ -191,7 +191,10 @@ test("V9 dual-track contact and conceptual diagram are explicit and accessible",
   const style=text("src/v9.css");
   assert.match(app,/className="contact-paths"/);
   assert.match(app,/className="contact-path contact-path-business"/);
-  assert.match(app,/VYRA%20business%20software%20inquiry/);
+  assert.match(app,/encodeURIComponent\(locale === "es"/);
+  assert.match(app,/Consulta sobre software empresarial VYRA/);
+  assert.match(app,/VYRA business software inquiry/);
+  assert.match(app,/UPWORK/);
   assert.match(app,/aria-current=\{activeSection === id \?/);
   assert.match(app,/className="visual-disclaimer"/);
   assert.match(app,/className="hero-visual" aria-label=\{t\.visualOverviewLabel\}/);
