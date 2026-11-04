@@ -255,7 +255,7 @@ try {
     assert.equal(blocks.length,5);
     assert.ok(blocks.every(x=>x.left>=-1&&x.right<=x.client+1&&x.scrollHeight<=x.clientHeight+1&&x.footerInside),
       "Project previews overflow at "+width+": "+JSON.stringify(blocks));
-    assert.equal(await page.locator('a.brand[aria-label="Alerson Morales — home"]').count(),1);
+    assert.equal(await page.locator('a.brand[aria-label="AM. Alerson Morales — home"]').count(),1);
     if(width===390)await page.screenshot({path:"qa-evidence/v12-expanded-projects-390.png",fullPage:true});
     if(width===320)await page.screenshot({path:"qa-evidence/v12-expanded-projects-320.png",fullPage:true});
   }
