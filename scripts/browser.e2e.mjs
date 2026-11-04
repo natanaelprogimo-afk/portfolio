@@ -59,11 +59,12 @@ try {
   for (const language of ["en","es"]) {
     await page.goto(origin+"/"+language+"/",{waitUntil:"networkidle"});
     assert.equal(await page.locator("#start-here .route-card").count(),2);
-    assert.equal(await page.locator(".verified-quick-links a").count(),3);
+    assert.equal(await page.locator(".verified-quick-links a").count(),4);
     assert.equal(await page.locator(".project-status-guide").count(),1);
     assert.equal(await page.locator("#start-here .route-card a[href$='/"+language+"/hiring/']").count(),1);
     assert.equal(await page.locator("#start-here .route-card a[href$='/"+language+"/trust/']").count(),1);
-    assert.equal(await page.locator(".hero-cta a[href$='/"+language+"/trust/']").count(),1);
+    assert.equal(await page.locator(".hero-cta a[href='#contact']").count(),1);
+    assert.equal(await page.locator(".hero-meta a").count(),3);
     assert.equal(await page.locator(".hero-cta a[href='#evidence']").count(),1);
     const json = JSON.parse(await page.locator('script[type="application/ld+json"]').first().innerText());
     assert.equal(json["@type"],"Person");
@@ -106,7 +107,8 @@ try {
     assert.ok(links.some(uri=>uri.includes(lang === "es" ? "Oportunidad%20laboral%20remota" : "Remote%20software%20engineering")));
     assert.ok(links.some(uri=>uri.includes(lang === "es" ? "Consulta%20sobre%20software" : "VYRA%20business")));
     assert.equal(await page.locator('.hero-meta a[href*="upwork.com/freelancers/"]').count(),1);
-    assert.equal(await page.locator('.contact-path-business a[href*="upwork.com/freelancers/"]').count(),1);
+    assert.equal(await page.locator('.contact-path-business a[href*="upwork.com/freelancers/"]').count(),0);
+    assert.equal(await page.locator('.contact-path:not(.contact-path-business) a[href*="upwork.com/freelancers/"]').count(),1);
     assert.equal(await page.locator(".contact-path a[href$='/"+lang+"/hiring/']").count(),1);
     assert.equal(await page.locator(".contact-path a[href$='/"+lang+"/trust/']").count(),1);
     assert.equal(await page.locator(".hero-visual .visual-disclaimer").count(),1);
@@ -122,6 +124,11 @@ try {
   assert.ok(await page.evaluate(()=>scrollY > 100),"Deep link to public proof should scroll");
   assert.equal(await page.locator("#evidence a[href*='examples/backend']").count(),1);
   assert.equal(await page.locator("#evidence a[href*='examples/sql']").count(),1);
+  assert.equal(await page.locator("#evidence a[href*='examples/csv']").count(),1);
+  assert.ok((await page.locator(".hero-terminal").innerText()).includes("mismatch"));
+  assert.equal(await page.locator(".project-grid .project-card").count(),3);
+  await page.locator(".project-show-more").click();
+  assert.equal(await page.locator(".project-grid .project-card").count(),5);
 
   // Editable data and local CSV export are demonstrably functional.
   await page.goto(origin+"/en/labs/#catalog",{waitUntil:"networkidle"});
@@ -182,9 +189,9 @@ try {
   await page.goto(origin+"/en/",{waitUntil:"networkidle"});
   await page.getByRole("button",{name:"Open navigation"}).click();
   assert.equal(await page.getByRole("button",{name:"Close navigation"}).getAttribute("aria-expanded"),"true");
-  assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#start-here");
-  await page.keyboard.press("Tab");
   assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#evidence");
+  await page.keyboard.press("Tab");
+  assert.equal(await page.evaluate(()=>document.activeElement?.getAttribute("href")),"#about");
   for(let k=0;k<13;k++){
     await page.keyboard.press("Tab");
     assert.ok(await page.evaluate(()=>document.querySelector(".site-header")?.contains(document.activeElement)),
@@ -225,6 +232,40 @@ try {
   });
   assert.ok(social.every(x=>x.x>=0 && x.right<=321),"320px hero links must fit: "+JSON.stringify(social));
   await page.screenshot({path:"qa-evidence/mobile-320.png",fullPage:true});
+  // V12: all project evidence graphics must reflow without clipped inner rows.
+  for(const width of [320,360,390,768]){
+    await page.setViewportSize({width,height:844});
+    await page.goto(origin+"/en/#work",{waitUntil:"networkidle"});
+    if(width<=390){
+      assert.equal(await page.locator(".hero-visual").isHidden(),true);
+      const proofPosition=await page.locator("#evidence").evaluate(node=>node.getBoundingClientRect().top+scrollY);
+      assert.ok(proofPosition<1150,"Public proof should appear near the first mobile screen: "+width+" "+proofPosition);
+    }
+    // Same-document hash navigation retains React state: do not close an
+    // already expanded list when checking successive viewport widths.
+    const expand=page.locator(".project-show-more");
+    if((await expand.getAttribute("aria-expanded")) !== "true")await expand.click();
+    await page.locator(".project-grid .project-card").nth(4).waitFor({state:"visible"});
+    const blocks=await page.locator(".project-proof").evaluateAll(nodes=>nodes.map(node=>{
+      const bounds=node.getBoundingClientRect();
+      const footnote=node.querySelector(".proof-footnote");
+      const footRect=footnote?.getBoundingClientRect();
+      return {id:node.closest(".project-card")?.querySelector("h3")?.textContent,
+        left:bounds.left,right:bounds.right,client:document.documentElement.clientWidth,
+        scrollHeight:node.scrollHeight,clientHeight:node.clientHeight,
+        footerInside:!footRect || (footRect.bottom <= bounds.bottom+1 && footRect.top>=bounds.top-1)};
+    }));
+    const totalWidth=await page.evaluate(()=>document.documentElement.scrollWidth);
+    assert.ok(totalWidth<=width+1,"Unexpected page overflow at "+width+": "+totalWidth);
+    assert.equal(blocks.length,5);
+    assert.ok(blocks.every(x=>x.left>=-1&&x.right<=x.client+1&&x.scrollHeight<=x.clientHeight+1&&x.footerInside),
+      "Project previews overflow at "+width+": "+JSON.stringify(blocks));
+    assert.equal(await page.locator('a.brand[aria-label="AM. Alerson Morales — home"]').count(),1);
+    if(width===390)await page.screenshot({path:"qa-evidence/v12-expanded-projects-390.png",fullPage:true});
+    if(width===320)await page.screenshot({path:"qa-evidence/v12-expanded-projects-320.png",fullPage:true});
+  }
+  await page.setViewportSize({width:1366,height:900});
+  await page.goto(origin+"/en/",{waitUntil:"networkidle"});
   await page.setViewportSize({width:1366,height:900});
   await page.goto(origin+"/en/",{waitUntil:"networkidle"});
   await page.screenshot({path:"qa-evidence/desktop-1366.png",fullPage:true});

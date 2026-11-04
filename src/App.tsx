@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import {
-  ArrowDown, ArrowRight, ArrowUpRight, Check, ChevronDown, Code2,
-  Database, ExternalLink, Globe2, Layers3, BriefcaseBusiness, Mail,
-  Menu, ShieldCheck, Workflow, X
+  ArrowDown, ArrowUpRight, ChevronDown, Code2,
+  Database, Workflow, Layers3, ExternalLink, Globe2, BriefcaseBusiness, Mail,
+  Menu, ShieldCheck, X
 } from "lucide-react";
 import { projects, type Locale, type ProjectGroup } from "./data/projects";
 import { copy } from "./data/copy";
 import VerifiedWork from "./components/VerifiedWork";
 import VisitorRoutes from "./components/VisitorRoutes";
+import ProjectVisual from "./components/ProjectVisual";
 
 const GITHUB = "https://github.com/natanaelprogimo-afk";
 const UPWORK = "https://www.upwork.com/freelancers/~016487e77ebf028c40";
@@ -16,7 +17,7 @@ const EMAIL = "moralesalerson@gmail.com";
 
 
 
-const sectionIds = ["start-here", "evidence", "about", "work", "expertise", "contact"] as const;
+const sectionIds = ["evidence", "about", "work", "contact"] as const;
 const groupIds: Array<"all" | ProjectGroup> = ["all", "systems", "product", "client"];
 const iconList = [Code2, Database, Workflow, Layers3] as const;
 
@@ -31,6 +32,7 @@ export default function App() {
   const firstNavRef = useRef<HTMLAnchorElement | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
   const [filter, setFilter] = useState<"all" | ProjectGroup>("all");
+  const [showAllProjects, setShowAllProjects] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [copyState, setCopyState] = useState<"idle"|"success"|"failure">("idle");
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -119,9 +121,12 @@ export default function App() {
     portfolio: 0, "client-websites": 1, "catalog-integrity": 2,
     "ai-automation": 3, "vyra-fitness": 4
   };
-  const visibleProjects = projects
+  const matchingProjects = projects
     .filter((project) => filter === "all" || project.group === filter)
     .sort((a,b) => publicFirstOrder[a.id] - publicFirstOrder[b.id]);
+  const visibleProjects = filter === "all" && !showAllProjects
+    ? matchingProjects.slice(0, 3)
+    : matchingProjects;
   const displayTechnology = (technology: string) =>
     locale === "es" ? ({
       "Web development": "Desarrollo web",
@@ -137,7 +142,7 @@ export default function App() {
 
       <header className="site-header">
         <div className="container header-inner">
-          <a className="brand" href="#top">
+          <a className="brand" href="#top" aria-label={locale === "es" ? "AM. Alerson Morales — inicio" : "AM. Alerson Morales — home"}>
             <span className="brand-mark">AM<span>.</span></span>
             <span className="brand-name">ALERSON<br />MORALES</span>
           </a>
@@ -176,18 +181,15 @@ export default function App() {
             <div className="hero-copy">
               <div className="eyebrow"><span className="tiny-square" /> {t.heroLabel}</div>
               <h1 id="hero-title">{t.heroLine1}<br /><em>{t.heroLine2}</em></h1>
+              <p className="hero-focus">{t.heroFocus}</p>
               <p className="hero-description">{t.heroText}</p>
               <div className="hero-cta" aria-label={t.audienceActions}>
                 <a className="button button-primary" href="#evidence">{t.heroEvidence}<ArrowUpRight size={18} aria-hidden="true"/></a>
-                <a className="button button-ghost" href={localPage("trust/")}>{t.heroBuyerAction}<ShieldCheck size={18} aria-hidden="true"/></a>
+                <a className="button button-ghost" href="#contact">{t.heroHireAction}<ArrowUpRight size={18} aria-hidden="true"/></a>
               </div>
               <div className="hero-meta" aria-label={t.socialLabel}>
                 <a href={GITHUB} target="_blank" rel="noopener noreferrer"><Code2 size={18} aria-hidden="true"/> GitHub <ArrowUpRight size={13} aria-hidden="true"/></a>
                 <a href={UPWORK} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={18} aria-hidden="true"/> Upwork <ArrowUpRight size={13} aria-hidden="true"/></a>
-                <a href={LINKEDIN} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={18} aria-hidden="true"/> LinkedIn <ArrowUpRight size={13} aria-hidden="true"/></a>
-                <a className="hiring-brief-link" href={localPage("hiring/")} target="_blank" rel="noopener noreferrer">
-                  <BriefcaseBusiness size={17} aria-hidden="true"/>{t.hiringBrief}<ArrowUpRight size={13} aria-hidden="true"/>
-                </a>
                 <a href={import.meta.env.BASE_URL + (locale === "en" ? "resume-en.pdf" : "resume-es.pdf")} download>{locale === "en" ? "Résumé PDF" : "CV PDF"} <ArrowUpRight size={13} /></a>
               </div>
             </div>
@@ -195,23 +197,21 @@ export default function App() {
             <aside className="hero-visual" aria-label={t.visualOverviewLabel}>
               <div className="visual-top"><span className="visual-dots"><i /><i /><i /></span><span>{t.visualBrand}</span><span className="visual-plus">+</span></div>
               <div className="visual-body">
-                <span className="visual-kicker">{t.visualLabel}</span>
-                <h2>{t.visualTitle}</h2>
-                <p>{t.visualCaption}</p>
-                <div className="architecture">
-                  {t.visualLayers.map((name, index) => {
-                    const Icon = iconList[index];
-                    return (
-                      <div className="architecture-node" key={name}>
-                        <span className="architecture-icon"><Icon size={20} strokeWidth={1.7} /></span>
-                        <div><small>0{index + 1} / {t.visualLayer}</small><strong>{name}</strong></div>
-                        <Check size={16} className="node-check" aria-hidden="true" />
-                      </div>
-                    );
-                  })}
+                <span className="visual-kicker">{locale === "es" ? "EJEMPLO EJECUTABLE · PYTHON" : "RUNNABLE EXAMPLE · PYTHON"}</span>
+                <h2>{locale === "es" ? "Conciliación CSV verificable" : "Verifiable CSV reconciliation"}</h2>
+                <p>{locale === "es" ? "Datos ficticios incluidos en el repositorio. Ejecución local con Python y pruebas automáticas." : "Synthetic fixtures in the public repository. Local Python execution and automated tests."}</p>
+                <div className="hero-terminal" role="group" aria-label={locale === "es" ? "Ejemplo reproducible de salida del programa Python" : "Reproducible output of the Python program"}>
+                  <div className="hero-terminal-command"><span aria-hidden="true">$</span> python reconcile.py --feed feed.csv --observed observed.csv --output report.csv</div>
+                  <div className="hero-terminal-results">
+                    <span><strong>01</strong> match</span>
+                    <span><strong>01</strong> mismatch</span>
+                    <span><strong>01</strong> missing</span>
+                    <span><strong>01</strong> extra</span>
+                  </div>
+                  <div className="hero-terminal-export"><span aria-hidden="true">✓</span> report.csv <span>{locale === "es" ? "generado localmente" : "generated locally"}</span></div>
                 </div>
-                <div className="visual-foot"><span><span className="live-dot" /> {t.visualFoot}</span><span>2026</span></div>
-                <p className="visual-disclaimer">{t.visualDisclaimer}</p>
+                <a className="hero-proof-link" href={GITHUB + "/portfolio/tree/main/examples/csv"} target="_blank" rel="noopener noreferrer">{locale === "es" ? "Ver código, datos y pruebas" : "View source, fixtures and tests"}<ArrowUpRight size={16} aria-hidden="true" /></a>
+                <p className="visual-disclaimer">{locale === "es" ? "Resultado de muestra reproducible · No es una ejecución de un cliente ni una captura de una aplicación privada." : "Reproducible sample output · Not customer work or a screenshot of a private product."}</p>
               </div>
             </aside>
           </div>
@@ -221,8 +221,8 @@ export default function App() {
           </div>
         </section>
 
-        <VisitorRoutes locale={locale}/>
         <VerifiedWork locale={locale}/>
+        <VisitorRoutes locale={locale}/>
 
         <div className="proof-strip">
           <div className="container proof-grid">
@@ -272,26 +272,20 @@ export default function App() {
             </div>
             <div className="project-filters" role="group" aria-label={t.filterLabel}>
               {groupIds.map((group, index) => (
-                <button type="button" key={group} onClick={() => { setFilter(group); setExpanded(null); }}
+                <button type="button" key={group} onClick={() => { setFilter(group); setShowAllProjects(false); setExpanded(null); }}
                   className={filter === group ? "filter active" : "filter"} aria-pressed={filter === group}>
                   {t.filters[index]}
                 </button>
               ))}
             </div>
-            <div className="project-grid">
+            <div className="project-grid" id="project-list">
               {visibleProjects.map((project, index) => (
                 <article className="project-card" key={project.id}>
                   <div className="project-card-top">
                     <span className="project-index">{String(index+1).padStart(2,"0")} / {String(visibleProjects.length).padStart(2,"0")}</span>
                     <span className="project-status"><span className="status-ring" />{project.status[locale]}</span>
                   </div>
-                  <div className="project-diagram" role="img" aria-label={locale === "en" ? "Conceptual architecture diagram, not a product screenshot" : "Diagrama conceptual de arquitectura; no es captura del producto"}>
-                    <span className="diagram-caption">{locale === "en" ? "ARCHITECTURE CONCEPT / NOT A SCREENSHOT" : "CONCEPTO ARQUITECTÓNICO / NO ES CAPTURA"}</span>
-                    <div className="diagram-flow">
-                      <span>{displayTechnology(project.technologies[0])}</span><ArrowRight size={15} aria-hidden="true"/><span>{displayTechnology(project.technologies[1] ?? "UI")}</span><ArrowRight size={15} aria-hidden="true"/><span>{displayTechnology(project.technologies[2] ?? (locale === "es" ? "Datos" : "Data"))}</span>
-                    </div>
-                    <div className="diagram-footer"><span>{project.id.toUpperCase()}</span><Layers3 size={17}/></div>
-                  </div>
+                  <ProjectVisual id={project.id} locale={locale} />
                   <div className="project-info">
                     <span className="project-category">{project.category[locale]}</span>
                     <h3>{project.name}</h3>
@@ -325,6 +319,12 @@ export default function App() {
                 </article>
               ))}
             </div>
+            {filter === "all" && (
+              <button type="button" className="project-show-more" onClick={() => { setShowAllProjects(!showAllProjects); setExpanded(null); }}
+                aria-expanded={showAllProjects} aria-controls="project-list">
+                {showAllProjects ? t.showFewerProjects : t.showMoreProjects}<ArrowDown size={17} aria-hidden="true" />
+              </button>
+            )}
           </div>
         </section>
 
@@ -363,6 +363,7 @@ export default function App() {
                     <Mail size={18} aria-hidden="true"/>{t.contactHiringAction}<ArrowUpRight size={16} aria-hidden="true"/>
                   </a>
                   <a className="contact-secondary" href={localPage("hiring/")}>{t.hiringBrief}<ArrowUpRight size={15} aria-hidden="true"/></a>
+                  <a className="contact-secondary" href={UPWORK} target="_blank" rel="noopener noreferrer">{locale === "es" ? "Contratar servicios freelance en Upwork" : "Hire freelance development on Upwork"}<ArrowUpRight size={15} aria-hidden="true"/></a>
                 </article>
                 <article className="contact-path contact-path-business">
                   <span className="contact-path-label">{t.contactBusinessLabel}</span>
@@ -372,7 +373,6 @@ export default function App() {
                     <Mail size={18} aria-hidden="true"/>{t.contactBusinessAction}<ArrowUpRight size={16} aria-hidden="true"/>
                   </a>
                   <a className="contact-secondary" href={localPage("trust/")}>{t.contactBuyerAction}<ShieldCheck size={15} aria-hidden="true"/></a>
-                  <a className="contact-secondary" href={UPWORK} target="_blank" rel="noopener noreferrer">{locale === "es" ? "Contratar servicios freelance en Upwork" : "Hire freelance development on Upwork"}<ArrowUpRight size={15} aria-hidden="true"/></a>
                 </article>
               </div>
               <div className="contact-utilities">

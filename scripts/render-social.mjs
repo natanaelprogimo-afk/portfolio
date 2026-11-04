@@ -3,7 +3,7 @@
  * Pure enhancement: when unsupported, all metadata continues to point to SVG.
  * No network access or third-party dependencies are required.
  */
-import { readFileSync, writeFileSync, readdirSync, statSync, existsSync, unlinkSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync, existsSync, unlinkSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { resolve, join } from "node:path";
 import { pathToFileURL } from "node:url";

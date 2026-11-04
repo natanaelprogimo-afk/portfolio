@@ -129,7 +129,7 @@ for(const lang of ["en","es"]){
  '<link rel="canonical" href="'+canonical+'"><link rel="alternate" hreflang="en" href="'+host+'en/trust/"><link rel="alternate" hreflang="es" href="'+host+'es/trust/">',
  '<link rel="alternate" hreflang="x-default" href="'+host+'en/trust/"><meta property="og:type" content="website"><meta property="og:title" content="'+esc(c.title)+'">',
  '<meta property="og:description" content="'+esc(c.desc)+'"><meta property="og:url" content="'+canonical+'">',
- '<meta property="og:image" content="'+host+'og-preview.svg"><meta name="twitter:card" content="summary_large_image">',
+ '<meta property="og:image" content="'+host+'og-preview.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="'+esc(lang==="es"?"Centro de confianza VYRA":"VYRA trust center")+'"><meta name="twitter:image" content="'+host+'og-preview.svg"><meta name="twitter:card" content="summary_large_image">',
  '<link rel="icon" href="'+base+'favicon.svg" type="image/svg+xml"><style>'+css+tocStyles+'</style></head><body>',
  '<a class="skip" href="#main">'+(lang==="es"?"Saltar al contenido":"Skip to content")+'</a>',
  '<header><div class="wrap"><a class="brand" href="'+home+'">VYRA<span>.</span></a><nav aria-label="'+(lang==="es"?"Navegación":"Navigation")+'">',

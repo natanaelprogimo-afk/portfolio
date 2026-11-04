@@ -302,3 +302,131 @@ body{background:var(--bg)}
   .project-actions{gap:6px}
   .contact-section{padding:50px 0 48px}
 }
+
+
+/* V12: evidence-first polish using the existing design tokens. Actual product
+   screenshots are intentionally absent where the owner has not approved them. */
+:root{
+  --content-reading:68ch;
+  --v12-radius:16px;
+  --v12-border:#496759;
+}
+.hero-layout{padding:60px 0 48px;align-items:center;gap:clamp(28px,4vw,56px)}
+.hero h1{margin-top:19px}
+.hero-description{max-width:var(--content-reading);margin-top:14px;font-size:clamp(16px,1.3vw,18px);line-height:1.7}
+.hero-focus{margin:21px 0 0;color:#e2f6c1;font-size:clamp(13px,1.15vw,16px);font-weight:790;line-height:1.6;letter-spacing:.006em}
+.hero-meta{gap:8px 11px;margin-top:24px}
+.hero-meta a{min-height:44px;padding:8px 12px}
+.hero-bottom{padding-bottom:14px}
+.hero-visual{min-width:0}
+.hero-terminal{margin-top:22px;border:1px solid #537365;border-radius:12px;overflow:hidden;background:#091a1d;box-shadow:inset 0 1px 0 rgba(255,255,255,.045)}
+.hero-terminal-command{padding:14px 16px;font:600 11.5px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;color:#e1f3e6;overflow-wrap:anywhere;border-bottom:1px solid #2e4c40}
+.hero-terminal-command>span{color:#c9f8a5;padding-right:6px}
+.hero-terminal-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#365345}
+.hero-terminal-results>span{display:flex;align-items:center;gap:8px;background:#102522;padding:14px 14px;color:#d6e9d8;font:650 12px/1.4 ui-monospace,Consolas,monospace}
+.hero-terminal-results strong{color:#d7fba7;font-size:20px;letter-spacing:-.04em}
+.hero-terminal-export{padding:13px 16px;color:#dcf5c4;font-size:12px;border-top:1px solid #2e4c40}
+.hero-terminal-export>span:first-child{color:#b8ec9b;margin-right:7px}
+.hero-terminal-export>span:last-child{color:#b5cfc0}
+.hero-proof-link{display:inline-flex;align-items:center;gap:9px;min-height:44px;margin-top:10px;color:#e1fba8;text-decoration:underline;text-underline-offset:4px;font-size:13px;font-weight:780}
+.hero-proof-link:hover{color:#f4ffe4}
+.visual-disclaimer{margin-top:9px!important;font-size:12px!important;line-height:1.55!important}
+.section{padding:74px 0}
+.visitor-routes{padding:57px 0 60px}
+.verified-section{padding:64px 0}
+.verified-card{padding:22px}
+.verified-card h3{margin-top:17px}
+.verified-sample{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:17px 0 0}
+.verified-sample span{display:flex;justify-content:space-between;gap:6px;border:1px solid #47664e;border-radius:7px;padding:8px 10px;background:#142b25;color:#e1efdd;font:650 12px/1.4 ui-monospace,Consolas,monospace}
+.verified-sample b{color:#c6f6a1;font-size:14px}
+.verified-card--python-csv{border-color:#81ac79}
+.verified-kind,.project-category,.project-status,.tag-list span{font-size:12px}
+.project-proof{display:flex;flex-direction:column;justify-content:space-between;gap:13px;min-height:174px;padding:16px;border:1px solid #476354;border-radius:13px;background:linear-gradient(140deg,#142926,#0d2021 75%);color:#edf5e9;overflow-wrap:anywhere;min-width:0}
+.project-proof-head{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#d6edbb;font:800 11px/1.4 ui-monospace,Consolas,monospace;letter-spacing:.025em}
+.proof-light{height:8px;width:8px;flex:none;background:#b5f3a0;border-radius:50%;box-shadow:0 0 0 4px rgba(181,243,160,.08)}
+.proof-browser-title{display:flex;align-items:center;gap:11px;color:#ecf9dc;font-size:17px;font-weight:880}
+.proof-browser-title span{color:#d6fa96}
+.proof-browser-title small{font-size:12px;color:#cbd8cc;font-weight:620;letter-spacing:0}
+.project-proof--portfolio>strong{font-size:20px;letter-spacing:-.05em;line-height:1.12}
+.project-proof--portfolio>strong em{display:inline;color:#d0f7a3;font-style:italic;font-family:var(--v9-serif);font-weight:530}
+.proof-footnote{display:block;color:#b9d0c2;font-size:12px;line-height:1.45}
+.project-proof--clients{background:linear-gradient(130deg,#1d302c,#1c2630)}
+.proof-client-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.proof-client-grid>div{display:flex;flex-direction:column;align-items:flex-start;gap:5px;border:1px solid #56715f;border-radius:9px;padding:12px 10px;min-width:0;background:#1d3630}
+.proof-client-grid svg{color:#cfeab5}
+.proof-client-grid strong{font-size:13px;line-height:1.28}
+.proof-client-grid small{font-size:12px;color:#c3d5ca}
+.project-proof--catalog{background:linear-gradient(130deg,#1b322d,#0e242a)}
+.proof-data-rows{display:grid;gap:5px}
+.proof-data-rows>div{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid #446358;padding:6px 3px;font-size:13px}
+.proof-data-rows code{font-size:12.5px}
+.proof-pill{padding:3px 7px;border-radius:5px;border:1px solid #719081;color:#d7e7df;font-size:10.5px;font-weight:850;letter-spacing:.03em}
+.proof-pill--match{color:#d6fcac;border-color:#a0bc80}
+.proof-pill--mismatch{color:#ffe1a5;border-color:#baa37f}
+.project-proof--automation{background:linear-gradient(125deg,#1e2e3c,#101f29)}
+.proof-flow{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.proof-flow>span{border:1px solid #779d99;border-radius:7px;padding:11px 8px;color:#e3f4e5;font-size:12px;font-weight:770}
+.proof-flow svg{color:#b8dfaf}
+.project-proof--fitness{background:linear-gradient(150deg,#18352e,#13252b)}
+.proof-fitness-modules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.proof-fitness-modules span{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;border:1px solid #5d7961;border-radius:9px;padding:13px 6px;font-size:11.5px;font-weight:720;color:#e2f0de;min-width:0}
+.proof-fitness-modules svg{color:#d4f4ac}
+.project-show-more{display:flex;align-items:center;justify-content:center;gap:11px;margin:22px auto 0;padding:13px 20px;min-height:48px;background:#d8f4a5;border:1px solid #d8f4a5;border-radius:10px;color:#15281b;font-size:14px;font-weight:830;cursor:pointer}
+.project-show-more:hover{background:#efffd4}
+.project-show-more[aria-expanded="true"] svg{transform:rotate(180deg)}
+.project-card{gap:17px}
+.project-info p{font-size:14px}
+.project-actions{flex-wrap:wrap}
+.contact-path .contact-secondary{font-size:13px;line-height:1.5}
+@media(max-width:900px){
+  .hero-layout{padding:52px 0 28px}
+  .hero-visual{max-width:630px}
+  .project-proof{min-height:168px}
+}
+@media(max-width:650px){
+  .brand-name{display:block;font-size:9px;line-height:1.1}
+  .brand-mark{width:40px;height:40px}
+  .header-inner{gap:8px}
+  .header-actions{gap:6px}
+  .hero-layout{padding:37px 0 17px;gap:24px}
+  .hero h1{font-size:clamp(42px,10.7vw,63px);margin-top:16px}
+  .hero-focus{font-size:13.5px;margin-top:18px}
+  .hero-description{font-size:15.5px;margin-top:12px;line-height:1.6}
+  .hero-cta{margin-top:20px}
+  .hero-meta{margin-top:16px;gap:7px}
+  .hero-meta a{flex:1 1 auto;justify-content:center;padding:8px 10px}
+  /* On small screens the public proof cards arrive sooner; the runnable Python
+     code remains available directly in the following evidence section. */
+  .hero-visual{display:none}
+  .hero-bottom{padding-top:2px;padding-bottom:7px}
+  .visual-body{padding:19px}
+  .visual-body h2{font-size:25px}
+  .hero-terminal{margin-top:15px}
+  .hero-terminal-command{padding:11px 12px;font-size:11.5px}
+  .hero-terminal-results>span{padding:9px 10px}
+  .hero-terminal-export{padding:11px}
+  .visitor-routes,.verified-section{padding:48px 0}
+  .verified-card{padding:19px}
+  .section{padding:56px 0}
+  .project-proof{min-height:0;gap:12px;padding:14px}
+  .proof-client-grid{gap:7px}
+  .proof-flow{justify-content:flex-start}
+  .proof-flow>span{padding:9px 8px}
+  .project-card{gap:14px}
+  .project-status-guide{padding:12px}
+  .contact-section{padding:52px 0}
+}
+@media(max-width:360px){
+  .brand-name{font-size:8px;letter-spacing:.01em}
+  .hero h1{font-size:43px}
+  .hero-meta a{font-size:12px}
+  .proof-fitness-modules{grid-template-columns:1fr}
+  .proof-fitness-modules span{flex-direction:row;justify-content:flex-start;padding:8px 11px}
+  .proof-client-grid{grid-template-columns:1fr}
+  .proof-client-grid>div{display:grid;grid-template-columns:25px 1fr;align-items:center;padding:8px}
+  .proof-client-grid>div small{grid-column:2}
+  .project-proof-head{font-size:10.5px}
+}
+@media(prefers-reduced-motion:reduce){
+  .project-show-more svg{transition:none}
+}
