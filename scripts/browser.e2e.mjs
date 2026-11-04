@@ -236,7 +236,10 @@ try {
   for(const width of [320,360,390,768]){
     await page.setViewportSize({width,height:844});
     await page.goto(origin+"/en/#work",{waitUntil:"networkidle"});
-    await page.locator(".project-show-more").click();
+    // Same-document hash navigation retains React state: do not close an
+    // already expanded list when checking successive viewport widths.
+    const expand=page.locator(".project-show-more");
+    if((await expand.getAttribute("aria-expanded")) !== "true")await expand.click();
     await page.locator(".project-grid .project-card").nth(4).waitFor({state:"visible"});
     const blocks=await page.locator(".project-proof").evaluateAll(nodes=>nodes.map(node=>{
       const bounds=node.getBoundingClientRect();
