@@ -63,4 +63,17 @@ for(const lang of ["en","es"]){
   assert.equal((data.match(/hreflang="es"/g)||[]).length,1,"Duplicate Spanish hreflang in "+lang);
   assert.equal((data.match(/rel="canonical"/g)||[]).length,1,"Duplicate canonical link in "+lang);
 }
+// V12: every public language and evidence route must reference the built
+// social asset. SVG is a safe fallback only when rasterization is unavailable.
+const socialAsset=og?"og-preview.png":"og-preview.svg";
+for(const lang of ["en","es"]){
+  for(const page of ["", "labs/", "cases/", "hiring/", "trust/"]){
+    const html=readFileSync(join(root,lang,page,"index.html"),"utf8");
+    assert.ok(html.includes("og-preview."+socialAsset.split(".").at(-1)), "Social preview path is not consistent: "+lang+"/"+page);
+    assert.ok(html.includes('property="og:image:width" content="1200"'),"Missing social width: "+lang+"/"+page);
+    assert.ok(html.includes('property="og:image:height" content="630"'),"Missing social height: "+lang+"/"+page);
+    assert.ok(html.includes('property="og:image:alt"'),"Missing alternative social text: "+lang+"/"+page);
+    assert.ok(html.includes('name="twitter:card" content="summary_large_image"'),"Missing large Twitter card: "+lang+"/"+page);
+  }
+}
 console.log(JSON.stringify({result:"PASS",pages:pages.length,localLinks:tracked.length,jsBytes:js,cssBytes:css,socialImageBytes:og?.size??null},null,2));
