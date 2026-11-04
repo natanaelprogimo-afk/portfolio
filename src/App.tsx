@@ -200,7 +200,7 @@ export default function App() {
                 <span className="visual-kicker">{locale === "es" ? "EJEMPLO EJECUTABLE · PYTHON" : "RUNNABLE EXAMPLE · PYTHON"}</span>
                 <h2>{locale === "es" ? "Conciliación CSV verificable" : "Verifiable CSV reconciliation"}</h2>
                 <p>{locale === "es" ? "Datos ficticios incluidos en el repositorio. Ejecución local con Python y pruebas automáticas." : "Synthetic fixtures in the public repository. Local Python execution and automated tests."}</p>
-                <div className="hero-terminal" aria-label={locale === "es" ? "Ejemplo reproducible de salida del programa Python" : "Reproducible output of the Python program"}>
+                <div className="hero-terminal" role="group" aria-label={locale === "es" ? "Ejemplo reproducible de salida del programa Python" : "Reproducible output of the Python program"}>
                   <div className="hero-terminal-command"><span aria-hidden="true">$</span> python reconcile.py --feed feed.csv --observed observed.csv --output report.csv</div>
                   <div className="hero-terminal-results">
                     <span><strong>01</strong> match</span>
