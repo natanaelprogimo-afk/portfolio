@@ -50,7 +50,7 @@ const html=[
 '<link rel="alternate" hreflang="x-default" href="'+site+'en/hiring/">',
 '<meta property="og:type" content="website"><meta property="og:title" content="'+escape(t.title)+'">',
 '<meta property="og:description" content="'+escape(t.description)+'"><meta property="og:url" content="'+canonical+'">',
-'<meta property="og:image" content="'+site+'og-preview.svg"><meta name="twitter:card" content="summary_large_image">',
+'<meta property="og:image" content="'+site+'og-preview.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="'+escape(lang==="es"?"Resumen profesional de Alerson Morales":"Alerson Morales recruiter brief")+'"><meta name="twitter:image" content="'+site+'og-preview.svg"><meta name="twitter:card" content="summary_large_image">',
 '<link rel="icon" href="'+base+'favicon.svg" type="image/svg+xml"><style>'+css+'</style></head><body>',
 '<a class="skip" href="#main">'+(lang==="en"?"Skip to content":"Saltar al contenido")+'</a>',
 '<div class="wrap"><header class="top"><a class="brand" href="'+p+'">AM. / ALERSON MORALES</a>',
