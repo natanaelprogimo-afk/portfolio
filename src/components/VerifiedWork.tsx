@@ -34,13 +34,13 @@ const evidence: Evidence[] = [
     }
   },
   {
-    id: "sql-analysis", icon: Database,
-    link: "https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/sql",
-    linkType: "source", technologies: "SQL · SQLite · Query plans",
-    title: { en: "Review SQL engineering", es: "Revisa ingeniería SQL" },
+    id: "python-csv", icon: Database,
+    link: "https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/csv",
+    linkType: "source", technologies: "Python · CSV · unittest",
+    title: { en: "Reconcile CSVs in Python", es: "Concilia CSV con Python" },
     description: {
-      en: "Inspect reproducible schema, indexes, window functions, query plans and test cases.",
-      es: "Consulta esquemas, índices, funciones ventana, planes de consulta y pruebas reproducibles."
+      en: "Inspect an independent Python CLI that validates CSV inputs and exports reproducible match, mismatch, missing and extra results.",
+      es: "Examina una herramienta Python que valida archivos CSV y exporta resultados reproducibles: coincidencias, diferencias, faltantes y extras."
     }
   }
 ];
@@ -64,13 +64,18 @@ export default function VerifiedWork({ locale }: { locale: Locale }) {
               ? import.meta.env.BASE_URL + locale + "/" + item.link
               : item.link;
             return (
-              <article className="verified-card" key={item.id}>
+              <article className={"verified-card verified-card--" + item.id} key={item.id}>
                 <div className="verified-card-top">
                   <span className="verified-icon"><Icon size={20} strokeWidth={1.7} aria-hidden="true"/></span>
                   <span className="verified-kind">{item.linkType==="demo" ? t.evidenceDemo : t.evidenceSource}</span>
                 </div>
                 <h3>{item.title[locale]}</h3>
                 <p>{item.description[locale]}</p>
+                {item.id === "python-csv" && (
+                  <div className="verified-sample" aria-label={locale === "es" ? "Resultados de las muestras ficticias" : "Synthetic sample outcomes"}>
+                    <span>match <b>1</b></span><span>mismatch <b>1</b></span><span>missing <b>1</b></span><span>extra <b>1</b></span>
+                  </div>
+                )}
                 <span className="verified-tech">{locale === "es" ? item.technologies.replaceAll("Node.js tests", "pruebas Node.js").replaceAll("Unit tests", "pruebas unitarias").replaceAll("Query plans", "planes de consulta") : item.technologies}</span>
                 <a href={destination} target="_blank" rel="noopener noreferrer">
                   {item.linkType==="demo" ? t.evidenceTry : t.evidenceInspect}
@@ -91,6 +96,9 @@ export default function VerifiedWork({ locale }: { locale: Locale }) {
               {example[locale]} <ArrowUpRight size={15} aria-hidden="true"/>
             </a>
           ))}
+          <a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/sql" target="_blank" rel="noopener noreferrer">
+            {locale === "es" ? "SQL: consultas y pruebas" : "SQL: queries and tests"} <ArrowUpRight size={15} aria-hidden="true" />
+          </a>
         </nav>
         <p className="verified-disclaimer">{t.evidenceDisclaimer}</p>
       </div>
