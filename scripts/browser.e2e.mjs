@@ -237,6 +237,7 @@ try {
     await page.setViewportSize({width,height:844});
     await page.goto(origin+"/en/#work",{waitUntil:"networkidle"});
     await page.locator(".project-show-more").click();
+    await page.locator(".project-grid .project-card").nth(4).waitFor({state:"visible"});
     const blocks=await page.locator(".project-proof").evaluateAll(nodes=>nodes.map(node=>{
       const bounds=node.getBoundingClientRect();
       const footnote=node.querySelector(".proof-footnote");
