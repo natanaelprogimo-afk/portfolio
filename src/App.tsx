@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowDown, ArrowUpRight, ChevronDown, Code2,
-  ExternalLink, Globe2, BriefcaseBusiness, Mail,
+  Database, Workflow, Layers3, ExternalLink, Globe2, BriefcaseBusiness, Mail,
   Menu, ShieldCheck, X
 } from "lucide-react";
 import { projects, type Locale, type ProjectGroup } from "./data/projects";
@@ -19,6 +19,7 @@ const EMAIL = "moralesalerson@gmail.com";
 
 const sectionIds = ["evidence", "about", "work", "contact"] as const;
 const groupIds: Array<"all" | ProjectGroup> = ["all", "systems", "product", "client"];
+const iconList = [Code2, Database, Workflow, Layers3] as const;
 
 export default function App() {
   const [locale] = useState<Locale>(() => {
