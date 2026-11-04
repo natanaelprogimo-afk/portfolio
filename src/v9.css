@@ -395,7 +395,10 @@ body{background:var(--bg)}
   .hero-cta{margin-top:20px}
   .hero-meta{margin-top:16px;gap:7px}
   .hero-meta a{flex:1 1 auto;justify-content:center;padding:8px 10px}
-  .hero-visual{margin-top:0}
+  /* On small screens the public proof cards arrive sooner; the runnable Python
+     code remains available directly in the following evidence section. */
+  .hero-visual{display:none}
+  .hero-bottom{padding-top:2px;padding-bottom:7px}
   .visual-body{padding:19px}
   .visual-body h2{font-size:25px}
   .hero-terminal{margin-top:15px}
