@@ -50,6 +50,10 @@ function decorate(html, locale,slug,title,description) {
       +'<meta property="og:description" content="'+escape(description)+'" />\n'
       +'<meta property="og:url" content="'+canonical+'" />\n'
       +'<meta property="og:image" content="'+site+'og-preview.svg" />\n'
+      +'<meta property="og:image:width" content="1200" />\n'
+      +'<meta property="og:image:height" content="630" />\n'
+      +'<meta property="og:image:alt" content="'+escape(locale === "es" ? "Alerson Morales: proyectos y ejemplos técnicos" : "Alerson Morales: software engineering examples")+'" />\n'
+      +'<meta name="twitter:image" content="'+site+'og-preview.svg" />\n'
       +'<meta name="twitter:card" content="summary_large_image" />\n'
       +'<meta name="twitter:title" content="'+escape(title)+'" />\n'
       +'<meta name="twitter:description" content="'+escape(description)+'" />\n</head>');
