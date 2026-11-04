@@ -142,7 +142,7 @@ export default function App() {
 
       <header className="site-header">
         <div className="container header-inner">
-          <a className="brand" href="#top" aria-label={locale === "es" ? "Alerson Morales — inicio" : "Alerson Morales — home"}>
+          <a className="brand" href="#top" aria-label={locale === "es" ? "AM. Alerson Morales — inicio" : "AM. Alerson Morales — home"}>
             <span className="brand-mark">AM<span>.</span></span>
             <span className="brand-name">ALERSON<br />MORALES</span>
           </a>
