@@ -8,7 +8,7 @@ export default function ProjectVisual({ id, locale }: { id: string; locale: Loca
 
   if (id === "portfolio") {
     return (
-      <div className="project-proof project-proof--portfolio" aria-label={es ? "Extracto textual del portafolio público; no es una captura de pantalla" : "Textual excerpt from the public portfolio; not a screenshot"}>
+      <div className="project-proof project-proof--portfolio" role="img" aria-label={es ? "Extracto textual del portafolio público; no es una captura de pantalla" : "Textual excerpt from the public portfolio; not a screenshot"}>
         <div className="project-proof-head"><span className="proof-light" /> <span>{es ? "SITIO PÚBLICO · CÓDIGO DISPONIBLE" : "PUBLIC SITE · SOURCE AVAILABLE"}</span><Code2 size={17} aria-hidden="true" /></div>
         <div className="proof-browser-title">AM<span>.</span> <small>{es ? "Desarrollador full-stack" : "Full-stack developer"}</small></div>
         <strong>{es ? "Problemas complejos." : "Complex problems."}<em>{es ? " Software claro." : " Clear software."}</em></strong>
@@ -18,7 +18,7 @@ export default function ProjectVisual({ id, locale }: { id: string; locale: Loca
   }
   if (id === "client-websites") {
     return (
-      <div className="project-proof project-proof--clients" aria-label={es ? "Dos webs de clientes declaradas terminadas; sin capturas públicas autorizadas" : "Two completed client websites; no public screenshots authorized"}>
+      <div className="project-proof project-proof--clients" role="img" aria-label={es ? "Dos webs de clientes declaradas terminadas; sin capturas públicas autorizadas" : "Two completed client websites; no public screenshots authorized"}>
         <div className="project-proof-head"><span>{es ? "TRABAJOS REALIZADOS" : "COMPLETED CLIENT WORK"}</span><ShieldCheck size={17} aria-hidden="true" /></div>
         <div className="proof-client-grid">
           <div><Globe2 size={20} aria-hidden="true" /><strong>{es ? "Clínica dental" : "Dental practice"}</strong><small>{es ? "Sitio web" : "Website"}</small></div>
@@ -30,7 +30,7 @@ export default function ProjectVisual({ id, locale }: { id: string; locale: Loca
   }
   if (id === "catalog-integrity") {
     return (
-      <div className="project-proof project-proof--catalog" aria-label={es ? "Datos ficticios de la demo pública independiente de comparación CSV" : "Synthetic output from the independent public CSV comparison example"}>
+      <div className="project-proof project-proof--catalog" role="img" aria-label={es ? "Datos ficticios de la demo pública independiente de comparación CSV" : "Synthetic output from the independent public CSV comparison example"}>
         <div className="project-proof-head"><span>{es ? "MUESTRA PÚBLICA INDEPENDIENTE" : "INDEPENDENT PUBLIC SAMPLE"}</span><Database size={17} aria-hidden="true" /></div>
         <div className="proof-data-rows">
           <div><code>SKU-001</code><span className="proof-pill proof-pill--match">MATCH</span></div>
@@ -43,7 +43,7 @@ export default function ProjectVisual({ id, locale }: { id: string; locale: Loca
   }
   if (id === "ai-automation") {
     return (
-      <div className="project-proof project-proof--automation" aria-label={es ? "Diagrama conceptual de controles de automatización, no es una captura del producto" : "Conceptual automation controls diagram, not a product screenshot"}>
+      <div className="project-proof project-proof--automation" role="img" aria-label={es ? "Diagrama conceptual de controles de automatización, no es una captura del producto" : "Conceptual automation controls diagram, not a product screenshot"}>
         <div className="project-proof-head"><span>{es ? "DISEÑO CONCEPTUAL · PRIVADO" : "CONCEPT DESIGN · PRIVATE"}</span><ShieldCheck size={17} aria-hidden="true" /></div>
         <div className="proof-flow">
           <span>{es ? "Solicitud" : "Request"}</span><ArrowRight size={16} aria-hidden="true" />
@@ -56,7 +56,7 @@ export default function ProjectVisual({ id, locale }: { id: string; locale: Loca
   }
   if (id === "vyra-fitness") {
     return (
-      <div className="project-proof project-proof--fitness" aria-label={es ? "Representación conceptual de módulos de fitness; aplicación no publicada" : "Conceptual fitness module layout; app is unreleased"}>
+      <div className="project-proof project-proof--fitness" role="img" aria-label={es ? "Representación conceptual de módulos de fitness; aplicación no publicada" : "Conceptual fitness module layout; app is unreleased"}>
         <div className="project-proof-head"><span>{es ? "CONCEPTO DE APP · NO PUBLICADA" : "APP CONCEPT · UNRELEASED"}</span><Dumbbell size={17} aria-hidden="true" /></div>
         <div className="proof-fitness-modules">
           <span><Dumbbell size={17} aria-hidden="true" />{es ? "Entrenamiento" : "Training"}</span>
