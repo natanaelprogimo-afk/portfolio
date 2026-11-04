@@ -20,19 +20,19 @@ const alternates = slug =>
 const pageCopy = {
   en:{
     title:"Alerson Morales | Full-Stack Developer in Uruguay",
-    description:"Alerson Morales builds full-stack applications, Python/FastAPI backends and AI automation. Explore tested public code and case studies. Open to remote roles.",
-    subtitle:"Full-Stack Developer · Backend · AI Automation",
+    description:"Alerson Morales develops Python automations, REST API integrations, React apps and SQL data workflows. Explore reproducible public examples; available for remote roles.",
+    subtitle:"Python automation · API integration · React / Next.js · SQL",
     headline:"Complex problems. Clear software.",
-    intro:"I build web applications, backend systems and practical AI workflows. My portfolio includes engineering case studies and independently executable public code examples.",
+    intro:"Inspect runnable browser demos, a Python CSV comparison tool and a tested local Python API. Independent examples use fictional data; private systems are not presented as released products.",
     work:"Selected engineering work", lab:"Try interactive engineering examples", cases:"Explore engineering case studies",
     note:"The code examples use synthetic data. Private applications are clearly identified as development work."
   },
   es:{
     title:"Alerson Morales | Desarrollador Full-Stack en Uruguay",
-    description:"Alerson Morales desarrolla aplicaciones full-stack, backend con Python y FastAPI y automatización con IA. Proyectos verificables y disponibilidad remota.",
-    subtitle:"Desarrollador Full-Stack · Backend · Automatización con IA",
+    description:"Alerson Morales desarrolla automatizaciones Python, integraciones API REST, aplicaciones React y flujos SQL. Ejemplos reproducibles y disponibilidad remota.",
+    subtitle:"Automatización Python · API REST · React / Next.js · SQL",
     headline:"Problemas complejos. Software claro.",
-    intro:"Desarrollo aplicaciones web, sistemas backend y flujos prácticos de inteligencia artificial. Mi portafolio incluye casos de ingeniería y ejemplos públicos ejecutables.",
+    intro:"Examina demostraciones interactivas, una herramienta Python de comparación CSV y una API Python local con pruebas. Los ejemplos usan datos ficticios y los sistemas privados no se presentan como publicados.",
     work:"Proyectos de ingeniería", lab:"Probar demostraciones interactivas", cases:"Ver casos de estudio de ingeniería",
     note:"Los ejemplos públicos utilizan datos ficticios. Los proyectos privados se identifican como trabajo en desarrollo."
   }
@@ -107,7 +107,10 @@ for(const locale of ["en","es"]) {
   const fallback = '<main class="container" id="main" style="padding-top:7rem;padding-bottom:7rem">'
     +'<p class="eyebrow">'+escape(c.subtitle)+'</p><h1 style="font-size:clamp(2.5rem,7vw,5rem);line-height:1.08;margin-top:1rem">'+escape(c.headline)+'</h1>'
     +'<p class="hero-description">'+escape(c.intro)+'</p>'
-    +'<h2 style="margin-top:3rem">'+escape(c.work)+'</h2><p>AI Automation Factory · Catalog Integrity Engine · VYRA Fitness · Client Website Builds</p>'
+    +'<h2 style="margin-top:3rem">'+escape(c.work)+'</h2>'
+    +'<ul><li><a href="'+base+locale+'/labs/">'+escape(c.lab)+'</a></li>'
+    +'<li><a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/csv">Python CSV CLI — public source and tests</a></li>'
+    +'<li><a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/backend">Python API — public source and tests</a></li></ul>'
     +'<p><a href="'+base+locale+'/cases/">'+escape(c.cases)+'</a> · <a href="'+base+locale+'/labs/">'+escape(c.lab)+'</a></p>'
     +'<p>'+escape(c.note)+'</p>'
     +'<p><a href="mailto:moralesalerson@gmail.com">moralesalerson@gmail.com</a> · <a href="'+base+'resume-'+locale+'.pdf">CV / Résumé PDF</a></p>'
