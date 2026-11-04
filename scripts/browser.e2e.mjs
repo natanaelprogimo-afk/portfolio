@@ -236,6 +236,11 @@ try {
   for(const width of [320,360,390,768]){
     await page.setViewportSize({width,height:844});
     await page.goto(origin+"/en/#work",{waitUntil:"networkidle"});
+    if(width<=390){
+      assert.equal(await page.locator(".hero-visual").isHidden(),true);
+      const proofPosition=await page.locator("#evidence").evaluate(node=>node.getBoundingClientRect().top+scrollY);
+      assert.ok(proofPosition<1150,"Public proof should appear near the first mobile screen: "+width+" "+proofPosition);
+    }
     // Same-document hash navigation retains React state: do not close an
     // already expanded list when checking successive viewport widths.
     const expand=page.locator(".project-show-more");
