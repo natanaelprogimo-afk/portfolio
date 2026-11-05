@@ -79,6 +79,8 @@ function decorate(html, locale,slug,title,description) {
     html=html.replace("</head>", '<meta property="og:locale" content="'+(locale==="es"?"es_UY":"en_US")+'" />\n</head>');
   if (!html.includes('property="og:locale:alternate"'))
     html=html.replace("</head>", '<meta property="og:locale:alternate" content="'+(locale==="es"?"en_US":"es_UY")+'" />\n</head>');
+  if (!html.includes('name="twitter:image:alt"'))
+    html=html.replace("</head>", '<meta name="twitter:image:alt" content="'+escape(locale==="es"?"Casos de ingeniería de Alerson Morales":"Alerson Morales software engineering")+'" />\\n</head>');
   if (slug && !html.includes('href="'+base+'shared-pages.css"'))
     html=html.replace("</head>", '<link rel="stylesheet" href="'+base+'shared-pages.css" />\n</head>');
   return html;
