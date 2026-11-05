@@ -149,6 +149,6 @@ export function serializeReportCsv(rows, columns) {
     if (/^[\s]*[=+\-@]/.test(text)) text = "'" + text;
     return '"' + text.replaceAll('"', '""') + '"';
   };
-  return [columns.map(([_, label]) => escape(label)).join(","),
+  return [columns.map(([, label]) => escape(label)).join(","),
     ...rows.map(row => columns.map(([key]) => escape(row[key])).join(","))].join("\r\n") + "\r\n";
 }
