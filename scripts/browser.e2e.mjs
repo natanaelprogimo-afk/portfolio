@@ -152,6 +152,43 @@ try {
   await page.goto(origin+"/en/cases/",{waitUntil:"networkidle"});
   assert.equal(await page.locator("h1").count(),1);
 
+  // V13: complete bilingual public case studies and accessible secondary headers.
+  for(const lang of ["en","es"]){
+    await page.goto(origin+"/"+lang+"/cases/",{waitUntil:"networkidle"});
+    assert.equal(await page.locator("#public-proof article[data-evidence='public']").count(),3);
+    assert.equal(await page.locator("#experience article[data-evidence='private']").count(),4);
+    assert.equal(await page.locator("#python-csv a[href*='examples/csv']").count(),1);
+    assert.equal(await page.locator("#python-api a[href*='examples/backend']").count(),1);
+    if(lang==="es"){
+      const whole=await page.locator("body").innerText();
+      assert.ok(whole.includes("CASOS TÉCNICOS"));
+      assert.ok(whole.includes("Problema de ingeniería"));
+      assert.doesNotMatch(whole,/CASE STUDIES|Try independent idempotency sample/);
+      const subjects=await page.locator("a[href^='mailto:']").evaluateAll(a=>a.map(node=>decodeURIComponent(node.getAttribute("href"))));
+      assert.ok(subjects.some(text=>text.includes("Referencias de proyectos web")));
+    }
+    for(const section of ["python-csv","python-api","portfolio","client-websites","catalog-integrity","ai-automation","vyra-fitness"])
+      assert.equal(await page.locator("#"+section).count(),1);
+    for(const width of [320,390,768]){
+      await page.setViewportSize({width,height:844});
+      for(const route of ["cases","labs","hiring","trust"]){
+        await page.goto(origin+"/"+lang+"/"+route+"/",{waitUntil:"networkidle"});
+        const dimensions=await page.locator("header nav a").evaluateAll(links=>links.map(node=>{
+          const rect=node.getBoundingClientRect();
+          return {name:node.innerText,h:rect.height,left:rect.left,right:rect.right};
+        }));
+        assert.ok(dimensions.length>0,"Missing secondary header links: "+lang+"/"+route);
+        assert.ok(dimensions.every(x=>x.h>=43.5&&x.left>=-1&&x.right<=width+1),
+          "Unsafe secondary header targets at "+lang+"/"+route+" "+width+": "+JSON.stringify(dimensions));
+        const scrollWidth=await page.evaluate(()=>document.documentElement.scrollWidth);
+        assert.ok(scrollWidth<=width+1,"Secondary overflow "+lang+"/"+route+" at "+width+" got "+scrollWidth);
+      }
+    }
+  }
+  await page.setViewportSize({width:1366,height:900});
+  await page.goto(origin+"/en/",{waitUntil:"networkidle"});
+  assert.equal(await page.locator("#evidence .verified-case-link").count(),3);
+
   // Public SaaS/agent trust pages: evidence vs not-yet-verified services.
   for (const lang of ["en","es"]) {
     await page.goto(origin+"/"+lang+"/trust/",{waitUntil:"networkidle"});
