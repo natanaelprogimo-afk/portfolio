@@ -4,6 +4,7 @@ import { copy } from "../data/copy";
 
 type Evidence = {
   id: string;
+  caseId: string;
   icon: typeof Code2;
   link: string;
   technologies: string;
@@ -14,7 +15,7 @@ type Evidence = {
 
 const evidence: Evidence[] = [
   {
-    id: "browser-lab", icon: FlaskConical,
+    id: "browser-lab", caseId: "portfolio", icon: FlaskConical,
     link: "labs/", linkType: "demo",
     technologies: "JavaScript · Node.js tests",
     title: { en: "Run interactive examples", es: "Ejecuta ejemplos interactivos" },
@@ -24,7 +25,7 @@ const evidence: Evidence[] = [
     }
   },
   {
-    id: "python-service", icon: Code2,
+    id: "python-service", caseId: "python-api", icon: Code2,
     link: "https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/backend",
     linkType: "source", technologies: "Python · SQLite · Unit tests",
     title: { en: "Inspect a Python API", es: "Inspecciona una API Python" },
@@ -34,7 +35,7 @@ const evidence: Evidence[] = [
     }
   },
   {
-    id: "python-csv", icon: Database,
+    id: "python-csv", caseId: "python-csv", icon: Database,
     link: "https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/csv",
     linkType: "source", technologies: "Python · CSV · unittest",
     title: { en: "Reconcile CSVs in Python", es: "Concilia CSV con Python" },
@@ -80,6 +81,10 @@ export default function VerifiedWork({ locale }: { locale: Locale }) {
                 <a href={destination} target="_blank" rel="noopener noreferrer">
                   {item.linkType==="demo" ? t.evidenceTry : t.evidenceInspect}
                   <ArrowUpRight size={16} aria-hidden="true"/>
+                </a>
+                <a className="verified-case-link" href={import.meta.env.BASE_URL + locale + "/cases/#" + item.caseId}>
+                  {locale === "es" ? "Ver caso técnico completo" : "Read full engineering case"}
+                  <ArrowUpRight size={15} aria-hidden="true"/>
                 </a>
               </article>
             );
