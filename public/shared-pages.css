@@ -55,3 +55,15 @@ header nav a:focus-visible,
     transition-duration: .01ms !important;
   }
 }
+
+
+/* The localized lab title contains a long Spanish word, which otherwise
+   overflows the viewport at 320px when the original minimum size is 43px. */
+@media (max-width: 390px) {
+  html[lang="es"] .intro h1 {
+    font-size: clamp(30px, 9vw, 36px);
+    letter-spacing: -.045em;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+}
