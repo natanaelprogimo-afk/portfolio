@@ -65,11 +65,14 @@ const html=[
 card("public",t.verified,list([
 '<a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/backend">'+t.sample1+'</a>',
 '<a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/sql">'+t.sample2+'</a>',
-'<a href="'+p+'labs/">'+t.sample3+'</a>'
+'<a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/csv">'+(lang==="es"?"Conciliación CSV con Python y pruebas":"Python CSV reconciliation and tests")+'</a>',
+'<a href="'+p+'labs/">'+t.sample3+'</a>',
+'<a href="'+p+'cases/#python-csv">'+(lang==="es"?"Caso técnico: conciliación CSV":"Case study: CSV reconciliation")+'</a>',
+'<a href="'+p+'cases/#python-api">'+(lang==="es"?"Caso técnico: API Python":"Case study: Python HTTP API")+'</a>'
 ])),
 card("skills",t.skills,'<p>Python · TypeScript · JavaScript · C# · SQL · React · FastAPI · Node.js · Git</p><p>'+t.languages+'</p><p>'+t.education+'</p>'),
 card("private",t.private,list([t.a,t.b,t.c])),
-card("contact",lang==="es"?"Contacto":"Contact",'<p>'+t.clients+'</p><p><a href="mailto:moralesalerson@gmail.com">moralesalerson@gmail.com</a></p><p><a href="https://github.com/natanaelprogimo-afk">GitHub</a> · <a href="https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/">LinkedIn</a> · <a href="https://www.upwork.com/freelancers/~016487e77ebf028c40">Upwork</a></p>'),
+card("contact",lang==="es"?"Contacto":"Contact",'<p>'+t.clients+'</p><p><a href="mailto:moralesalerson@gmail.com">moralesalerson@gmail.com</a></p><p><a href="https://github.com/natanaelprogimo-afk">GitHub</a> · <a href="https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/">LinkedIn</a> · <a target="_blank" rel="noopener noreferrer" href="https://www.upwork.com/freelancers/~016487e77ebf028c40">Upwork</a></p>'),
 '</div><p class="note"><strong>'+t.limits+':</strong> '+t.foot+'</p>',
 '<div class="actions"><button type="button" onclick="window.print()">'+t.print+'</button></div>',
 '</main><footer>© 2026 Alerson Morales · '+t.foot+'</footer></div></body></html>'
