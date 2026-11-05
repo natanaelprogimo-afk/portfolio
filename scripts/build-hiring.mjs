@@ -50,8 +50,10 @@ const html=[
 '<link rel="alternate" hreflang="x-default" href="'+site+'en/hiring/">',
 '<meta property="og:type" content="website"><meta property="og:title" content="'+escape(t.title)+'">',
 '<meta property="og:description" content="'+escape(t.description)+'"><meta property="og:url" content="'+canonical+'">',
+'<meta property="og:locale" content="'+(lang==="es"?"es_UY":"en_US")+'"><meta property="og:locale:alternate" content="'+(lang==="es"?"en_US":"es_UY")+'">',
 '<meta property="og:image" content="'+site+'og-preview.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="'+escape(lang==="es"?"Resumen profesional de Alerson Morales":"Alerson Morales recruiter brief")+'"><meta name="twitter:image" content="'+site+'og-preview.svg"><meta name="twitter:card" content="summary_large_image">',
-'<link rel="icon" href="'+base+'favicon.svg" type="image/svg+xml"><style>'+css+'</style></head><body>',
+'<meta name="twitter:title" content="'+escape(t.title)+'"><meta name="twitter:description" content="'+escape(t.description)+'"><meta name="twitter:image:alt" content="'+escape(lang==="es"?"Resumen profesional de Alerson Morales":"Alerson Morales recruiter brief")+'">',
+'<link rel="icon" href="'+base+'favicon.svg" type="image/svg+xml"><style>'+css+'</style><link rel="stylesheet" href="'+base+'shared-pages.css"></head><body>',
 '<a class="skip" href="#main">'+(lang==="en"?"Skip to content":"Saltar al contenido")+'</a>',
 '<div class="wrap"><header class="top"><a class="brand" href="'+p+'">AM. / ALERSON MORALES</a>',
 '<nav aria-label="'+(lang==="en"?"Navigation":"Navegación")+'"><a href="'+p+'">'+t.portfolio+'</a><a href="'+p+'cases/">'+t.cases+'</a><a href="'+p+'trust/">'+(lang==="en"?"VYRA trust":"Confianza VYRA")+'</a>',
@@ -63,11 +65,14 @@ const html=[
 card("public",t.verified,list([
 '<a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/backend">'+t.sample1+'</a>',
 '<a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/sql">'+t.sample2+'</a>',
-'<a href="'+p+'labs/">'+t.sample3+'</a>'
+'<a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/csv">'+(lang==="es"?"Conciliación CSV con Python y pruebas":"Python CSV reconciliation and tests")+'</a>',
+'<a href="'+p+'labs/">'+t.sample3+'</a>',
+'<a href="'+p+'cases/#python-csv">'+(lang==="es"?"Caso técnico: conciliación CSV":"Case study: CSV reconciliation")+'</a>',
+'<a href="'+p+'cases/#python-api">'+(lang==="es"?"Caso técnico: API Python":"Case study: Python HTTP API")+'</a>'
 ])),
 card("skills",t.skills,'<p>Python · TypeScript · JavaScript · C# · SQL · React · FastAPI · Node.js · Git</p><p>'+t.languages+'</p><p>'+t.education+'</p>'),
 card("private",t.private,list([t.a,t.b,t.c])),
-card("contact",lang==="es"?"Contacto":"Contact",'<p>'+t.clients+'</p><p><a href="mailto:moralesalerson@gmail.com">moralesalerson@gmail.com</a></p><p><a href="https://github.com/natanaelprogimo-afk">GitHub</a> · <a href="https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/">LinkedIn</a> · <a href="https://www.upwork.com/freelancers/~016487e77ebf028c40">Upwork</a></p>'),
+card("contact",lang==="es"?"Contacto":"Contact",'<p>'+t.clients+'</p><p><a href="mailto:moralesalerson@gmail.com">moralesalerson@gmail.com</a></p><p><a href="https://github.com/natanaelprogimo-afk">GitHub</a> · <a href="https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/">LinkedIn</a> · <a target="_blank" rel="noopener noreferrer" href="https://www.upwork.com/freelancers/~016487e77ebf028c40">Upwork</a></p>'),
 '</div><p class="note"><strong>'+t.limits+':</strong> '+t.foot+'</p>',
 '<div class="actions"><button type="button" onclick="window.print()">'+t.print+'</button></div>',
 '</main><footer>© 2026 Alerson Morales · '+t.foot+'</footer></div></body></html>'

@@ -6,6 +6,16 @@ Independent developer based in Uruguay, available for **100% remote engineering 
 
 [**View portfolio (English)**](https://natanaelprogimo-afk.github.io/portfolio/en/) · [**Ver portafolio (Español)**](https://natanaelprogimo-afk.github.io/portfolio/es/) · [**Recruiter brief**](https://natanaelprogimo-afk.github.io/portfolio/en/hiring/) · [**Upwork**](https://www.upwork.com/freelancers/~016487e77ebf028c40)
 
+## Verified engineering case studies — V13
+
+The bilingual [technical case study library (English)](https://natanaelprogimo-afk.github.io/portfolio/en/cases/) / [casos técnicos (Español)](https://natanaelprogimo-afk.github.io/portfolio/es/cases/) presents three independently inspectable public examples first, followed by four transparently labeled private/client projects.
+
+- [Python CSV reconciliation](https://natanaelprogimo-afk.github.io/portfolio/en/cases/#python-csv) — source, synthetic fixtures, decimal-money comparisons, explicit statuses, tests and scope limits.
+- [Python HTTP / SQLite](https://natanaelprogimo-afk.github.io/portfolio/en/cases/#python-api) — local HTTP behavior, input validation, idempotency and unit tests; not a hosted API.
+- [React / TypeScript portfolio](https://natanaelprogimo-afk.github.io/portfolio/en/cases/#portfolio) — public front-end, bilingual routes, accessible components and CI browser tests.
+
+All case descriptions are compiled from explicit English/Spanish structured data (`scripts/render-cases.mjs`), rather than replacing phrases in the English case HTML. Shared static-page navigation styles are in `public/shared-pages.css`; project case styling is in `public/cases.css`.
+
 ## Demonstrable public work
 
 | Example | Try or inspect | Evidence and boundaries |

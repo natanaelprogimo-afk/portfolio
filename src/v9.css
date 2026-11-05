@@ -430,3 +430,9 @@ body{background:var(--bg)}
 @media(prefers-reduced-motion:reduce){
   .project-show-more svg{transition:none}
 }
+
+/* V13: secondary full-case pathway on public evidence cards. */
+.verified-card .verified-case-link{min-height:44px;padding:9px 0;color:#d0edab;font-size:13px;font-weight:770;display:inline-flex;align-items:center;gap:8px;text-decoration:underline;text-underline-offset:4px;max-width:max-content}
+.verified-card .verified-case-link:hover{color:#f0ffcd}
+.verified-card .verified-case-link:focus-visible{outline:3px solid #d9f9ad;outline-offset:4px}
+@media(max-width:650px){.verified-card .verified-case-link{min-height:44px}}

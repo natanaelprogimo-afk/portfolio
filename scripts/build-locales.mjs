@@ -1,3 +1,4 @@
+import { renderCases } from "./render-cases.mjs";
 import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -72,6 +73,16 @@ function decorate(html, locale,slug,title,description) {
     '$1'+escape(locale === "es" ? "Alerson Morales: ingeniería de software, proyectos y ejemplos públicos" : "Alerson Morales: software engineering, selected work and public examples")+'$2');
   html=html.replace(/(<meta name="twitter:image:alt" content=")[^"]*(")/,
     '$1'+escape(locale === "es" ? "Portafolio de ingeniería de Alerson Morales" : "Alerson Morales engineering portfolio")+'$2');
+  // Locale metadata and static navigation styling must exist in source HTML,
+  // not be injected only by client-side React.
+  if (!html.includes('property="og:locale"'))
+    html=html.replace("</head>", '<meta property="og:locale" content="'+(locale==="es"?"es_UY":"en_US")+'" />\n</head>');
+  if (!html.includes('property="og:locale:alternate"'))
+    html=html.replace("</head>", '<meta property="og:locale:alternate" content="'+(locale==="es"?"en_US":"es_UY")+'" />\n</head>');
+  if (!html.includes('name="twitter:image:alt"'))
+    html=html.replace("</head>", '<meta name="twitter:image:alt" content="'+escape(locale==="es"?"Casos de ingeniería de Alerson Morales":"Alerson Morales software engineering")+'" />\n</head>');
+  if (slug && !html.includes('href="'+base+'shared-pages.css"'))
+    html=html.replace("</head>", '<link rel="stylesheet" href="'+base+'shared-pages.css" />\n</head>');
   return html;
 }
 
@@ -121,7 +132,7 @@ for(const locale of ["en","es"]) {
 }
 
 const labsEnglish = text("labs/index.html");
-const casesEnglish = text("cases/index.html");
+
 
 // Translation table operates at build time. The generated Spanish HTML is
 // crawlable without JavaScript; the English source remains the maintained original.
@@ -155,74 +166,7 @@ const labSpanish = new Map([
 ["Synthetic examples · All processing is client-side.","Ejemplos ficticios · Todo se procesa en el navegador."]
 ]);
 
-const caseSpanish = new Map([
-["Engineering Case Studies | Alerson Morales","Casos de estudio de ingeniería | Alerson Morales"],
-["Engineering case studies from Alerson Morales: private-system architecture, test strategies, mobile development and completed client websites, with transparent evidence boundaries.","Casos técnicos de Alerson Morales: arquitectura, pruebas, desarrollo móvil y sitios terminados, con límites transparentes de evidencia."],
-["Portfolio","Portafolio"],["Interactive lab","Laboratorio interactivo"],["Résumé","Currículum"],
-["TECHNICAL NOTES / PROJECT DECISIONS / VERIFIABLE SCOPE","NOTAS TÉCNICAS / DECISIONES DE INGENIERÍA / ALCANCE VERIFICABLE"],
-["Beyond the","Más allá de"],["project card.","la tarjeta de proyecto."],
-["Technical case studies that explain the work, the constraints and the quality boundaries. They separate implemented development work from public production releases, and public demonstrations from private source code.","Casos de estudio que explican el trabajo, las restricciones y los límites de calidad. Diferencian el desarrollo interno de los productos publicados y las demostraciones públicas del código privado."],
-["Evidence policy:","Política de evidencias:"],
-["Private code, customer information, credentials and unapproved product screenshots are not published. Architecture drawings below are conceptual. The interactive engineering lab contains independent open-source examples using synthetic data.","No se publican códigos privados, datos de clientes, credenciales ni capturas no autorizadas. Los diagramas son conceptuales. El laboratorio incluye ejemplos independientes con datos ficticios."],
-["AI Automation Factory","AI Automation Factory"],["VYRA Fitness","VYRA Fitness"],["Catalog Integrity","Integridad de catálogos"],["Client Websites","Sitios de clientes"],
-["01 / AGENT SYSTEMS / BACKEND","01 / SISTEMAS DE AGENTES / BACKEND"],["02 / MOBILE PRODUCT / UI ARCHITECTURE","02 / PRODUCTO MÓVIL / ARQUITECTURA"],
-["03 / STRUCTURED DATA / COMPARISON","03 / DATOS ESTRUCTURADOS / COMPARACIÓN"],["04 / INDEPENDENT WEB WORK","04 / DESARROLLO WEB INDEPENDIENTE"],
-["05 / PUBLIC SOURCE / FRONTEND","05 / CÓDIGO PÚBLICO / FRONTEND"],
-["Private repository · Development","Repositorio privado · En desarrollo"],
-["Private · Design and testing","Privado · Diseño y pruebas"],
-["Private internal prototype","Prototipo interno privado"],
-["Two sites reported completed","Dos sitios declarados terminados"],
-["Public repository · Published","Repositorio público · Publicado"],
-["Engineering problem","Problema de ingeniería"],["Implementation scope","Alcance de implementación"],
-["Trade-offs & limits","Decisiones y límites"],["Implementation focus","Enfoque técnico"],
-["Evidence & limitations","Evidencias y limitaciones"],["Engineering focus","Enfoque de ingeniería"],
-["Technical choices","Decisiones técnicas"],["Verification","Verificación"],
-["CONCEPTUAL ARCHITECTURE · NOT A SCREENSHOT","ARQUITECTURA CONCEPTUAL · NO ES UNA CAPTURA"],
-["A data-comparison workflow exploring mismatches between product feeds and observed catalog records, with explicit output states for discrepancies.","Un flujo de comparación de datos que identifica diferencias entre feeds de productos y catálogos observados, con estados explícitos de discrepancia."],
-["A cross-platform fitness application in development, bringing training, nutrition, hydration and progress tracking into one experience.","Una aplicación móvil multiplataforma en desarrollo que reúne entrenamientos, nutrición, hidratación y seguimiento del progreso."],
-["An independently developed system for designing, operating and evaluating AI-enabled workflows with controlled access to tools and human review of risky actions.","Un sistema independiente para diseñar y evaluar flujos con IA, controles de acceso a herramientas y revisión humana de acciones riesgosas."],
-["Completed web projects for a dental practice and a paint retail business, each serving different information and navigation needs.","Dos proyectos web terminados, uno para una clínica dental y otro para una tienda de pinturas, con necesidades distintas de información y navegación."],
-["This bilingual portfolio is itself an inspectable engineering artifact, with TypeScript, component design, accessible interactions and CI quality checks.","Este portafolio bilingüe es un producto de ingeniería inspeccionable, desarrollado con TypeScript, componentes reutilizables, interacciones accesibles y pruebas CI."],
-["Request technical walkthrough ↗","Solicitar explicación técnica ↗"],["Request product walkthrough ↗","Solicitar demostración ↗"],
-["Run independent CSV comparison ↗","Probar comparación CSV independiente ↗"],["Inspect open-source sample ↗","Inspeccionar ejemplo público ↗"],
-["Ask about project references ↗","Solicitar referencias ↗"],["View public GitHub repository ↗","Ver repositorio público ↗"],
-["Explore interactive examples ↗","Explorar ejemplos interactivos ↗"],["Back to portfolio ↑","Volver al portafolio ↑"],
-["Engineering notes without invented performance claims.","Notas técnicas sin métricas de rendimiento inventadas."],
-["Agent workflows can execute actions with side effects. Production-oriented design requires authorization boundaries, safe retries, execution limits, traceability and explicit human approval where appropriate.","Los agentes pueden ejecutar acciones con efectos externos. El diseño exige autorizaciones, reintentos seguros, límites, trazabilidad y aprobación humana en casos de riesgo."],
-["API and dashboard for agents, execution state and approvals.","API y panel para agentes, estado de ejecución y aprobaciones."],
-["Execution cost and token limits.","Límites de costes y tokens por ejecución."],
-["Idempotency keys to avoid duplicate actions on retry.","Claves de idempotencia para evitar duplicaciones al reintentar."],
-["Rate limiting, structured workflow state and test coverage.","Límites de solicitudes, estados estructurados y cobertura de pruebas."],
-["Human approval takes precedence over unrestricted autonomy.","La aprobación humana prevalece sobre la autonomía sin restricciones."],
-["Uncertain failed requests are not automatically retried.","No se reintentan automáticamente solicitudes cuyo resultado es incierto."],
-["Private README and tests describe implementation; no production SLA or customer adoption is claimed.","El README privado y sus pruebas documentan la implementación; no se afirma disponibilidad garantizada ni adopción comercial."],
-["Live services and secrets remain private.","Los servicios activos y secretos permanecen privados."],
-["Several health-related flows must share a coherent navigation model and persistence strategy without producing an overcomplicated mobile interface.","Distintas funciones de salud deben compartir una navegación coherente y una estrategia de persistencia sin complicar la interfaz móvil."],
-["Cross-platform screens and reusable interface components.","Pantallas multiplataforma y componentes de interfaz reutilizables."],
-["Data-backed tracking flows and integration work.","Flujos de seguimiento con persistencia e integraciones."],
-["Offline and synchronization concerns addressed through application design and tests.","Aspectos de funcionamiento sin conexión y sincronización tratados mediante diseño y pruebas."],
-["The private repository contains implementation and test files.","El repositorio privado contiene implementación y archivos de pruebas."],
-["The application is not a verified public release in Google Play or the App Store.","La aplicación no consta como publicación verificada en Google Play o App Store."],
-["Product screens will only be published after approval and privacy review.","Las pantallas se publicarán únicamente tras revisión de privacidad y permisos."],
-["Price and product attributes can diverge across data sources. Comparisons need deterministic keys, consistent numeric interpretation, clear failure classifications and useful audit output.","Los precios y atributos pueden variar entre fuentes. La comparación requiere claves estables, tratamiento numérico consistente, estados de error claros y resultados auditables."],
-["Comparison of expected and observed fields.","Comparación de campos esperados y observados."],
-["Match/mismatch result structures and sample-run validation.","Resultados explícitos de coincidencias y diferencias, validados con muestras."],
-["Prototype integration experiments with external workflow tools.","Experimentos de integración con herramientas externas."],
-["The original private source is not linked publicly.","El código privado original no está publicado."],
-["Controlled sample runs do not demonstrate paid deployments or customer adoption.","Las ejecuciones de muestra no demuestran ventas ni adopción comercial."],
-["The linked lab is a new independent implementation of the comparison idea.","El laboratorio enlazado es una implementación nueva e independiente de la idea."],
-["A completed website serving a dental business, focused on understandable information architecture and an approachable responsive experience. Exact project URL and performance figures have not been made public.","Sitio web terminado para una clínica dental, centrado en la claridad informativa y la adaptación a dispositivos. Su URL y cifras de rendimiento no se han hecho públicas."],
-["A completed website for a paint store, designed around retail information and clarity of content. Public screenshots, customer testimonials and commerce metrics are not currently available for verification.","Sitio web terminado para una tienda de pinturas, centrado en información comercial clara. No hay capturas, testimonios ni métricas disponibles públicamente para su comprobación."],
-["Dental practice","Clínica dental"],
-["Paint retailer","Tienda de pinturas"],
-["Vite and React with concise client-side rendering.","Vite y React con renderizado del lado del cliente."],
-["English and Spanish copy with language persistence.","Contenido en inglés y español con persistencia del idioma."],
-["Data-driven project cards and accessible navigation.","Tarjetas de proyectos basadas en datos y navegación accesible."],
-["Public independent interactive engineering demonstrations.","Demostraciones técnicas públicas e independientes."],
-["GitHub Actions builds, lint and Node unit tests.","GitHub Actions ejecuta compilaciones, lint y pruebas unitarias."],
-["Smoke tests verify static files, deployment base and résumé privacy checks.","Pruebas básicas verifican recursos, rutas de despliegue y privacidad de CV."],
-["No third-party tracking pixels, backend credentials or fake contact forms.","Sin píxeles de seguimiento externos, credenciales ni formularios falsos."]
-]);
+
 
 function translate(source, mapping) {
   let s=source;
@@ -232,7 +176,7 @@ function translate(source, mapping) {
 }
 for(const locale of ["en","es"]){
   let labs=locale==="es"?translate(labsEnglish,labSpanish):labsEnglish;
-  let cases=locale==="es"?translate(casesEnglish,caseSpanish):casesEnglish;
+  let cases=renderCases(locale,base);
   if (locale === "es") {
     labs=labs.replaceAll("No son <strong>no</strong> capturas","<strong>No son capturas</strong>");
   }
@@ -242,16 +186,7 @@ for(const locale of ["en","es"]){
       .replaceAll("Skip to content", "Saltar al contenido")
       .replaceAll("Status</th>", "Estado</th>")
       .replaceAll("Requests</th>", "Solicitudes</th>");
-    cases=cases.replaceAll("Skip to content", "Saltar al contenido")
-      .replaceAll("Client website builds", "Desarrollo web para clientes")
-      .replaceAll("Developer Portfolio", "Portafolio profesional")
-      .replaceAll("Agent runtime", "Motor de agentes")
-      .replaceAll("Tracking features", "Seguimiento de actividad")
-      .replaceAll("Data layer", "Capa de datos")
-      .replaceAll("<span>Normalize</span>", "<span>Normalizar</span>")
-      .replaceAll("<span>Compare</span>", "<span>Comparar</span>")
-      .replaceAll("<span>Results</span>", "<span>Resultados</span>")
-      .replaceAll('aria-label="Case studies"', 'aria-label="Casos de estudio"');
+
   }
   // A translated standalone lab must import from the shared original module.
   labs=labs.replace('from "./logic.mjs"','from "'+base+'labs/logic.mjs"');
@@ -268,10 +203,11 @@ for(const locale of ["en","es"]){
       .replaceAll("Days analyzed: ","Días analizados: ");
   }
   labs=decorate(labs,locale,"labs/",locale==="es"?"Laboratorio de ingeniería | Alerson Morales":"Engineering Lab | Alerson Morales",locale==="es"?"Ejemplos públicos y ejecutables: CSV, idempotencia y métricas de eventos.":"Three executable public demos: CSV validation, idempotency and metrics.");
-  // The original case-study page links to ../resume.html; localized case URLs
-  // have no /en/resume.html or /es/resume.html, so point to the matching PDF.
-  cases=cases.replace('href="../resume.html"', 'href="'+base+'resume-'+locale+'.pdf"');
+  // Case-study markup comes directly from bilingual structured data rather than
+  // translated post-hoc English HTML. Stable anchors preserve existing links.
   cases=decorate(cases,locale,"cases/",locale==="es"?"Casos técnicos | Alerson Morales":"Engineering Case Studies | Alerson Morales",locale==="es"?"Decisiones de ingeniería, arquitectura, alcance y evidencias del trabajo de Alerson Morales.":"Engineering architectures, constraints and verifiable work by Alerson Morales.");
   output(locale+"/labs/index.html",labs);
   output(locale+"/cases/index.html",cases);
 }
+// Legacy /cases/ remains an English alias but uses the same authored content.
+output("cases/index.html",decorate(renderCases("en",base),"en","cases/","Engineering Case Studies | Alerson Morales","Inspect public code, verified tests and clearly labeled private work."));

@@ -175,7 +175,7 @@ export default function App() {
         </div>
       </header>
 
-      <main id="main" tabIndex={-1}>
+      <main id="main" tabIndex={-1} data-release="v13">
         <section className="hero" id="top" aria-labelledby="hero-title">
           <div className="container hero-layout">
             <div className="hero-copy">

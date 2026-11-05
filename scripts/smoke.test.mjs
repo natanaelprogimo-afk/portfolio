@@ -5,7 +5,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 const text = (path) => readFileSync(new URL("../" + path, import.meta.url), "utf8");
 
 test("generated site ships the required static resources", () => {
-  for (const path of ["dist/index.html", "dist/resume.html", "dist/resume-en.pdf", "dist/resume-es.pdf", "dist/favicon.svg", "dist/robots.txt", "dist/sitemap.xml", "dist/labs/index.html", "dist/labs/logic.mjs", "dist/cases/index.html", "dist/og-preview.svg"]) {
+  for (const path of ["dist/index.html", "dist/resume.html", "dist/resume-en.pdf", "dist/resume-es.pdf", "dist/favicon.svg", "dist/robots.txt", "dist/sitemap.xml", "dist/labs/index.html", "dist/labs/logic.mjs", "dist/cases/index.html", "dist/og-preview.svg", "dist/shared-pages.css", "dist/cases.css"]) {
     assert.ok(existsSync(new URL("../" + path, import.meta.url)), path + " is missing");
   }
   const assetDir = new URL("../dist/assets/", import.meta.url);
@@ -61,7 +61,9 @@ test("both downloadable PDFs have a valid signature and no exposed national iden
 });
 test("public engineering examples are explicitly disclosed as independent samples", () => {
   assert.match(text("dist/labs/index.html"), /independently implemented public teaching demonstrations/);
-  assert.match(text("dist/cases/index.html"), /not published/);
+  const cases=text("dist/en/cases/index.html");
+  assert.match(cases,/data-evidence="public"/);
+  assert.match(cases,/not a hosted production API|not a hosted|not a customer/i);
 });
 
 test("localized routes ship static content and independent metadata", () => {
@@ -84,6 +86,28 @@ test("localized routes ship static content and independent metadata", () => {
   assert.match(text("dist/es/index.html"), /Problemas complejos/);
   assert.match(text("dist/es/labs/index.html"), /Conciliación de catálogos/);
   assert.match(text("dist/es/cases/index.html"), /Problema de ingeniería/);
+});
+
+
+test("V13 case studies use structured bilingual source with distinct public and private scopes",()=>{
+ const renderer=text("scripts/render-cases.mjs");
+ assert.match(renderer,/const cases=\[/);
+ for(const lang of ["en","es"]){
+   const html=text("dist/"+lang+"/cases/index.html");
+   assert.equal((html.match(/data-evidence="public"/g)||[]).length,3);
+   assert.equal((html.match(/data-evidence="private"/g)||[]).length,4);
+   for(const anchor of ["python-csv","python-api","portfolio","client-websites","catalog-integrity","ai-automation","vyra-fitness"])
+     assert.ok(html.includes('id="'+anchor+'"'),"Missing "+lang+" case "+anchor);
+   assert.ok(html.includes("examples/csv"),"Public CSV source missing");
+   assert.ok(html.includes("examples/backend"),"Public backend source missing");
+   assert.ok(html.includes("cases.css"),"Static case stylesheet missing");
+ }
+ const es=text("dist/es/cases/index.html");
+ assert.doesNotMatch(es,/CASE STUDIES|Try independent idempotency sample|Website%20project%20references/);
+ assert.match(es,/Casos|CASOS TÉCNICOS/);
+ assert.match(es,/Referencias de proyectos web|Referencias%20de%20proyectos%20web/);
+ assert.match(es,/Problema de ingeniería/);
+ assert.match(text("dist/es/hiring/index.html"),/examples\/csv/);
 });
 
 test("generated recruiter PDFs contain live links and language metadata", () => {
@@ -160,7 +184,7 @@ test("professional JSON-LD is valid, truthful and localized on homepages", () =>
     assert.equal(schema.homeLocation.name,"Uruguay");
     assert.ok(schema.sameAs.includes("https://github.com/natanaelprogimo-afk"));
     assert.ok(schema.url.endsWith("/"+lang+"/"));
-    assert.doesNotMatch(html,/\"award\"|\"alumniOf\":\s*\[\s*\"University/);
+    assert.doesNotMatch(html,/"award"|"alumniOf":\s*\[\s*"University/);
   }
 });
 

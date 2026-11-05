@@ -58,6 +58,7 @@ try {
   // The first screen offers distinct recruiter and commercial buyer paths.
   for (const language of ["en","es"]) {
     await page.goto(origin+"/"+language+"/",{waitUntil:"networkidle"});
+    assert.equal(await page.locator('main[data-release="v13"]').count(),1);
     assert.equal(await page.locator("#start-here .route-card").count(),2);
     assert.equal(await page.locator(".verified-quick-links a").count(),4);
     assert.equal(await page.locator(".project-status-guide").count(),1);
@@ -95,7 +96,14 @@ try {
   await page.goto(origin+"/es/hiring/",{waitUntil:"networkidle"});
   await page.setViewportSize({width:390,height:844});
   const navRows=await page.locator(".top nav a").evaluateAll(a=>a.map(x=>Math.round(x.getBoundingClientRect().top)));
-  assert.equal(new Set(navRows).size,1,"Spanish hiring header should remain on one navigation row");
+  // Wrapped rows are preferable to sub-24px touch targets on narrow screens.
+  assert.ok(new Set(navRows).size>=1&&new Set(navRows).size<=3,
+    "Hiring header navigation may wrap without overlapping: "+JSON.stringify(navRows));
+  const narrowHeader=await page.locator(".top nav a").evaluateAll(items=>items.map(el=>{
+    const b=el.getBoundingClientRect();return {height:b.height,left:b.left,right:b.right};
+  }));
+  assert.ok(narrowHeader.every(b=>b.height>=43.5&&b.left>=-1&&b.right<=391),
+    "Spanish hiring links need accessible tap targets: "+JSON.stringify(narrowHeader));
   await page.setViewportSize({width:1366,height:900});
 
   // V9: distinct, functional buyer and recruiter contact entry points.
@@ -151,6 +159,61 @@ try {
 
   await page.goto(origin+"/en/cases/",{waitUntil:"networkidle"});
   assert.equal(await page.locator("h1").count(),1);
+
+  // V13: complete bilingual public case studies and accessible secondary headers.
+  for(const lang of ["en","es"]){
+    await page.goto(origin+"/"+lang+"/cases/",{waitUntil:"networkidle"});
+    assert.equal(await page.locator("#public-proof article[data-evidence='public']").count(),3);
+    assert.equal(await page.locator("#experience article[data-evidence='private']").count(),4);
+    assert.equal(await page.locator("#python-csv a[href*='examples/csv']").count(),1);
+    assert.equal(await page.locator("#python-api a[href*='examples/backend']").count(),1);
+    if(lang==="es"){
+      const whole=await page.locator("body").innerText();
+      assert.ok(whole.includes("CASOS TÉCNICOS"));
+      assert.ok(whole.toLocaleLowerCase("es").includes("problema de ingeniería"));
+      assert.doesNotMatch(whole,/CASE STUDIES|Try independent idempotency sample/);
+      const subjects=await page.locator("a[href^='mailto:']").evaluateAll(a=>a.map(node=>decodeURIComponent(node.getAttribute("href"))));
+      assert.ok(subjects.some(text=>text.includes("Referencias de proyectos web")));
+    }
+    for(const section of ["python-csv","python-api","portfolio","client-websites","catalog-integrity","ai-automation","vyra-fitness"])
+      assert.equal(await page.locator("#"+section).count(),1);
+    for(const width of [320,390,768]){
+      await page.setViewportSize({width,height:844});
+      for(const route of ["cases","labs","hiring","trust"]){
+        await page.goto(origin+"/"+lang+"/"+route+"/",{waitUntil:"networkidle"});
+        const dimensions=await page.locator("header nav a").evaluateAll(links=>links.map(node=>{
+          const rect=node.getBoundingClientRect();
+          return {name:node.innerText,h:rect.height,left:rect.left,right:rect.right};
+        }));
+        assert.ok(dimensions.length>0,"Missing secondary header links: "+lang+"/"+route);
+        assert.ok(dimensions.every(x=>x.h>=43.5&&x.left>=-1&&x.right<=width+1),
+          "Unsafe secondary header targets at "+lang+"/"+route+" "+width+": "+JSON.stringify(dimensions));
+        const scrollWidth=await page.evaluate(()=>document.documentElement.scrollWidth);
+        if(scrollWidth>width+1){
+          const offenders=await page.evaluate(()=>{
+            const width=document.documentElement.clientWidth;
+            return Array.from(document.querySelectorAll("body *")).map(el=>{
+              const r=el.getBoundingClientRect();
+              return {tag:el.tagName,cls:el.className,id:el.id,right:Math.round(r.right),left:Math.round(r.left)};
+            }).filter(r=>r.right>width+1||r.left< -1).slice(0,12);
+          });
+          assert.fail("Secondary overflow "+lang+"/"+route+" at "+width+" got "+scrollWidth+" nodes: "+JSON.stringify(offenders));
+        }
+      }
+    }
+  }
+  await page.setViewportSize({width:1366,height:900});
+  await page.goto(origin+"/en/",{waitUntil:"networkidle"});
+  assert.equal(await page.locator("#evidence .verified-case-link").count(),3);
+
+  // V13 visual release evidence: genuine Chrome renders, not generated mockups.
+  await page.setViewportSize({width:1366,height:900});
+  await page.goto(origin+"/en/cases/",{waitUntil:"networkidle"});
+  await page.screenshot({path:"qa-evidence/v13-case-studies-1366.png",fullPage:true});
+  await page.setViewportSize({width:390,height:844});
+  await page.goto(origin+"/es/cases/",{waitUntil:"networkidle"});
+  await page.screenshot({path:"qa-evidence/v13-casos-es-390.png",fullPage:true});
+  await page.setViewportSize({width:1366,height:900});
 
   // Public SaaS/agent trust pages: evidence vs not-yet-verified services.
   for (const lang of ["en","es"]) {

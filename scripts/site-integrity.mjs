@@ -46,6 +46,7 @@ function checkLocalLink(value,relativeHtml){
 for(const page of pages){
   const relativeHtml=relative(root,page).split(sep).join("/");
   const html=readFileSync(page,"utf8");
+  assert.ok(!html.includes(String.fromCharCode(92)+"n</head>"),"Literal escaped newline leaked into HTML: "+relativeHtml);
   const matches=html.matchAll(/\b(?:href|src)="([^"]+)"/g);
   for (const match of matches)checkLocalLink(match[1],relativeHtml);
 }
@@ -74,6 +75,13 @@ for(const lang of ["en","es"]){
     assert.ok(html.includes('property="og:image:height" content="630"'),"Missing social height: "+lang+"/"+page);
     assert.ok(html.includes('property="og:image:alt"'),"Missing alternative social text: "+lang+"/"+page);
     assert.ok(html.includes('name="twitter:card" content="summary_large_image"'),"Missing large Twitter card: "+lang+"/"+page);
+    assert.ok(html.includes('property="og:locale" content="'+(lang==="es"?"es_UY":"en_US")+'"'),
+      "Missing or wrong OG locale: "+lang+"/"+page);
+    assert.ok(html.includes('property="og:locale:alternate" content="'+(lang==="es"?"en_US":"es_UY")+'"'),
+      "Missing OG alternate locale: "+lang+"/"+page);
+    for(const key of ['twitter:title','twitter:description','twitter:image'])
+      assert.ok(html.includes('name="'+key+'"'),"Missing "+key+": "+lang+"/"+page);
+    if(page) assert.ok(html.includes('shared-pages.css'),"Missing shared a11y stylesheet: "+lang+"/"+page);
   }
 }
 console.log(JSON.stringify({result:"PASS",pages:pages.length,localLinks:tracked.length,jsBytes:js,cssBytes:css,socialImageBytes:og?.size??null},null,2));
