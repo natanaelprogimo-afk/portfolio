@@ -95,7 +95,14 @@ try {
   await page.goto(origin+"/es/hiring/",{waitUntil:"networkidle"});
   await page.setViewportSize({width:390,height:844});
   const navRows=await page.locator(".top nav a").evaluateAll(a=>a.map(x=>Math.round(x.getBoundingClientRect().top)));
-  assert.equal(new Set(navRows).size,1,"Spanish hiring header should remain on one navigation row");
+  // Wrapped rows are preferable to sub-24px touch targets on narrow screens.
+  assert.ok(new Set(navRows).size>=1&&new Set(navRows).size<=3,
+    "Hiring header navigation may wrap without overlapping: "+JSON.stringify(navRows));
+  const narrowHeader=await page.locator(".top nav a").evaluateAll(items=>items.map(el=>{
+    const b=el.getBoundingClientRect();return {height:b.height,left:b.left,right:b.right};
+  }));
+  assert.ok(narrowHeader.every(b=>b.height>=43.5&&b.left>=-1&&b.right<=391),
+    "Spanish hiring links need accessible tap targets: "+JSON.stringify(narrowHeader));
   await page.setViewportSize({width:1366,height:900});
 
   // V9: distinct, functional buyer and recruiter contact entry points.
