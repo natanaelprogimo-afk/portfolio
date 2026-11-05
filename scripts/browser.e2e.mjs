@@ -170,7 +170,7 @@ try {
     if(lang==="es"){
       const whole=await page.locator("body").innerText();
       assert.ok(whole.includes("CASOS TÉCNICOS"));
-      assert.ok(whole.includes("Problema de ingeniería"));
+      assert.ok(whole.toLocaleLowerCase("es").includes("problema de ingeniería"));
       assert.doesNotMatch(whole,/CASE STUDIES|Try independent idempotency sample/);
       const subjects=await page.locator("a[href^='mailto:']").evaluateAll(a=>a.map(node=>decodeURIComponent(node.getAttribute("href"))));
       assert.ok(subjects.some(text=>text.includes("Referencias de proyectos web")));
