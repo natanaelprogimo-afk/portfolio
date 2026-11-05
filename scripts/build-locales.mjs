@@ -72,6 +72,14 @@ function decorate(html, locale,slug,title,description) {
     '$1'+escape(locale === "es" ? "Alerson Morales: ingeniería de software, proyectos y ejemplos públicos" : "Alerson Morales: software engineering, selected work and public examples")+'$2');
   html=html.replace(/(<meta name="twitter:image:alt" content=")[^"]*(")/,
     '$1'+escape(locale === "es" ? "Portafolio de ingeniería de Alerson Morales" : "Alerson Morales engineering portfolio")+'$2');
+  // Locale metadata and static navigation styling must exist in source HTML,
+  // not be injected only by client-side React.
+  if (!html.includes('property="og:locale"'))
+    html=html.replace("</head>", '<meta property="og:locale" content="'+(locale==="es"?"es_UY":"en_US")+'" />\n</head>');
+  if (!html.includes('property="og:locale:alternate"'))
+    html=html.replace("</head>", '<meta property="og:locale:alternate" content="'+(locale==="es"?"en_US":"es_UY")+'" />\n</head>');
+  if (slug && !html.includes('href="'+base+'shared-pages.css"'))
+    html=html.replace("</head>", '<link rel="stylesheet" href="'+base+'shared-pages.css" />\n</head>');
   return html;
 }
 
@@ -242,6 +250,11 @@ for(const locale of ["en","es"]){
       .replaceAll("Skip to content", "Saltar al contenido")
       .replaceAll("Status</th>", "Estado</th>")
       .replaceAll("Requests</th>", "Solicitudes</th>");
+    cases=cases.replaceAll("AM. / CASE STUDIES", "AM. / CASOS TÉCNICOS")
+      .replaceAll("Try independent idempotency sample ↗", "Probar simulación independiente de idempotencia ↗")
+      .replaceAll("AI%20Automation%20Factory%20technical%20discussion", encodeURIComponent("Consulta técnica sobre AI Automation Factory"))
+      .replaceAll("VYRA%20Fitness%20technical%20discussion", encodeURIComponent("Consulta técnica sobre VYRA Fitness"))
+      .replaceAll("Website%20project%20references", encodeURIComponent("Referencias de proyectos web"));
     cases=cases.replaceAll("Skip to content", "Saltar al contenido")
       .replaceAll("Client website builds", "Desarrollo web para clientes")
       .replaceAll("Developer Portfolio", "Portafolio profesional")
