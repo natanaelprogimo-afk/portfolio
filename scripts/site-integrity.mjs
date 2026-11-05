@@ -46,6 +46,7 @@ function checkLocalLink(value,relativeHtml){
 for(const page of pages){
   const relativeHtml=relative(root,page).split(sep).join("/");
   const html=readFileSync(page,"utf8");
+  assert.ok(!html.includes(String.raw`\\n</head>`),"Literal escaped newline leaked into HTML: "+relativeHtml);
   const matches=html.matchAll(/\b(?:href|src)="([^"]+)"/g);
   for (const match of matches)checkLocalLink(match[1],relativeHtml);
 }
