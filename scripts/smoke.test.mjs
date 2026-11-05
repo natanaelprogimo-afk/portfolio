@@ -184,7 +184,7 @@ test("professional JSON-LD is valid, truthful and localized on homepages", () =>
     assert.equal(schema.homeLocation.name,"Uruguay");
     assert.ok(schema.sameAs.includes("https://github.com/natanaelprogimo-afk"));
     assert.ok(schema.url.endsWith("/"+lang+"/"));
-    assert.doesNotMatch(html,/\"award\"|\"alumniOf\":\s*\[\s*\"University/);
+    assert.doesNotMatch(html,/"award"|"alumniOf":\s*\[\s*"University/);
   }
 });
 
