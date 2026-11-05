@@ -58,6 +58,7 @@ try {
   // The first screen offers distinct recruiter and commercial buyer paths.
   for (const language of ["en","es"]) {
     await page.goto(origin+"/"+language+"/",{waitUntil:"networkidle"});
+    assert.equal(await page.locator('main[data-release="v13"]').count(),1);
     assert.equal(await page.locator("#start-here .route-card").count(),2);
     assert.equal(await page.locator(".verified-quick-links a").count(),4);
     assert.equal(await page.locator(".project-status-guide").count(),1);
