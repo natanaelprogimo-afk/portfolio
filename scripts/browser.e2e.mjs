@@ -206,6 +206,15 @@ try {
   await page.goto(origin+"/en/",{waitUntil:"networkidle"});
   assert.equal(await page.locator("#evidence .verified-case-link").count(),3);
 
+  // V13 visual release evidence: genuine Chrome renders, not generated mockups.
+  await page.setViewportSize({width:1366,height:900});
+  await page.goto(origin+"/en/cases/",{waitUntil:"networkidle"});
+  await page.screenshot({path:"qa-evidence/v13-case-studies-1366.png",fullPage:true});
+  await page.setViewportSize({width:390,height:844});
+  await page.goto(origin+"/es/cases/",{waitUntil:"networkidle"});
+  await page.screenshot({path:"qa-evidence/v13-casos-es-390.png",fullPage:true});
+  await page.setViewportSize({width:1366,height:900});
+
   // Public SaaS/agent trust pages: evidence vs not-yet-verified services.
   for (const lang of ["en","es"]) {
     await page.goto(origin+"/"+lang+"/trust/",{waitUntil:"networkidle"});
