@@ -189,7 +189,16 @@ try {
         assert.ok(dimensions.every(x=>x.h>=43.5&&x.left>=-1&&x.right<=width+1),
           "Unsafe secondary header targets at "+lang+"/"+route+" "+width+": "+JSON.stringify(dimensions));
         const scrollWidth=await page.evaluate(()=>document.documentElement.scrollWidth);
-        assert.ok(scrollWidth<=width+1,"Secondary overflow "+lang+"/"+route+" at "+width+" got "+scrollWidth);
+        if(scrollWidth>width+1){
+          const offenders=await page.evaluate(()=>{
+            const width=document.documentElement.clientWidth;
+            return Array.from(document.querySelectorAll("body *")).map(el=>{
+              const r=el.getBoundingClientRect();
+              return {tag:el.tagName,cls:el.className,id:el.id,right:Math.round(r.right),left:Math.round(r.left)};
+            }).filter(r=>r.right>width+1||r.left< -1).slice(0,12);
+          });
+          assert.fail("Secondary overflow "+lang+"/"+route+" at "+width+" got "+scrollWidth+" nodes: "+JSON.stringify(offenders));
+        }
       }
     }
   }
