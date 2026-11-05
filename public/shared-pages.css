@@ -29,6 +29,11 @@ header nav a:focus-visible,
   outline-offset: 3px;
 }
 @media (max-width: 650px) {
+  /* Spanish technical-lab brand + navigation must wrap into two rows rather
+     than overflow a 320px viewport when links have 44px tap targets. */
+  .top { flex-wrap: wrap; justify-content: flex-start; gap: 8px; }
+  .top .brand { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+  .top nav { flex-basis: 100%; width: 100%; justify-content: flex-start; }
   header nav, .top nav {
     flex-wrap: wrap;
     gap: 3px 7px;
