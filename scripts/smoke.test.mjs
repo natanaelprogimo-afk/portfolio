@@ -16,7 +16,7 @@ test("generated site ships the required static resources", () => {
 
 test("SEO metadata and Pages asset paths are valid", () => {
   const index = text("dist/index.html");
-  assert.match(index, /Alerson Morales \| Full-Stack Software Engineer/);
+  assert.match(index, /Alerson Morales \| Full-Stack Developer in Uruguay/);
   assert.match(index, /rel="canonical"/);
   assert.match(index, /application\/ld\+json/);
   const prefix = process.env.GITHUB_PAGES === "true" ? "/portfolio/" : "/";
@@ -42,7 +42,7 @@ test("site contains navigation anchors and honest project statuses", () => {
   assert.match(text("src/components/VerifiedWork.tsx"), /id="evidence"/);
   assert.doesNotMatch(app,/className="section approach-section"/);
   assert.doesNotMatch(app,/className="section lab-section"/);
-  assert.match(app, /import\.meta\.env\.BASE_URL \+ "resume\.html"/);
+  assert.match(app, /import\.meta\.env\.BASE_URL \+ locale \+ "\/resume\/"/);
   assert.match(projectData, /Not released/);
   assert.match(projectData, /Private/);
   assert.match(projectData, /2 websites completed/);
@@ -297,7 +297,7 @@ test("V10 evidence ordering, translations and hash navigation are present",()=>{
  const lab=text("public/labs/index.html"), hiring=text("scripts/build-hiring.mjs");
  assert.match(app,/publicFirstOrder/);
  assert.match(app,/project: 0|portfolio: 0/);
- assert.match(app,/workCasesLabel/);
+ assert.match(app,/FEATURED PROJECTS/);
  assert.match(content,/workCasesLabel: "CASOS"/);
  assert.match(content,/contactEyebrow: "04 \/ CONTACTO"/);
  assert.match(lab,/activateFromHash/);
