@@ -20,6 +20,7 @@ const EMAIL = "moralesalerson@gmail.com";
 const sectionIds = ["evidence", "about", "work", "contact"] as const;
 const groupIds: Array<"all" | ProjectGroup> = ["all", "systems", "product", "client"];
 const iconList = [Code2, Database, Workflow, Layers3] as const;
+const CSV_COMMAND = "python examples/csv/reconcile.py --feed examples/csv/fixtures/feed.csv --observed examples/csv/fixtures/observed.csv --output report.csv";
 
 export default function App() {
   const [locale] = useState<Locale>(() => {
@@ -35,6 +36,7 @@ export default function App() {
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [copyState, setCopyState] = useState<"idle"|"success"|"failure">("idle");
+  const [commandCopyState,setCommandCopyState]=useState<"idle"|"success"|"failure">("idle");
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const t = copy[locale];
   const localPage = (path: string) => import.meta.env.BASE_URL + locale + "/" + path;
@@ -201,7 +203,13 @@ export default function App() {
                 <h2>{locale === "es" ? "Conciliación CSV verificable" : "Verifiable CSV reconciliation"}</h2>
                 <p>{locale === "es" ? "Datos ficticios incluidos en el repositorio. Ejecución local con Python y pruebas automáticas." : "Synthetic fixtures in the public repository. Local Python execution and automated tests."}</p>
                 <div className="hero-terminal" role="group" aria-label={locale === "es" ? "Ejemplo reproducible de salida del programa Python" : "Reproducible output of the Python program"}>
-                  <div className="hero-terminal-command"><span aria-hidden="true">$</span> python examples/csv/reconcile.py --feed examples/csv/fixtures/feed.csv --observed examples/csv/fixtures/observed.csv --output report.csv</div>
+                  <div className="hero-terminal-command"><span aria-hidden="true">$</span><code>{CSV_COMMAND}</code></div>
+                  <button className="copy-command" type="button" onClick={async()=>{
+                    try{await navigator.clipboard.writeText(CSV_COMMAND);setCommandCopyState("success")}
+                    catch{setCommandCopyState("failure")}
+                  }}>{commandCopyState==="success"?(locale==="es"?"Comando copiado":"Command copied"):
+                      commandCopyState==="failure"?(locale==="es"?"Selecciona y copia el comando":"Select and copy the command"):
+                      locale==="es"?"Copiar comando":"Copy command"}</button>
                   <div className="hero-terminal-results">
                     <span><strong>01</strong> match</span>
                     <span><strong>01</strong> mismatch</span>
@@ -288,7 +296,7 @@ export default function App() {
                   <ProjectVisual id={project.id} locale={locale} />
                   <div className="project-info">
                     <span className="project-category">{project.category[locale]}</span>
-                    <h3>{project.name}</h3>
+                    <h3>{locale === "es" && project.id==="portfolio" ? "Portafolio de desarrollo" : project.name}</h3>
                     <p>{project.summary[locale]}</p>
                   </div>
                   <div className="tag-list" role="list" aria-label={t.labelTech}>
@@ -307,7 +315,9 @@ export default function App() {
                     {project.id === "catalog-integrity" && (
                       <a href={localPage("labs/")} target="_blank" rel="noopener noreferrer">{locale === "en" ? "Independent public sample" : "Ejemplo público independiente"} <ExternalLink size={15}/></a>
                     )}
-                    {project.source ? <a target="_blank" rel="noopener noreferrer" href={project.source}>{t.source}<ExternalLink size={15} /></a> : <span className="project-private"><ShieldCheck size={14} /> {locale === "en" ? "Private" : "Privado"}</span>}
+                    {project.source ? <a target="_blank" rel="noopener noreferrer" href={project.source}>{t.source}<ExternalLink size={15} /></a> : <span className="project-private"><ShieldCheck size={14} /> {project.id==="client-websites"?
+                        (locale==="es"?"Clientes · referencias pendientes":"Client work · references pending"):
+                        (locale==="es"?"Privado":"Private")}</span>}
                   </div>
                   {expanded === project.id && (
                     <div className="project-notes" id={"notes-" + project.id}>
