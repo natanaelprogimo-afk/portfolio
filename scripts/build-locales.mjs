@@ -163,7 +163,8 @@ const labSpanish = new Map([
 ["Sample event stream (JSON)","Eventos de ejemplo (JSON)"],["Analyze events →","Analizar eventos →"],["A working aggregation, not a SQL engine","Agregación funcional; no es un motor SQL"],
 ["Press Analyze events to execute.","Pulsa Analizar eventos para ejecutar."],
 ["← Back to portfolio","← Volver al portafolio"],["View public source code","Ver código fuente público"],
-["Synthetic examples · All processing is client-side.","Ejemplos ficticios · Todo se procesa en el navegador."]
+["Synthetic examples · All processing is client-side.","Ejemplos ficticios · Todo se procesa en el navegador."],
+["Catalog results","Resultados de catálogos"],["Request simulation results","Resultados de simulación"],["Metrics results","Resultados de métricas"]
 ]);
 
 
@@ -188,6 +189,9 @@ for(const locale of ["en","es"]){
       .replaceAll("Requests</th>", "Solicitudes</th>");
 
   }
+  // The EN/ES switch maintains the currently selected exercise (#catalog etc.).
+  labs=labs.replace('</nav></header>', '<a data-language-switch lang="'+(locale==="en"?"es":"en")+'" href="'+base+(locale==="en"?"es":"en")+'/labs/">'+(locale==="en"?"Español":"English")+'</a></nav></header>');
+  labs=labs.replace('</body>', '<script>document.querySelector("[data-language-switch]")?.addEventListener("click",function(){this.href=this.href.split("#")[0]+window.location.hash})</script></body>');
   // A translated standalone lab must import from the shared original module.
   labs=labs.replace('from "./logic.mjs"','from "'+base+'labs/logic.mjs"');
   // Hash tabs stay in sync with fresh navigation and back/forward.
@@ -209,6 +213,9 @@ for(const locale of ["en","es"]){
   output(locale+"/labs/index.html",labs);
   output(locale+"/cases/index.html",cases);
 }
+// Legacy /labs/ stays for older links; unlike localized pages it is not indexed.
+output("labs/index.html",labsEnglish.replace("</head>",
+  '<link rel="canonical" href="'+baseUrl("en","labs/")+'" /><meta name="robots" content="noindex,follow" />\n</head>'));
 // Legacy /cases/ remains an English alias but uses the same authored content.
 output("cases/index.html",decorate(renderCases("en",base),"en","cases/","Engineering Case Studies | Alerson Morales","Inspect public code, verified tests and clearly labeled private work.")
   .replace(/<link rel="canonical" href="[^"]+" \/>/,'<link rel="canonical" href="'+baseUrl("en","cases/")+'" />')
