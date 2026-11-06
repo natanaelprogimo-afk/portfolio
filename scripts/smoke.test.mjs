@@ -95,7 +95,8 @@ test("V13 case studies use structured bilingual source with distinct public and 
  for(const lang of ["en","es"]){
    const html=text("dist/"+lang+"/cases/index.html");
    assert.equal((html.match(/data-evidence="public"/g)||[]).length,3);
-   assert.equal((html.match(/data-evidence="private"/g)||[]).length,4);
+   assert.equal((html.match(/data-evidence="private"/g)||[]).length,3);
+    assert.equal((html.match(/data-evidence="client"/g)||[]).length,1);
    for(const anchor of ["python-csv","python-api","portfolio","client-websites","catalog-integrity","ai-automation","vyra-fitness"])
      assert.ok(html.includes('id="'+anchor+'"'),"Missing "+lang+" case "+anchor);
    assert.ok(html.includes("examples/csv"),"Public CSV source missing");
@@ -108,6 +109,36 @@ test("V13 case studies use structured bilingual source with distinct public and 
  assert.match(es,/Referencias de proyectos web|Referencias%20de%20proyectos%20web/);
  assert.match(es,/Problema de ingeniería/);
  assert.match(text("dist/es/hiring/index.html"),/examples\/csv/);
+});
+
+test("V14 bilingual SEO, proof docs, evidence taxonomy and mobile result output are consistent",()=>{
+  for(const path of ["examples/backend/README.md","examples/sql/README.md"])
+    assert.ok(text(path).includes("python -m unittest discover"),"Executable instructions missing: "+path);
+  const sitemap=text("dist/sitemap.xml");
+  assert.equal((sitemap.match(/<loc>/g)||[]).length,10,"Sitemap must contain ten canonical localized pages");
+  for(const path of ["/portfolio/labs/","/portfolio/cases/","/portfolio/resume.html"])
+    assert.ok(!sitemap.includes("<loc>https://natanaelprogimo-afk.github.io"+path+"</loc>"),"Legacy alias in sitemap: "+path);
+  const root=text("dist/index.html");
+  assert.match(root,/rel="canonical" href="https:\/\/natanaelprogimo-afk.github.io\/portfolio\/en\//);
+  const es=text("dist/es/index.html");
+  assert.doesNotMatch(es,/>Python CSV CLI — public source and tests<|>Python API — public source and tests</);
+  assert.match(es,/Herramienta Python CSV — código y pruebas públicas/);
+  for(const lang of ["en","es"]){
+    for(const section of ["labs","cases"]){
+      const html=text("dist/"+lang+"/"+section+"/index.html");
+      assert.ok(html.includes('hreflang="x-default" href="https://natanaelprogimo-afk.github.io/portfolio/en/'+section+'/'),
+        "x-default must remain in its own section: "+lang+"/"+section);
+      assert.ok(html.includes("data-language-switch"),"Language switch missing: "+lang+"/"+section);
+    }
+  }
+  const lab=text("dist/en/labs/index.html");
+  assert.match(lab,/result-cards/);
+  assert.match(lab,/role="region"/);
+  assert.match(lab,/createElement\("caption"\)/);
+  assert.match(text("dist/labs/index.html"),/name="robots" content="noindex,follow"/);
+  assert.match(text("dist/cases/index.html"),/name="robots" content="noindex,follow"/);
+  assert.match(text("src/App.tsx"),/data-release="v14"/);
+  assert.match(text("src/App.tsx"),/CSV_COMMAND/);
 });
 
 test("generated recruiter PDFs contain live links and language metadata", () => {
