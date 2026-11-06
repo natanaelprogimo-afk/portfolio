@@ -25,8 +25,8 @@ export default function App() {
   const [locale] = useState<Locale>(() => {
     const segment = window.location.pathname.match(/\/(en|es)\/?$/)?.[1];
     if (segment === "es" || segment === "en") return segment;
-    try { return window.localStorage.getItem("alerson-portfolio-lang") === "es" ? "es" : "en"; }
-    catch { return "en"; }
+    // Root is an English canonical alias; /es/ preserves Spanish independently.
+    return "en";
   });
   const [menuOpen, setMenuOpen] = useState(false);
   const firstNavRef = useRef<HTMLAnchorElement | null>(null);
@@ -175,7 +175,7 @@ export default function App() {
         </div>
       </header>
 
-      <main id="main" tabIndex={-1} data-release="v13">
+      <main id="main" tabIndex={-1} data-release="v14">
         <section className="hero" id="top" aria-labelledby="hero-title">
           <div className="container hero-layout">
             <div className="hero-copy">
@@ -201,7 +201,7 @@ export default function App() {
                 <h2>{locale === "es" ? "Conciliación CSV verificable" : "Verifiable CSV reconciliation"}</h2>
                 <p>{locale === "es" ? "Datos ficticios incluidos en el repositorio. Ejecución local con Python y pruebas automáticas." : "Synthetic fixtures in the public repository. Local Python execution and automated tests."}</p>
                 <div className="hero-terminal" role="group" aria-label={locale === "es" ? "Ejemplo reproducible de salida del programa Python" : "Reproducible output of the Python program"}>
-                  <div className="hero-terminal-command"><span aria-hidden="true">$</span> python reconcile.py --feed feed.csv --observed observed.csv --output report.csv</div>
+                  <div className="hero-terminal-command"><span aria-hidden="true">$</span> python examples/csv/reconcile.py --feed examples/csv/fixtures/feed.csv --observed examples/csv/fixtures/observed.csv --output report.csv</div>
                   <div className="hero-terminal-results">
                     <span><strong>01</strong> match</span>
                     <span><strong>01</strong> mismatch</span>
