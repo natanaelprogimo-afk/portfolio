@@ -59,3 +59,8 @@ a{color:var(--accent)}a:focus-visible{outline:3px solid var(--accent);outline-of
  .case-links a{width:100%;justify-content:space-between}
  .case-group{padding-top:30px}
 }
+
+/* V14: distinct client evidence, not mislabeled as private source. */
+.case[data-evidence="client"]{border-top-color:#acc096}
+.case[data-evidence="client"] .status{border-color:#90aa91;background:#213127;color:#ecf9d5}
+@media(max-width:650px){.case-group{padding-top:24px}.case-group-heading{gap:12px}.case{padding:26px 0 34px}}
