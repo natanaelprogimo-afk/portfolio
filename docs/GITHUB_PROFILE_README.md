@@ -1,8 +1,8 @@
 # GitHub Profile README — Alerson Morales
 
-**Full-Stack Software Developer · Backend Systems · AI Automation**
+**Python Automation · REST APIs · React/Next.js · SQL**
 
-I'm an independent software developer based in Uruguay and the founder of **VYRA**. I build testable web applications, backend APIs, SQL data workflows and controlled automation. I started programming at age 12 and completed a technical high-school program in Informatics in 2025.
+I'm an independent software developer based in Uruguay and the founder of **VYRA**. I develop testable Python automation, API integrations, React interfaces and SQL data workflows. I completed a technical high-school program in Informatics in 2025.
 
 🌎 **Uruguay** · Interested in **100% remote international software engineering roles**
 
@@ -13,10 +13,13 @@ I'm an independent software developer based in Uruguay and the founder of **VYRA
 - [Professional portfolio](https://natanaelprogimo-afk.github.io/portfolio/en/) — bilingual full-stack site and case studies
 - [Recruiter brief](https://natanaelprogimo-afk.github.io/portfolio/en/hiring/) — quick overview with links to inspect
 - [Interactive engineering lab](https://natanaelprogimo-afk.github.io/portfolio/en/labs/) — synthetic CSV, idempotency and event examples
-- [Python API source and tests](https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/backend) — local HTTP, input validation, SQLite, retries
-- [SQL source and tests](https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/sql) — schemas, indexes, queries and window functions
+- [Python API source and tests](https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/backend) — local HTTP, input validation, SQLite and request replay
+- [Python CSV reconciliation](https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/csv) — runnable command, fictional fixtures and tests
+- [SQL source and tests](https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/sql) — schema, synthetic seed data, queries and reproducible tests
 
 ### Selected projects
+
+Three public engineering examples, one reported completed client-work case and three private/unreleased projects are distinguished on the [engineering case studies page](https://natanaelprogimo-afk.github.io/portfolio/en/cases/).
 
 | Project | Technologies and role | Current status |
 | --- | --- | --- |
