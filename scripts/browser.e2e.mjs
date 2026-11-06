@@ -52,13 +52,25 @@ try {
   assert.ok((await page.locator(".notice").innerText()).includes("No son capturas"));
   assert.equal(await page.getByRole("columnheader",{name:"Estado"}).count(),1);
   assert.ok((await page.locator("#result-catalog").innerText()).includes("Diferencia"));
+  await page.setViewportSize({width:390,height:844});
+  assert.equal(await page.locator("#result-catalog table").isHidden(),true);
+  assert.ok(await page.locator("#result-catalog .result-cards .result-card").count()>=3);
+  const region=page.locator("#result-catalog");
+  assert.equal(await region.getAttribute("role"),"region");
+  await region.focus();
+  assert.equal(await page.evaluate(()=>document.activeElement?.id),"result-catalog");
+  const langSwitchLab=page.locator('a[data-language-switch]');
+  await langSwitchLab.click();
+  await page.waitForURL("**/en/labs/#catalog");
+  assert.equal(await page.locator("#tab-catalog").getAttribute("aria-selected"),"true");
+  await page.setViewportSize({width:1366,height:900});
   await page.goto(origin+"/es/labs/#metrics",{waitUntil:"networkidle"});
   assert.equal(await page.locator("#tab-metrics").getAttribute("aria-selected"),"true");
   assert.equal(await page.locator("#panel-metrics").isVisible(),true);
   // The first screen offers distinct recruiter and commercial buyer paths.
   for (const language of ["en","es"]) {
     await page.goto(origin+"/"+language+"/",{waitUntil:"networkidle"});
-    assert.equal(await page.locator('main[data-release="v13"]').count(),1);
+    assert.equal(await page.locator('main[data-release="v14"]').count(),1);
     assert.equal(await page.locator("#start-here .route-card").count(),2);
     assert.equal(await page.locator(".verified-quick-links a").count(),4);
     assert.equal(await page.locator(".project-status-guide").count(),1);
@@ -91,7 +103,7 @@ try {
   }
   await page.goto(origin+"/es/",{waitUntil:"networkidle"});
   assert.ok((await page.locator(".section-count").innerText()).includes("CASOS"));
-  assert.ok((await page.locator(".project-grid .project-card").first().innerText()).includes("Developer Portfolio"));
+  assert.ok((await page.locator(".project-grid .project-card").first().innerText()).includes("Portafolio de desarrollo"));
   assert.ok((await page.locator(".project-grid").innerText()).includes("Interfaz adaptable"));
   await page.goto(origin+"/es/hiring/",{waitUntil:"networkidle"});
   await page.setViewportSize({width:390,height:844});
@@ -126,6 +138,8 @@ try {
   await page.waitForFunction(()=>document.querySelector('.site-nav a[href="#work"]')?.getAttribute('aria-current')==='location');
 
   // Work samples should be visible near the first screen, with honest provenance.
+  await page.goto(origin+"/",{waitUntil:"networkidle"});
+  assert.equal(await page.locator("html").getAttribute("lang"),"en","Root must remain the canonical English alias");
   await page.goto(origin+"/en/#evidence",{waitUntil:"networkidle"});
   assert.equal(await page.locator("#evidence .verified-card").count(),3);
   assert.ok((await page.locator("#evidence").innerText()).includes("synthetic data"));
@@ -160,11 +174,17 @@ try {
   await page.goto(origin+"/en/cases/",{waitUntil:"networkidle"});
   assert.equal(await page.locator("h1").count(),1);
 
+  // V14: a language switch must preserve the same case-study anchor.
+  await page.goto(origin+"/en/cases/#python-api",{waitUntil:"networkidle"});
+  await page.locator('a[data-language-switch]').click();
+  await page.waitForURL("**/es/cases/#python-api");
+  assert.equal(await page.locator("#python-api").count(),1);
   // V13: complete bilingual public case studies and accessible secondary headers.
   for(const lang of ["en","es"]){
     await page.goto(origin+"/"+lang+"/cases/",{waitUntil:"networkidle"});
     assert.equal(await page.locator("#public-proof article[data-evidence='public']").count(),3);
-    assert.equal(await page.locator("#experience article[data-evidence='private']").count(),4);
+    assert.equal(await page.locator("#experience article[data-evidence='client']").count(),1);
+    assert.equal(await page.locator("#private-work article[data-evidence='private']").count(),3);
     assert.equal(await page.locator("#python-csv a[href*='examples/csv']").count(),1);
     assert.equal(await page.locator("#python-api a[href*='examples/backend']").count(),1);
     if(lang==="es"){
