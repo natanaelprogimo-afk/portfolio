@@ -66,11 +66,18 @@ for(const lang of ["en","es"]){
 }
 // V12: every public language and evidence route must reference the built
 // social asset. SVG is a safe fallback only when rasterization is unavailable.
-const socialAsset=og?"og-preview.png":"og-preview.svg";
+const socialStem=page=>page==="cases/"?"og-cases":page==="hiring/"?"og-hiring":page==="trust/"?"og-trust":"og-preview";
+for(const stem of ["og-preview","og-cases","og-hiring","og-trust"]){
+  const social=assets.find(x=>x.path.endsWith("/"+stem+".png")||x.path.endsWith(sep+stem+".png"));
+  if(social)assert.ok(social.size<=500_000,stem+" social PNG budget exceeded: "+social.size);
+}
 for(const lang of ["en","es"]){
   for(const page of ["", "labs/", "cases/", "hiring/", "trust/"]){
     const html=readFileSync(join(root,lang,page,"index.html"),"utf8");
-    assert.ok(html.includes("og-preview."+socialAsset.split(".").at(-1)), "Social preview path is not consistent: "+lang+"/"+page);
+    const stem=socialStem(page);
+    const png=assets.some(x=>x.path.endsWith("/"+stem+".png")||x.path.endsWith(sep+stem+".png"));
+    const asset=stem+(png?".png":".svg");
+    assert.ok(html.includes(asset), "Social preview path is not consistent: "+lang+"/"+page+" expected "+asset);
     assert.ok(html.includes('property="og:image:width" content="1200"'),"Missing social width: "+lang+"/"+page);
     assert.ok(html.includes('property="og:image:height" content="630"'),"Missing social height: "+lang+"/"+page);
     assert.ok(html.includes('property="og:image:alt"'),"Missing alternative social text: "+lang+"/"+page);
