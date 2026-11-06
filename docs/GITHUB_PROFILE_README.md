@@ -19,7 +19,7 @@ I'm an independent software developer based in Uruguay and the founder of **VYRA
 
 ### Selected projects
 
-Three public engineering examples, one reported completed client-work case and three private/unreleased projects are distinguished on the [engineering case studies page](https://natanaelprogimo-afk.github.io/portfolio/en/cases/).
+Four public engineering examples, one reported completed client-work case and three private/unreleased projects are distinguished on the [engineering case studies page](https://natanaelprogimo-afk.github.io/portfolio/en/cases/).
 
 | Project | Technologies and role | Current status |
 | --- | --- | --- |
@@ -30,6 +30,8 @@ Three public engineering examples, one reported completed client-work case and t
 | [Portfolio](https://github.com/natanaelprogimo-afk/portfolio) | React, TypeScript, accessibility and CI | Public and deployed |
 
 **Evidence policy:** public examples use synthetic data and are independent of private VYRA source code. No invented client results or commercial deployments.
+
+[Detailed skills-to-evidence matrix](https://github.com/natanaelprogimo-afk/portfolio/blob/main/docs/SKILLS_EVIDENCE_MATRIX.md) · [English HTML résumé](https://natanaelprogimo-afk.github.io/portfolio/en/resume/) · [CV en español](https://natanaelprogimo-afk.github.io/portfolio/es/resume/)
 
 ### Skills
 
