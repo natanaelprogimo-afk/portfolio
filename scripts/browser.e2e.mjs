@@ -47,6 +47,14 @@ try {
   assert.ok((await page.locator("h1").innerText()).includes("Problemas complejos"));
   assert.ok((await page.locator('link[rel="canonical"]').getAttribute("href")).includes("/es/"));
 
+  // The unlocalized root must contain an actionable route without JavaScript.
+  const withoutJs=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
+  const staticPage=await withoutJs.newPage();
+  await staticPage.goto(origin+"/",{waitUntil:"load"});
+  assert.equal(await staticPage.locator("noscript main h1").count(),1);
+  assert.equal(await staticPage.locator('noscript a[href$="/es/"]').count(),1);
+  await withoutJs.close();
+
   await page.goto(origin+"/es/labs/#catalog",{waitUntil:"networkidle"});
   assert.doesNotMatch(await page.locator(".notice").innerText(),/No son no capturas/i);
   assert.ok((await page.locator(".notice").innerText()).includes("No son capturas"));
@@ -55,14 +63,14 @@ try {
   await page.setViewportSize({width:390,height:844});
   assert.equal(await page.locator("#result-catalog table").isHidden(),true);
   assert.ok(await page.locator("#result-catalog .result-cards .result-card").count()>=3);
-  await page.screenshot({path:"qa-evidence/v14-lab-cards-es-390.png",fullPage:true});
+  await page.screenshot({path:"qa-evidence/v15-lab-cards-es-390.png",fullPage:true});
   await page.setViewportSize({width:320,height:844});
   const dimensions=await page.locator("#result-catalog .result-card").evaluateAll(nodes=>nodes.map(el=>{
     const b=el.getBoundingClientRect();return {left:b.left,right:b.right,width:document.documentElement.clientWidth};
   }));
   assert.ok(dimensions.every(x=>x.left>=-1&&x.right<=x.width+1),
     "V14 lab result cards should not overflow 320px: "+JSON.stringify(dimensions));
-  await page.screenshot({path:"qa-evidence/v14-lab-cards-es-320.png",fullPage:true});
+  await page.screenshot({path:"qa-evidence/v15-lab-cards-es-320.png",fullPage:true});
   const region=page.locator("#result-catalog");
   assert.equal(await region.getAttribute("role"),"region");
   await region.focus();
@@ -72,13 +80,31 @@ try {
   await page.waitForURL("**/en/labs/#catalog");
   assert.equal(await page.locator("#tab-catalog").getAttribute("aria-selected"),"true");
   await page.setViewportSize({width:1366,height:900});
+  // URL history must follow tab changes and restore the correct panel.
+  await page.goto(origin+"/es/labs/#catalog",{waitUntil:"networkidle"});
+  await page.locator("#tab-retry").click();
+  assert.equal(new URL(page.url()).hash,"#retry");
+  await page.locator("#tab-metrics").click();
+  assert.equal(new URL(page.url()).hash,"#metrics");
+  await page.goBack();
+  assert.equal(new URL(page.url()).hash,"#retry");
+  assert.equal(await page.locator("#tab-retry").getAttribute("aria-selected"),"true");
+  await page.goto(origin+"/es/labs/#catalog",{waitUntil:"networkidle"});
+  await page.locator("#feed").fill("sku,price\nA,"+"9".repeat(320));
+  await page.locator("#run-catalog").click();
+  assert.match(await page.locator("#result-catalog").innerText(),/precio|centavos/i);
+  await page.goto(origin+"/es/labs/#retry",{waitUntil:"networkidle"});
+  await page.locator("#request-payload").fill("not valid JSON");
+  await page.locator("#run-retry").click();
+  assert.match(await page.locator("#result-retry").innerText(),/JSON válido/);
+
   await page.goto(origin+"/es/labs/#metrics",{waitUntil:"networkidle"});
   assert.equal(await page.locator("#tab-metrics").getAttribute("aria-selected"),"true");
   assert.equal(await page.locator("#panel-metrics").isVisible(),true);
   // The first screen offers distinct recruiter and commercial buyer paths.
   for (const language of ["en","es"]) {
     await page.goto(origin+"/"+language+"/",{waitUntil:"networkidle"});
-    assert.equal(await page.locator('main[data-release="v14"]').count(),1);
+    assert.equal(await page.locator('main[data-release="v15"]').count(),1);
     assert.equal(await page.locator("#start-here .route-card").count(),2);
     assert.equal(await page.locator(".verified-quick-links a").count(),4);
     assert.equal(await page.locator(".project-status-guide").count(),1);
@@ -110,7 +136,7 @@ try {
     assert.equal(await page.locator("#tab-"+exercise).getAttribute("aria-selected"),"true");
   }
   await page.goto(origin+"/es/",{waitUntil:"networkidle"});
-  assert.ok((await page.locator(".section-count").innerText()).includes("CASOS"));
+  assert.ok((await page.locator(".section-count").innerText()).includes("PROYECTOS DESTACADOS"));
   assert.ok((await page.locator(".project-grid .project-card").first().innerText()).includes("Portafolio de desarrollo"));
   assert.ok((await page.locator(".project-grid").innerText()).includes("Interfaz adaptable"));
   await page.goto(origin+"/es/hiring/",{waitUntil:"networkidle"});
@@ -193,7 +219,7 @@ try {
   // V13: complete bilingual public case studies and accessible secondary headers.
   for(const lang of ["en","es"]){
     await page.goto(origin+"/"+lang+"/cases/",{waitUntil:"networkidle"});
-    assert.equal(await page.locator("#public-proof article[data-evidence='public']").count(),3);
+    assert.equal(await page.locator("#public-proof article[data-evidence='public']").count(),4);
     assert.equal(await page.locator("#experience article[data-evidence='client']").count(),1);
     assert.equal(await page.locator("#private-work article[data-evidence='private']").count(),3);
     assert.equal(await page.locator("#python-csv a[href*='examples/csv']").count(),1);
@@ -206,7 +232,7 @@ try {
       const subjects=await page.locator("a[href^='mailto:']").evaluateAll(a=>a.map(node=>decodeURIComponent(node.getAttribute("href"))));
       assert.ok(subjects.some(text=>text.includes("Referencias de proyectos web")));
     }
-    for(const section of ["python-csv","python-api","portfolio","client-websites","catalog-integrity","ai-automation","vyra-fitness"])
+    for(const section of ["python-csv","python-api","browser-lab","portfolio","client-websites","catalog-integrity","ai-automation","vyra-fitness"])
       assert.equal(await page.locator("#"+section).count(),1);
     for(const width of [320,390,768]){
       await page.setViewportSize({width,height:844});
@@ -237,14 +263,29 @@ try {
   await page.goto(origin+"/en/",{waitUntil:"networkidle"});
   assert.equal(await page.locator("#evidence .verified-case-link").count(),3);
 
-  // V13 visual release evidence: genuine Chrome renders, not generated mockups.
+  // V15 visual release evidence: genuine Chrome screenshots.
+    // V13 visual release evidence: genuine Chrome renders, not generated mockups.
   await page.setViewportSize({width:1366,height:900});
   await page.goto(origin+"/en/cases/",{waitUntil:"networkidle"});
-  await page.screenshot({path:"qa-evidence/v14-case-studies-en-1366.png",fullPage:true});
+  await page.screenshot({path:"qa-evidence/v15-case-studies-en-1366.png",fullPage:true});
   await page.setViewportSize({width:390,height:844});
   await page.goto(origin+"/es/cases/",{waitUntil:"networkidle"});
-  await page.screenshot({path:"qa-evidence/v14-case-studies-es-390.png",fullPage:true});
+  await page.screenshot({path:"qa-evidence/v15-case-studies-es-390.png",fullPage:true});
   await page.setViewportSize({width:1366,height:900});
+
+  // Switching trust-language must preserve a section deep link.
+  await page.goto(origin+"/en/trust/#security",{waitUntil:"networkidle"});
+  await page.locator('[data-trust-language-switch]').click();
+  await page.waitForURL("**/es/trust/#security");
+  assert.equal(await page.locator("#security").count(),1);
+  // The Spanish CV HTML must be translated and link to the Spanish PDF.
+  await page.goto(origin+"/es/resume/",{waitUntil:"networkidle"});
+  assert.equal(await page.locator("html").getAttribute("lang"),"es");
+  assert.match(await page.locator("h2").first().innerText(),/Perfil profesional/i);
+  assert.ok(await page.locator('a[href$="/resume-es.pdf"]').count()>0);
+  // English CV must remain independent of the Spanish page.
+  await page.goto(origin+"/en/resume/",{waitUntil:"networkidle"});
+  assert.match(await page.locator("h2").first().innerText(),/Professional summary/i);
 
   // Public SaaS/agent trust pages: evidence vs not-yet-verified services.
   for (const lang of ["en","es"]) {

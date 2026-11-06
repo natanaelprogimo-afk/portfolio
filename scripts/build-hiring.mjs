@@ -46,7 +46,7 @@ const profileSchema=JSON.stringify({
  "@context":"https://schema.org","@type":"ProfilePage",name:t.title,
  description:t.description,url:canonical,inLanguage:lang,
  mainEntity:{"@type":"Person",name:"Alerson Morales",
-  jobTitle:"Software Developer",url:site+lang+"/"}
+  jobTitle:lang==="es"?"Desarrollador de software":"Software Developer",url:site+lang+"/"}
 });
 const list=(items)=>'<ul>'+items.map(s=>'<li>'+s+'</li>').join("")+'</ul>';
 const card=(id,title,body)=>'<section class="card" aria-labelledby="'+id+'"><h2 id="'+id+'">'+escape(title)+'</h2>'+body+'</section>';
@@ -59,7 +59,7 @@ const html=[
 '<meta property="og:type" content="website"><meta property="og:title" content="'+escape(t.title)+'">',
 '<meta property="og:description" content="'+escape(t.description)+'"><meta property="og:url" content="'+canonical+'">',
 '<meta property="og:locale" content="'+(lang==="es"?"es_UY":"en_US")+'"><meta property="og:locale:alternate" content="'+(lang==="es"?"en_US":"es_UY")+'">',
-'<meta property="og:image" content="'+site+'og-preview.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="'+escape(lang==="es"?"Resumen profesional de Alerson Morales":"Alerson Morales recruiter brief")+'"><meta name="twitter:image" content="'+site+'og-preview.svg"><meta name="twitter:card" content="summary_large_image">',
+'<meta property="og:image" content="'+site+'og-hiring.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="'+escape(lang==="es"?"Resumen profesional de Alerson Morales":"Alerson Morales recruiter brief")+'"><meta name="twitter:image" content="'+site+'og-hiring.svg"><meta name="twitter:card" content="summary_large_image">',
 '<meta name="twitter:title" content="'+escape(t.title)+'"><meta name="twitter:description" content="'+escape(t.description)+'"><meta name="twitter:image:alt" content="'+escape(lang==="es"?"Resumen profesional de Alerson Morales":"Alerson Morales recruiter brief")+'">',
 '<script type="application/ld+json">'+profileSchema+'</script>',
 '<link rel="icon" href="'+base+'favicon.svg" type="image/svg+xml"><style>'+css+touchCss+'</style><link rel="stylesheet" href="'+base+'shared-pages.css"></head><body>',
@@ -80,7 +80,9 @@ card("public",t.verified,list([
 '<a href="'+p+'cases/#python-csv">'+(lang==="es"?"Caso técnico: conciliación CSV":"Case study: CSV reconciliation")+'</a>',
 '<a href="'+p+'cases/#python-api">'+(lang==="es"?"Caso técnico: API Python":"Case study: Python HTTP API")+'</a>'
 ])),
-card("skills",t.skills,'<p>Python · TypeScript · JavaScript · C# · SQL · React · FastAPI · Node.js · Git</p><p>'+t.languages+'</p><p>'+t.education+'</p>'),
+card("skills",t.skills,'<p>Python · TypeScript · JavaScript · C# · SQL · React · FastAPI · Node.js · Git</p><p>'+t.languages+'</p><p>'+t.education+'</p>'+
+'<p><a href="https://github.com/natanaelprogimo-afk/portfolio/blob/main/docs/SKILLS_EVIDENCE_MATRIX.md">'+
+(lang==="es"?"Matriz de competencias y evidencias":"Skills-to-evidence matrix")+' ↗</a></p>'),
 card("private",t.private,list([t.a,t.b,t.c])),
 card("contact",lang==="es"?"Contacto":"Contact",'<p>'+t.clients+'</p><p><a href="mailto:moralesalerson@gmail.com">moralesalerson@gmail.com</a></p><p><a href="https://github.com/natanaelprogimo-afk">GitHub</a> · <a href="https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/">LinkedIn</a> · <a target="_blank" rel="noopener noreferrer" href="https://www.upwork.com/freelancers/~016487e77ebf028c40">Upwork</a></p>'),
 '</div><p class="note"><strong>'+t.limits+':</strong> '+t.foot+'</p>',

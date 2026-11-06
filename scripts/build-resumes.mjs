@@ -5,17 +5,21 @@ function quote(s) {
 }
 function make(lang) {
   const english = lang === "en";
-  let page = "0.05 0.10 0.12 rg 0 728 595 114 re f\n";
-  const text = (s,x,y,size=9,bold=false,color=[0.13,0.19,0.2]) => {
+  // Background and separators are pagination artifacts, excluded from reading order.
+  let page = "/Artifact BMC\n0.05 0.10 0.12 rg 0 728 595 114 re f\nEMC\n";
+  const tags=[];
+  const text = (s,x,y,size=9,bold=false,color=[0.13,0.19,0.2],semantic="P") => {
+    const mcid=tags.length;tags.push(semantic);
+    page += "/"+semantic+" <</MCID "+mcid+">> BDC\n";
     page += color.map(v=>v.toFixed(3)).join(" ")+" rg\n";
-    page += "BT /"+(bold?"F2":"F1")+" "+size+" Tf 1 0 0 1 "+x+" "+y+" Tm ("+quote(s)+") Tj ET\n";
+    page += "BT /"+(bold?"F2":"F1")+" "+size+" Tf 1 0 0 1 "+x+" "+y+" Tm ("+quote(s)+") Tj ET\nEMC\n";
   };
-  const rule = y => {page+="0.8 0.86 0.82 RG 0.7 w 42 "+y+" m 553 "+y+" l S\n";};
-  text("ALERSON MORALES",42,795,26,true,[.96,.98,.95]);
+  const rule = y => {page+="/Artifact BMC\n0.8 0.86 0.82 RG 0.7 w 42 "+y+" m 553 "+y+" l S\nEMC\n";};
+  text("ALERSON MORALES",42,795,26,true,[.96,.98,.95],"H1");
   text(english?"Full-Stack Developer | Backend & Automation":"Desarrollador Full-Stack | Backend y Automatización",42,764,12,true,[.8,.96,.58]);
-  text("Uruguay | 100% Remote | moralesalerson@gmail.com",42,746,9.2,false,[.89,.94,.89]);
+  text(english?"Uruguay | 100% Remote | moralesalerson@gmail.com":"Uruguay | 100 % remoto | moralesalerson@gmail.com",42,746,9.2,false,[.89,.94,.89]);
   let y=699;
-  const section=s=>{text(s.toUpperCase(),42,y,10,true,[.10,.36,.32]);rule(y-6);y-=25;};
+  const section=s=>{text(s.toUpperCase(),42,y,10,true,[.10,.36,.32],"H2");rule(y-6);y-=25;};
   const lines=arr=>{for(const s of arr){text(s,42,y,9.4);y-=14;}y-=7;};
   const linkData=[];
   const link=(s,url)=>{text(s,42,y,9.4,false,[.06,.35,.30]);linkData.push([url,y]);y-=16;};
@@ -41,7 +45,7 @@ function make(lang) {
       "UTU diplomas: PC Operator Basic/Advanced and Informatics/Web Design.",
       "Spanish: native | English: C1 | Portuguese: intermediate."]);
     section("Links");
-    link("Portfolio: natanaelprogimo-afk.github.io/portfolio/en/","https://natanaelprogimo-afk.github.io/portfolio/");
+    link("Portfolio: natanaelprogimo-afk.github.io/portfolio/en/","https://natanaelprogimo-afk.github.io/portfolio/en/");
     link("GitHub: github.com/natanaelprogimo-afk","https://github.com/natanaelprogimo-afk");
     link("LinkedIn: alerson-anatael-morales-pintos-4a4634325","https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/");
   }else{
@@ -66,7 +70,7 @@ function make(lang) {
       "Diplomas UTU: Operador PC Básico/Avanzado e Informática/Diseño Web.",
       "Español: nativo | Inglés: C1 | Portugués: intermedio."]);
     section("Enlaces");
-    link("Portafolio: natanaelprogimo-afk.github.io/portfolio/es/","https://natanaelprogimo-afk.github.io/portfolio/");
+    link("Portafolio: natanaelprogimo-afk.github.io/portfolio/es/","https://natanaelprogimo-afk.github.io/portfolio/es/");
     link("GitHub: github.com/natanaelprogimo-afk","https://github.com/natanaelprogimo-afk");
     link("LinkedIn: alerson-anatael-morales-pintos-4a4634325","https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/");
   }
@@ -94,6 +98,20 @@ function make(lang) {
   for (const [url,yy] of linkData) {
     obj.push("<< /Type /Annot /Subtype /Link /Rect [42 "+(yy-3)+" 553 "+(yy+12)+"] /Border [0 0 0] /A << /S /URI /URI ("+quote(url)+") >> >>");
   }
+  // PDF logical structure tree: each text block is marked with an MCID in
+  // visual reading order; decorative rules/background are /Artifact.  This
+  // supplies usable tags, not an independent PDF/UA compliance certificate.
+  const structRootId=obj.length+1,parentTreeId=structRootId+1;
+  const structIds=tags.map((_,i)=>parentTreeId+i+1);
+  obj[0]=obj[0].replace(" /Lang ("," /MarkInfo << /Marked true >> /StructTreeRoot "+structRootId+" 0 R /ViewerPreferences << /DisplayDocTitle true >> /Lang (");
+  obj[2]=obj[2].replace("/Contents 6 0 R","/Contents 6 0 R /StructParents 0");
+  obj.push("<< /Type /StructTreeRoot /K ["+structIds.map(id=>id+" 0 R").join(" ")+"] /ParentTree "+parentTreeId+" 0 R /ParentTreeNextKey 1 >>");
+  obj.push("<< /Nums [0 ["+structIds.map(id=>id+" 0 R").join(" ")+"]] >>");
+  tags.forEach((tag,i)=>obj.push("<< /Type /StructElem /S /"+tag+" /P "+structRootId+" 0 R /Pg 3 0 R /K "+i+" >>"));
+  const infoId=obj.length+1;
+  obj.push("<< /Title ("+quote(english?"Alerson Morales - Software Developer Resume":"Alerson Morales - Curriculum Vitae")+
+    ") /Author (Alerson Morales) /Creator (VYRA Portfolio) /Subject ("+
+    quote(english?"Remote software engineering resume":"Curriculum de desarrollo de software remoto")+") >>");
   let buffers=[encoded("%PDF-1.4\n%\xE2\xE3\xCF\xD3\n")];
   const offsets=[0];
   let bytes=buffers[0].length;
@@ -102,7 +120,7 @@ function make(lang) {
   const xref=bytes;
   push("xref\n0 "+(obj.length+1)+"\n0000000000 65535 f \n");
   for(let i=1;i<=obj.length;i++)push(String(offsets[i]).padStart(10,"0")+" 00000 n \n");
-  push("trailer\n<< /Size "+(obj.length+1)+" /Root 1 0 R >>\nstartxref\n"+xref+"\n%%EOF\n");
+  push("trailer\n<< /Size "+(obj.length+1)+" /Root 1 0 R /Info "+infoId+" 0 R >>\nstartxref\n"+xref+"\n%%EOF\n");
   return Buffer.concat(buffers);
 }
 for (const locale of ["en","es"]) {

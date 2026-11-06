@@ -37,6 +37,15 @@ export default function App() {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [copyState, setCopyState] = useState<"idle"|"success"|"failure">("idle");
   const [commandCopyState,setCommandCopyState]=useState<"idle"|"success"|"failure">("idle");
+  const copyCommand = async () => {
+    try{await navigator.clipboard.writeText(CSV_COMMAND);setCommandCopyState("success")}
+    catch{setCommandCopyState("failure")}
+  };
+  const commandCopyMessage = commandCopyState==="success"
+    ? locale==="es"?"Comando copiado":"Command copied"
+    : commandCopyState==="failure"
+      ? locale==="es"?"Permiso denegado. Selecciona y copia el comando de forma manual.":"Clipboard permission denied. Select and copy the command manually."
+      : "";
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const t = copy[locale];
   const localPage = (path: string) => import.meta.env.BASE_URL + locale + "/" + path;
@@ -177,7 +186,7 @@ export default function App() {
         </div>
       </header>
 
-      <main id="main" tabIndex={-1} data-release="v14">
+      <main id="main" tabIndex={-1} data-release="v15">
         <section className="hero" id="top" aria-labelledby="hero-title">
           <div className="container hero-layout">
             <div className="hero-copy">
@@ -188,6 +197,16 @@ export default function App() {
               <div className="hero-cta" aria-label={t.audienceActions}>
                 <a className="button button-primary" href="#evidence">{t.heroEvidence}<ArrowUpRight size={18} aria-hidden="true"/></a>
                 <a className="button button-ghost" href="#contact">{t.heroHireAction}<ArrowUpRight size={18} aria-hidden="true"/></a>
+              </div>
+              <div className="mobile-cli" role="group" aria-label={locale==="es"?"Comando de ejemplo Python":"Example Python command"}>
+                <p>{locale==="es"?"Ejecuta la muestra desde la raíz del repositorio":"Run the sample from the repository root"}</p>
+                <code>{CSV_COMMAND}</code>
+                <button className="copy-command" type="button" onClick={copyCommand}>
+                  {locale==="es"?"Copiar comando":"Copy command"}
+                </button>
+                {commandCopyState==="failure"&&<textarea className="manual-command" readOnly value={CSV_COMMAND}
+                  aria-label={locale==="es"?"Seleccionar comando":"Select command"} onFocus={e=>e.currentTarget.select()}/>}
+                <span role="status" aria-live="polite" className="copy-command-status">{commandCopyMessage}</span>
               </div>
               <div className="hero-meta" aria-label={t.socialLabel}>
                 <a href={GITHUB} target="_blank" rel="noopener noreferrer"><Code2 size={18} aria-hidden="true"/> GitHub <ArrowUpRight size={13} aria-hidden="true"/></a>
@@ -204,17 +223,18 @@ export default function App() {
                 <p>{locale === "es" ? "Datos ficticios incluidos en el repositorio. Ejecución local con Python y pruebas automáticas." : "Synthetic fixtures in the public repository. Local Python execution and automated tests."}</p>
                 <div className="hero-terminal" role="group" aria-label={locale === "es" ? "Ejemplo reproducible de salida del programa Python" : "Reproducible output of the Python program"}>
                   <div className="hero-terminal-command"><span aria-hidden="true">$</span><code>{CSV_COMMAND}</code></div>
-                  <button className="copy-command" type="button" onClick={async()=>{
-                    try{await navigator.clipboard.writeText(CSV_COMMAND);setCommandCopyState("success")}
-                    catch{setCommandCopyState("failure")}
-                  }}>{commandCopyState==="success"?(locale==="es"?"Comando copiado":"Command copied"):
-                      commandCopyState==="failure"?(locale==="es"?"Selecciona y copia el comando":"Select and copy the command"):
-                      locale==="es"?"Copiar comando":"Copy command"}</button>
+                  <button className="copy-command" type="button" onClick={copyCommand}>
+                    {locale==="es"?"Copiar comando":"Copy command"}
+                  </button>
+                  <span role="status" className="copy-command-status" aria-live="polite">{commandCopyMessage}</span>
+                  {commandCopyState==="failure"&&
+                    <textarea className="manual-command" readOnly value={CSV_COMMAND}
+                      aria-label={locale==="es"?"Seleccionar comando":"Select command"} onFocus={e=>e.currentTarget.select()}/>}
                   <div className="hero-terminal-results">
-                    <span><strong>01</strong> match</span>
-                    <span><strong>01</strong> mismatch</span>
-                    <span><strong>01</strong> missing</span>
-                    <span><strong>01</strong> extra</span>
+                    <span><strong>01</strong> {locale==="es"?"coincide":"match"}</span>
+                    <span><strong>01</strong> {locale==="es"?"diferencia":"mismatch"}</span>
+                    <span><strong>01</strong> {locale==="es"?"falta":"missing"}</span>
+                    <span><strong>01</strong> {locale==="es"?"adicional":"extra"}</span>
                   </div>
                   <div className="hero-terminal-export"><span aria-hidden="true">✓</span> report.csv <span>{locale === "es" ? "generado localmente" : "generated locally"}</span></div>
                 </div>
@@ -266,7 +286,7 @@ export default function App() {
           <div className="container">
             <div className="section-topline">
               <span className="section-eyebrow">{t.workEyebrow}</span>
-              <span className="section-count">/ {String(projects.length).padStart(2,"0")} {t.workCasesLabel}</span>
+              <span className="section-count">/ {String(projects.length).padStart(2,"0")} {locale==="es"?"PROYECTOS DESTACADOS":"FEATURED PROJECTS"}</span>
             </div>
             <div className="section-intro">
               <h2 className="section-title" id="work-heading">{t.workTitle} <em>{t.workAccent}</em></h2>
@@ -387,7 +407,7 @@ export default function App() {
               </div>
               <div className="contact-utilities">
                 <span>{t.contactCvLabel}</span>
-                <a href={import.meta.env.BASE_URL + "resume.html"}>{t.contactCv}<ArrowUpRight size={15} aria-hidden="true"/></a>
+                <a href={import.meta.env.BASE_URL + locale + "/resume/"}>{t.contactCv}<ArrowUpRight size={15} aria-hidden="true"/></a>
                 <a href={import.meta.env.BASE_URL + "resume-en.pdf"} download>{t.cvEn} (PDF)</a>
                 <a href={import.meta.env.BASE_URL + "resume-es.pdf"} download>{t.cvEs} (PDF)</a>
                 <button className="copy-email-button" type="button" onClick={async () => {

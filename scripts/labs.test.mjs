@@ -66,3 +66,31 @@ test("CSV report serialization quotes data and mitigates formula injection", () 
   assert.match(report, /"12.5"/);
   assert.throws(() => serializeReportCsv([], []), /bounded table/);
 });
+
+test("Price parsing is exact, bounded and never compares infinities as matches", () => {
+  const a="9".repeat(320), b="8".repeat(320);
+  assert.throws(()=>compareCatalog("sku,price\nA,"+a,"sku,price\nA,"+b), /Invalid price|safe cent/);
+  assert.deepEqual(compareCatalog("sku,price\nA,100.01","sku,price\nA,100.02").count,
+    {match:0,mismatch:1,missing:0,extra:0});
+  assert.deepEqual(compareCatalog("sku,price\nA,0.10","sku,price\nA,0.1").count,
+    {match:1,mismatch:0,missing:0,extra:0});
+  assert.throws(()=>compareCatalog("sku,price\nA,90071992547409.92","sku,price\nA,1"),/safe cent/);
+});
+test("Idempotency canonicalizes nested JSON object keys but preserves array order",()=>{
+  const ledger=createIdempotencyLedger();
+  const first=ledger.execute("same",{a:1,nested:{x:true,y:2},list:[1,2]});
+  const second=ledger.execute("same",{list:[1,2],nested:{y:2,x:true},a:1});
+  assert.equal(first.code,200);
+  assert.equal(second.code,200);
+  assert.equal(second.replayed,true);
+  assert.equal(second.processed,1);
+  assert.equal(ledger.execute("same",{nested:{y:2,x:true},a:1,list:[2,1]}).code,409);
+});
+test("Teaching demo bounds new idempotency keys to 500",()=>{
+  const ledger=createIdempotencyLedger();
+  for(let i=0;i<500;i++)ledger.execute("key-"+i,{n:i});
+  assert.throws(()=>ledger.execute("another",{}),/limit reached/);
+  assert.equal(ledger.execute("key-1",{n:1}).replayed,true);
+  ledger.reset();
+  assert.equal(ledger.execute("another",{}).processed,1);
+});

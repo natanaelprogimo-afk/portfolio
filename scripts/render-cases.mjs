@@ -36,7 +36,7 @@ const cases=[
   problem:L("Retries and invalid requests can make backend state inconsistent if operations do not define reliable behavior.","Los reintentos y solicitudes inválidas pueden dejar un backend inconsistente si sus operaciones no definen comportamientos fiables."),
   approach:[
    L("Local HTTP request handling with explicit validation and response semantics.","Gestión local de solicitudes HTTP con validaciones y respuestas explícitas."),
-   L("SQLite persistence and documented idempotency behavior.","Persistencia SQLite y comportamiento de idempotencia documentado."),
+   L("In-memory SQLite transactions with documented idempotency; no durable storage across restarts.","Transacciones SQLite en memoria con idempotencia documentada; los datos se pierden al reiniciar."),
    L("Reproducible unit tests, including edge cases and concurrency exercises.","Pruebas unitarias reproducibles, incluidos casos límite y ejercicios de concurrencia.")
   ],
   verification:[L("Implementation, tests and setup instructions are available in GitHub.","La implementación, las pruebas y las instrucciones están disponibles en GitHub.")],
@@ -45,6 +45,26 @@ const cases=[
   links:[
     {label:L("Inspect Python API and tests","Revisar API Python y pruebas"),href:repo+"/tree/main/examples/backend"},
     {label:L("Try separate idempotency simulator","Probar simulador independiente de idempotencia"),href:"LAB_RETRY"}
+  ]
+ },
+ {
+  id:"browser-lab",group:"public",
+  title:L("Interactive engineering laboratory","Laboratorio interactivo de ingeniería"),
+  kind:L("PUBLIC SOURCE / BROWSER DEMOS","CÓDIGO PÚBLICO / DEMOS DE NAVEGADOR"),
+  status:L("Three runnable demos and unit tests","Tres demos ejecutables y pruebas unitarias"),
+  intro:L("Three independent browser-only educational exercises: CSV comparison, idempotency simulation and event aggregation. They use synthetic inputs, not private VYRA systems.","Tres ejercicios educativos independientes ejecutados en el navegador: comparación CSV, simulación de idempotencia y agregación de eventos. Utilizan datos ficticios, no sistemas privados de VYRA."),
+  problem:L("Show deterministic data processing and safe retry behavior to reviewers without access to private products or credentials.","Mostrar procesamiento de datos determinista y reintentos seguros a quienes evalúan el trabajo sin acceso a productos privados ni credenciales."),
+  approach:[
+    L("CSV parser with bounded integer-cent comparisons, duplicate detection and malformed-row validation.","Analizador CSV con comparaciones de centavos enteros acotadas, detección de duplicados y validación de filas."),
+    L("Stable JSON idempotency signatures with a bounded in-memory teaching ledger.","Firmas de idempotencia JSON estables y un registro didáctico en memoria de tamaño limitado."),
+    L("Daily event aggregation with shape/date validation and safe CSV export.","Agregación diaria de eventos con validación de estructura y fechas y exportación CSV segura.")
+  ],
+  verification:[L("Run all three exercises, inspect public JavaScript source and execute the Node test suite.","Ejecuta los tres ejercicios, revisa el código JavaScript público y ejecuta las pruebas Node.")],
+  limitations:[L("No real HTTP calls, durable database or telemetry; the API simulation is not the Python HTTP service.","Sin solicitudes HTTP reales, base de datos duradera ni telemetría; la simulación de API no es el servicio HTTP de Python.")],
+  tags:["JavaScript","CSV","Accessibility","Node.js"],
+  links:[
+    {label:L("Try interactive laboratory","Probar laboratorio interactivo"),href:"LAB"},
+    {label:L("Inspect source and tests","Revisar código y pruebas"),href:repo+"/tree/main/public/labs"}
   ]
  },
  {
@@ -144,7 +164,7 @@ function article(item,language,base){
  const safeHref=link=>escapeHtml(resolveHref(link.href,language,base));
  return [
  '<article class="case" id="'+item.id+'" data-evidence="'+item.group+'">',
- '<div class="case-head"><div><span class="case-kicker">'+txt(item.kind)+'</span><h3>'+txt(item.title)+'</h3></div><span class="status '+(publicCase?"":"status--private")+'">'+txt(item.status)+'</span></div>',
+ '<div class="case-head"><div><span class="case-kicker">'+txt(item.kind)+'</span><h3>'+txt(item.title)+'</h3></div><span class="status '+(publicCase?"":item.group==="client"?"status--client":"status--private")+'">'+txt(item.status)+'</span></div>',
  '<p class="case-description">'+txt(item.intro)+'</p>',
  '<div class="proof-detail">',
  '<section class="card"><h4>'+label(language,"Engineering problem","Problema de ingeniería")+'</h4><p>'+txt(item.problem)+'</p><h4 style="margin-top:20px">'+label(language,"Implementation decisions","Decisiones de implementación")+'</h4><ul>'+line(item.approach)+'</ul></section>',
@@ -192,7 +212,7 @@ export function renderCases(language,base){
  '<main class="container" id="main" tabindex="-1">',
  '<div class="mast"><span class="kicker">'+label(language,"SOURCE / TESTS / SCOPE","CÓDIGO / PRUEBAS / ALCANCE")+'</span>',
  '<h1>'+label(language,"Proof before promises.","Pruebas antes que promesas.")+'</h1>',
- '<p>'+label(language,"Three inspectable public examples, one reported completed client-work case and three private projects. No fabricated results.","Tres ejemplos públicos verificables, un caso de trabajo terminado para clientes y tres proyectos privados. Sin resultados inventados.")+'</p>',
+ '<p>'+label(language,"Four inspectable public examples, one reported completed client-work case and three private projects. No fabricated results.","Cuatro ejemplos públicos verificables, un caso de trabajo terminado para clientes y tres proyectos privados. Sin resultados inventados.")+'</p>',
  '<div class="notice"><strong>'+label(language,"Evidence policy:","Política de evidencias:")+'</strong> '+
  label(language,"Examples use fictional data and are not production customer systems. Private work is not presented as published, commercially adopted or certified.","Los ejemplos usan datos ficticios y no son sistemas productivos de clientes. El trabajo privado no se presenta como publicado, adoptado comercialmente ni certificado.")+'</div>',
  '<nav aria-label="'+label(language,"Case-study index","Índice de casos")+'" class="index">'+index+'</nav></div>',

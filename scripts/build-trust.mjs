@@ -135,14 +135,14 @@ for(const lang of ["en","es"]){
  '<link rel="alternate" hreflang="x-default" href="'+host+'en/trust/"><meta property="og:type" content="website"><meta property="og:title" content="'+esc(c.title)+'">',
  '<meta property="og:description" content="'+esc(c.desc)+'"><meta property="og:url" content="'+canonical+'">',
  '<meta property="og:locale" content="'+(lang==="es"?"es_UY":"en_US")+'"><meta property="og:locale:alternate" content="'+(lang==="es"?"en_US":"es_UY")+'">',
-'<meta property="og:image" content="'+host+'og-preview.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="'+esc(lang==="es"?"Centro de confianza VYRA":"VYRA trust center")+'"><meta name="twitter:image" content="'+host+'og-preview.svg"><meta name="twitter:card" content="summary_large_image">',
+'<meta property="og:image" content="'+host+'og-trust.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="'+esc(lang==="es"?"Centro de confianza VYRA":"VYRA trust center")+'"><meta name="twitter:image" content="'+host+'og-trust.svg"><meta name="twitter:card" content="summary_large_image">',
 '<meta name="twitter:title" content="'+esc(c.title)+'"><meta name="twitter:description" content="'+esc(c.desc)+'"><meta name="twitter:image:alt" content="'+esc(lang==="es"?"Centro de confianza VYRA":"VYRA trust center")+'">',
  '<script type="application/ld+json">'+webPageSchema+'</script>',
   '<link rel="icon" href="'+base+'favicon.svg" type="image/svg+xml"><style>'+css+tocStyles+'</style><link rel="stylesheet" href="'+base+'shared-pages.css"></head><body>',
  '<a class="skip" href="#main">'+(lang==="es"?"Saltar al contenido":"Skip to content")+'</a>',
  '<header><div class="wrap"><a class="brand" href="'+home+'">VYRA<span>.</span></a><nav aria-label="'+(lang==="es"?"Navegación":"Navigation")+'">',
  '<a href="'+home+'">'+esc(c.home)+'</a><a aria-current="page" href="'+base+lang+'/trust/">'+(lang==="es"?"Centro de confianza":"Trust center")+'</a>',
- '<a href="'+base+(lang==="en"?"es":"en")+'/trust/" lang="'+(lang==="en"?"es":"en")+'">'+esc(c.switch)+'</a></nav></div></header>',
+ '<a data-trust-language-switch href="'+base+(lang==="en"?"es":"en")+'/trust/" lang="'+(lang==="en"?"es":"en")+'">'+esc(c.switch)+'</a></nav></div></header>',
  '<main id="main" tabindex="-1"><div class="wrap"><span class="kicker">'+esc(c.kicker)+'</span><h1>'+esc(c.head)+'</h1>',
  '<p class="sub">'+esc(c.sub)+'</p><p class="lead">'+esc(c.intro)+'</p><p class="date">'+esc(c.dated)+'</p>',
  '<div class="actions"><a href="'+home+'labs/">'+esc(c.code)+' ↗</a><a href="mailto:'+email+'?subject='+encodeURIComponent(lang==="es"?"Consulta comercial sobre VYRA":"VYRA commercial due diligence")+'">'+esc(c.ask)+' ↗</a></div>',
@@ -172,7 +172,9 @@ for(const lang of ["en","es"]){
  '<a href="mailto:'+email+'?subject='+encodeURIComponent(lang==="es"?"Consulta sobre prueba piloto VYRA":"VYRA pilot inquiry")+'">'+esc(c.preSale)+' ↗</a></div></section>',
  '<section id="references" class="links"><h2>'+esc(c.refs)+'</h2><p class="lead">'+esc(c.refsIntro)+'</p>',
  refs.map(([label,url],i)=>'<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">'+esc(refLabel(label,i))+' ↗</a>').join(""),'</section>',
- '</div></main><footer><div class="wrap">'+esc(c.footer)+'<p>'+esc(c.footNote)+'</p><a href="'+home+'">'+esc(c.home)+'</a></div></footer></body></html>'
+ '</div></main><footer><div class="wrap">'+esc(c.footer)+'<p>'+esc(c.footNote)+'</p><a href="'+home+'">'+esc(c.home)+'</a></div></footer>',
+'<script>document.querySelector("[data-trust-language-switch]")?.addEventListener("click",function(){const h=location.hash;if(h && document.getElementById(h.slice(1)))this.href=this.href.split("#")[0]+h})</script>',
+'</body></html>'
  ].join("\n");
  const dir="dist/"+lang+"/trust";mkdirSync(dir,{recursive:true});writeFileSync(dir+"/index.html",str);console.log("Created "+dir+"/index.html");
 }

@@ -1,4 +1,5 @@
 import { renderCases } from "./render-cases.mjs";
+import { renderLabs } from "./render-labs.mjs";
 import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -92,6 +93,7 @@ function decorate(html, locale,slug,title,description) {
     html=html.replace("</head>",'<script type="application/ld+json">'+
       JSON.stringify(schema).replaceAll("<","\\u003c")+'</script>\n</head>');
   }
+  if(slug==="cases/")html=html.replaceAll("og-preview.svg","og-cases.svg");
   return html;
 }
 
@@ -119,9 +121,11 @@ function professionalJsonLd(locale){
 
 // Replace the generic root Person JSON-LD with exactly one localized
 // canonical Person entity per language. Never create duplicate schemas.
-const original = text("index.html").replace(
-  /<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/g, ""
-);
+const original = text("index.html")
+  // The unlocalized root owns a separate no-JS English gateway; localized
+  // pages render their own full language-specific fallback in #root.
+  .replace(/<noscript>[\s\S]*?<\/noscript>\s*/g,"")
+  .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/g, "");
 for(const locale of ["en","es"]) {
   const c=pageCopy[locale];
   const fallback = '<main class="container" id="main" style="padding-top:7rem;padding-bottom:7rem">'
@@ -140,81 +144,12 @@ for(const locale of ["en","es"]) {
   output(locale+"/index.html",html);
 }
 
-const labsEnglish = text("labs/index.html");
-
-
-// Translation table operates at build time. The generated Spanish HTML is
-// crawlable without JavaScript; the English source remains the maintained original.
-const labSpanish = new Map([
-["Engineering Lab | Alerson Morales","Laboratorio de ingeniería | Alerson Morales"],
-["Three public and fully interactive engineering examples by Alerson Morales: catalog integrity, idempotent API behavior, and metrics aggregation.","Tres ejemplos técnicos públicos e interactivos de Alerson Morales: comparación de catálogos, idempotencia y métricas."],
-["← Portfolio","← Portafolio"],
-["PUBLIC SOURCE · EXECUTABLE EXAMPLES · NO BACKEND","CÓDIGO PÚBLICO · EJEMPLOS EJECUTABLES · SIN BACKEND"],
-["Inspect the logic.","Inspecciona la lógica."],["Try the behavior.","Prueba el funcionamiento."],
-["Three small, working engineering exercises built for technical review. Edit the sample data and observe the output. All computation happens inside your browser; no data is sent to any server.","Tres ejercicios técnicos funcionales para evaluación profesional. Modifica los datos de ejemplo y observa el resultado. Todo se ejecuta en tu navegador; no se envían datos a servidores."],
-["Transparency:","Transparencia:"],
-["These are independently implemented public teaching demonstrations inspired by common engineering problems. They are","Son demostraciones educativas públicas e independientes sobre problemas habituales de ingeniería. No son"],
-[">not<",">no<"],
-["screenshots, instances or extracts of private VYRA products, nor evidence of production customer usage. The source and tests live in the public portfolio repository.","capturas, instancias o extractos de productos privados de VYRA ni pruebas de uso por clientes en producción. El código y sus pruebas están en el repositorio público."],
-["01 · Catalog validation","01 · Validación de catálogos"],["02 · API idempotency","02 · Idempotencia de API"],["03 · Event aggregation","03 · Agregación de eventos"],
-["Catalog reconciliation","Conciliación de catálogos"],
-["Compare two CSV datasets by SKU, with cent-precision price normalization and explicit match, mismatch, missing, and extra categories. Includes quote handling and duplicate-key rejection.","Compara dos archivos CSV mediante SKU, normaliza precios a centavos y clasifica coincidencias, diferencias, ausencias y registros adicionales. Valida comillas y claves duplicadas."],
-["Expected feed (CSV)","Catálogo esperado (CSV)"],["Observed catalog (CSV)","Catálogo observado (CSV)"],
-["Compare catalogs →","Comparar catálogos →"],["Local-only · no API calls","Solo local · sin solicitudes API"],
-["Press Compare catalogs to execute.","Pulsa Comparar catálogos para ejecutar."],
-["Idempotent request behavior","Comportamiento idempotente"],
-["Simulate how a service might handle an idempotency key. Replaying the same key and payload returns the recorded result, while key collisions and uncertain failures produce a conflict. This is an in-memory example, not an HTTP server.","Simula cómo un servicio maneja una clave de idempotencia. Repetir la misma clave y carga devuelve el resultado guardado; conflictos y fallos inciertos producen una respuesta de conflicto. Es una simulación en memoria, no un servidor HTTP."],
-["Idempotency key","Clave de idempotencia"],["Payload (JSON)","Carga (JSON)"],["Submit simulated request →","Enviar solicitud simulada →"],
-["Simulate uncertain failure","Simular fallo incierto"],["Reset ledger","Reiniciar registro"],
-["Submit the same key twice to see replay behavior.","Envía la misma clave dos veces para comprobar la repetición."],
-["Operational metrics aggregation","Agregación de métricas operativas"],
-["Validate structured JSON events and compute daily request counts, error counts, success rate, and mean response latency. Input validation includes maximum sizes and required fields.","Valida eventos JSON y calcula solicitudes, errores, tasa de éxito y latencia media por día. Incluye límites de tamaño y campos obligatorios."],
-["Sample event stream (JSON)","Eventos de ejemplo (JSON)"],["Analyze events →","Analizar eventos →"],["A working aggregation, not a SQL engine","Agregación funcional; no es un motor SQL"],
-["Press Analyze events to execute.","Pulsa Analizar eventos para ejecutar."],
-["← Back to portfolio","← Volver al portafolio"],["View public source code","Ver código fuente público"],
-["Synthetic examples · All processing is client-side.","Ejemplos ficticios · Todo se procesa en el navegador."],
-["Catalog results","Resultados de catálogos"],["Request simulation results","Resultados de simulación"],["Metrics results","Resultados de métricas"]
-]);
-
-
-
-function translate(source, mapping) {
-  let s=source;
-  for (const [english,spanish] of mapping.entries())
-    if(english !== spanish) s=s.replaceAll(english,spanish);
-  return s;
-}
+const labsEnglish = renderLabs("en",base);
 for(const locale of ["en","es"]){
-  let labs=locale==="es"?translate(labsEnglish,labSpanish):labsEnglish;
+  // The public laboratory is rendered from explicit bilingual content, never
+  // translated by mutating JavaScript strings or English HTML fragments.
+  let labs=renderLabs(locale,base);
   let cases=renderCases(locale,base);
-  if (locale === "es") {
-    labs=labs.replaceAll("No son <strong>no</strong> capturas","<strong>No son capturas</strong>");
-  }
-  if (locale === "es") {
-    labs=labs.replaceAll("AM. / ENGINEERING LAB", "AM. / LABORATORIO TÉCNICO")
-      .replaceAll("Engineering examples", "Ejemplos de ingeniería")
-      .replaceAll("Skip to content", "Saltar al contenido")
-      .replaceAll("Status</th>", "Estado</th>")
-      .replaceAll("Requests</th>", "Solicitudes</th>");
-
-  }
-  // The EN/ES switch maintains the currently selected exercise (#catalog etc.).
-  labs=labs.replace('</nav></header>', '<a data-language-switch lang="'+(locale==="en"?"es":"en")+'" href="'+base+(locale==="en"?"es":"en")+'/labs/">'+(locale==="en"?"Español":"English")+'</a></nav></header>');
-  labs=labs.replace('</body>', '<script>document.querySelector("[data-language-switch]")?.addEventListener("click",function(){this.href=this.href.split("#")[0]+window.location.hash})</script></body>');
-  // A translated standalone lab must import from the shared original module.
-  labs=labs.replace('from "./logic.mjs"','from "'+base+'labs/logic.mjs"');
-  // Hash tabs stay in sync with fresh navigation and back/forward.
-  labs=labs.replace('  document.getElementById("run-catalog").click();',
-    '  addEventListener("hashchange", () => { const key = location.hash.slice(1); if (tabs.includes(key)) switchTab(key); });\n  document.getElementById("run-catalog").click();');
-  if (locale === "es") {
-    labs=labs.replaceAll("Download comparison CSV","Descargar CSV de comparación")
-      .replaceAll("Download metrics CSV","Descargar CSV de métricas")
-      .replaceAll("Matches: ","Coincidencias: ")
-      .replaceAll("Mismatches: ","Diferencias: ")
-      .replaceAll("Missing: ","Faltantes: ")
-      .replaceAll("Extra: ","Adicionales: ")
-      .replaceAll("Days analyzed: ","Días analizados: ");
-  }
   labs=decorate(labs,locale,"labs/",locale==="es"?"Laboratorio de ingeniería | Alerson Morales":"Engineering Lab | Alerson Morales",locale==="es"?"Ejemplos públicos y ejecutables: CSV, idempotencia y métricas de eventos.":"Three executable public demos: CSV validation, idempotency and metrics.");
   // Case-study markup comes directly from bilingual structured data rather than
   // translated post-hoc English HTML. Stable anchors preserve existing links.
