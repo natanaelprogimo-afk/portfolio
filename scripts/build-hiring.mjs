@@ -80,7 +80,9 @@ card("public",t.verified,list([
 '<a href="'+p+'cases/#python-csv">'+(lang==="es"?"Caso técnico: conciliación CSV":"Case study: CSV reconciliation")+'</a>',
 '<a href="'+p+'cases/#python-api">'+(lang==="es"?"Caso técnico: API Python":"Case study: Python HTTP API")+'</a>'
 ])),
-card("skills",t.skills,'<p>Python · TypeScript · JavaScript · C# · SQL · React · FastAPI · Node.js · Git</p><p>'+t.languages+'</p><p>'+t.education+'</p>'),
+card("skills",t.skills,'<p>Python · TypeScript · JavaScript · C# · SQL · React · FastAPI · Node.js · Git</p><p>'+t.languages+'</p><p>'+t.education+'</p>'+
+'<p><a href="https://github.com/natanaelprogimo-afk/portfolio/blob/main/docs/SKILLS_EVIDENCE_MATRIX.md">'+
+(lang==="es"?"Matriz de competencias y evidencias":"Skills-to-evidence matrix")+' ↗</a></p>'),
 card("private",t.private,list([t.a,t.b,t.c])),
 card("contact",lang==="es"?"Contacto":"Contact",'<p>'+t.clients+'</p><p><a href="mailto:moralesalerson@gmail.com">moralesalerson@gmail.com</a></p><p><a href="https://github.com/natanaelprogimo-afk">GitHub</a> · <a href="https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/">LinkedIn</a> · <a target="_blank" rel="noopener noreferrer" href="https://www.upwork.com/freelancers/~016487e77ebf028c40">Upwork</a></p>'),
 '</div><p class="note"><strong>'+t.limits+':</strong> '+t.foot+'</p>',
