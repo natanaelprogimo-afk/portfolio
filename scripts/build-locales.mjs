@@ -119,9 +119,11 @@ function professionalJsonLd(locale){
 
 // Replace the generic root Person JSON-LD with exactly one localized
 // canonical Person entity per language. Never create duplicate schemas.
-const original = text("index.html").replace(
-  /<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/g, ""
-);
+const original = text("index.html")
+  // The unlocalized root owns a separate no-JS English gateway; localized
+  // pages render their own full language-specific fallback in #root.
+  .replace(/<noscript>[\s\S]*?<\/noscript>\s*/g,"")
+  .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/g, "");
 for(const locale of ["en","es"]) {
   const c=pageCopy[locale];
   const fallback = '<main class="container" id="main" style="padding-top:7rem;padding-bottom:7rem">'
@@ -202,10 +204,8 @@ for(const locale of ["en","es"]){
   labs=labs.replace('</nav></header>', '<a data-language-switch lang="'+(locale==="en"?"es":"en")+'" href="'+base+(locale==="en"?"es":"en")+'/labs/">'+(locale==="en"?"Español":"English")+'</a></nav></header>');
   labs=labs.replace('</body>', '<script>document.querySelector("[data-language-switch]")?.addEventListener("click",function(){this.href=this.href.split("#")[0]+window.location.hash})</script></body>');
   // A translated standalone lab must import from the shared original module.
-  labs=labs.replace('from "./logic.mjs"','from "'+base+'labs/logic.mjs"');
-  // Hash tabs stay in sync with fresh navigation and back/forward.
-  labs=labs.replace('  document.getElementById("run-catalog").click();',
-    '  addEventListener("hashchange", () => { const key = location.hash.slice(1); if (tabs.includes(key)) switchTab(key); });\n  document.getElementById("run-catalog").click();');
+  labs=labs.replace('from "./logic.mjs"','from "'+base+'labs/logic.mjs"')
+    .replace('from "./i18n.mjs"','from "'+base+'labs/i18n.mjs"');
   if (locale === "es") {
     labs=labs.replaceAll("Download comparison CSV","Descargar CSV de comparación")
       .replaceAll("Download metrics CSV","Descargar CSV de métricas")
