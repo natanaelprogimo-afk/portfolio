@@ -69,12 +69,12 @@ test("CSV report serialization quotes data and mitigates formula injection", () 
 
 test("Price parsing is exact, bounded and never compares infinities as matches", () => {
   const a="9".repeat(320), b="8".repeat(320);
-  assert.throws(()=>compareCatalog("sku,price\\nA,"+a,"sku,price\\nA,"+b), /Invalid price|safe cent/);
-  assert.deepEqual(compareCatalog("sku,price\\nA,100.01","sku,price\\nA,100.02").count,
+  assert.throws(()=>compareCatalog("sku,price\nA,"+a,"sku,price\nA,"+b), /Invalid price|safe cent/);
+  assert.deepEqual(compareCatalog("sku,price\nA,100.01","sku,price\nA,100.02").count,
     {match:0,mismatch:1,missing:0,extra:0});
-  assert.deepEqual(compareCatalog("sku,price\\nA,0.10","sku,price\\nA,0.1").count,
+  assert.deepEqual(compareCatalog("sku,price\nA,0.10","sku,price\nA,0.1").count,
     {match:1,mismatch:0,missing:0,extra:0});
-  assert.throws(()=>compareCatalog("sku,price\\nA,90071992547409.92","sku,price\\nA,1"),/safe cent/);
+  assert.throws(()=>compareCatalog("sku,price\nA,90071992547409.92","sku,price\nA,1"),/safe cent/);
 });
 test("Idempotency canonicalizes nested JSON object keys but preserves array order",()=>{
   const ledger=createIdempotencyLedger();
