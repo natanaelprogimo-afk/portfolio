@@ -74,7 +74,7 @@ SKU-004,10.00</textarea></div>
     </div>
     <div class="controls"><button class="run" id="run-catalog" type="button">Compare catalogs →</button><button class="reset" id="export-catalog" type="button" disabled>Download comparison CSV</button><span class="hint">Local-only · no API calls</span></div>
     <p class="result-summary" id="summary-catalog" role="status" aria-live="polite"></p>
-    <div class="result" id="result-catalog" role="region" aria-label="Catalog results" tabindex="0"><span class="status">Press Compare catalogs to execute.</span></div>
+    <div class="result" id="result-catalog" role="region" aria-label="Catalog results" tabindex="0" aria-live="polite"><span class="status">Press Compare catalogs to execute.</span></div>
   </section>
 
   <section class="panel" id="panel-retry" role="tabpanel" aria-labelledby="tab-retry" hidden>
@@ -85,7 +85,7 @@ SKU-004,10.00</textarea></div>
       <div class="field"><label for="request-payload">Payload (JSON)</label><textarea id="request-payload" spellcheck="false" style="height:95px">{"action":"reserve","item":"SKU-001","qty":1}</textarea></div>
     </div>
     <div class="controls"><button class="run" id="run-retry" type="button">Submit simulated request →</button><button class="reset" id="run-failure" type="button">Simulate uncertain failure</button><button class="reset" id="reset-retry" type="button">Reset ledger</button></div>
-    <div class="result" id="result-retry" role="region" aria-label="Request simulation results" tabindex="0"><span class="status">Submit the same key twice to see replay behavior.</span></div>
+    <div class="result" id="result-retry" role="region" aria-label="Request simulation results" tabindex="0" aria-live="polite"><span class="status">Submit the same key twice to see replay behavior.</span></div>
   </section>
 
   <section class="panel" id="panel-metrics" role="tabpanel" aria-labelledby="tab-metrics" hidden>
@@ -99,7 +99,7 @@ SKU-004,10.00</textarea></div>
 ]</textarea></div>
     <div class="controls"><button class="run" id="run-metrics" type="button">Analyze events →</button><button class="reset" id="export-metrics" type="button" disabled>Download metrics CSV</button><span class="hint">A working aggregation, not a SQL engine</span></div>
     <p class="result-summary" id="summary-metrics" role="status" aria-live="polite"></p>
-    <div class="result" id="result-metrics" role="region" aria-label="Metrics results" tabindex="0"><span class="status">Press Analyze events to execute.</span></div>
+    <div class="result" id="result-metrics" role="region" aria-label="Metrics results" tabindex="0" aria-live="polite"><span class="status">Press Analyze events to execute.</span></div>
   </section>
 </main>
 <footer class="wrap footer"><a href="../">← Back to portfolio</a><a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/public/labs">View public source code</a><div>© 2026 Alerson Morales · Synthetic examples · All processing is client-side.</div></footer>
