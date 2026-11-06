@@ -20,8 +20,8 @@ const copy={
  headingAccent:L("Try the behavior.","Prueba el funcionamiento."),
  intro:L("Three small, working engineering exercises built for technical review. Edit the sample data and observe the output. All computation happens inside your browser; no data is sent to any server.","Tres ejercicios técnicos funcionales para evaluación profesional. Modifica los datos de ejemplo y observa el resultado. Todo se ejecuta en tu navegador; no se envían datos a servidores."),
  noticeLabel:L("Transparency:","Transparencia:"),
- noticeBefore:L("These are independently implemented public teaching demonstrations inspired by common engineering problems. They are","Son demostraciones educativas públicas independientes sobre problemas habituales de ingeniería. No son"),
- noticeAfter:L("screenshots, instances or extracts of private VYRA products, nor evidence of production customer usage. The source and tests live in the public portfolio repository.","capturas, instancias ni extractos de productos privados de VYRA, ni prueba de uso por clientes en producción. El código y sus pruebas están en el repositorio público."),
+ noticeBefore:L("These are independently implemented public teaching demonstrations inspired by common engineering problems. They are","Estos son ejemplos educativos públicos e independientes con datos ficticios. No son"),
+ noticeAfter:L("screenshots, instances or extracts of private VYRA products, nor evidence of production customer usage. The source and tests live in the public portfolio repository.","de productos privados de VYRA y no demuestran uso por clientes en producción. El código y las pruebas están en el repositorio público."),
  catalogTab:L("01 · Catalog validation","01 · Validación de catálogos"),
  retryTab:L("02 · API idempotency","02 · Idempotencia de API"),
  metricsTab:L("03 · Event aggregation","03 · Agregación de eventos"),
@@ -78,8 +78,8 @@ export function renderLabs(locale,base){
  '<main class="wrap" id="main" tabindex="-1">',
  '<div class="intro"><div class="eyebrow">'+t("eyebrow")+'</div><h1>'+t("heading")+'<br><span>'+t("headingAccent")+'</span></h1><p>'+t("intro")+'</p></div>',
  '<div class="notice"><strong>'+t("noticeLabel")+'</strong> '+t("noticeBefore")+
- (locale==="en"?' <strong>not</strong> ':' <strong>capturas ni instancias reales</strong>: ')+
- (locale==="en"?t("noticeAfter"):t("noticeAfter").replace("capturas, instancias ni extractos","no se incluyen capturas, instancias ni extractos"))+'</div>',
+ (locale==="en"?' <strong>not</strong> ':' <strong>capturas, instancias ni extractos</strong> ')+
+ t("noticeAfter")+'</div>',
  '<div class="tabs" role="tablist" aria-label="'+t("tabAria")+'">',
  '<button id="tab-catalog" type="button" role="tab" aria-controls="panel-catalog" aria-selected="true" tabindex="0">'+t("catalogTab")+'</button>',
  '<button id="tab-retry" type="button" role="tab" aria-controls="panel-retry" aria-selected="false" tabindex="-1">'+t("retryTab")+'</button>',
