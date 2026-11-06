@@ -25,6 +25,22 @@
     @media(max-width:650px){.fields{grid-template-columns:1fr}.intro{padding-top:53px}.panel{padding:20px}.panel h2{font-size:26px}.wrap{padding:0 16px}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
   .skip-link{position:absolute;top:-100px;left:16px;z-index:100;background:#e5facb;color:#0c1a11;padding:12px 16px;border-radius:7px;font-size:14px;font-weight:800}.skip-link:focus{top:12px}.tabs button{font-size:13px;min-height:44px}.field label{font-size:13px}.hint{font-size:13px}.top nav a{font-size:14px}.result-summary{margin:14px 0 0;color:#d1ecc4;font-size:13px;line-height:1.6;font-weight:750}.controls button:disabled{opacity:.55;cursor:not-allowed}.panel>p,.notice{font-size:14px}#main:focus{outline:none}
+
+/* V14: semantic table on desktop and keyboard-friendly result cards on mobile */
+.result table caption{caption-side:top;text-align:left;padding:3px 4px 12px;color:#d1ecc4;font-size:13px;font-weight:800}
+.result-cards{display:none}
+.result:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+.result-card{border:1px solid #4a665d;border-radius:10px;background:#14232b;padding:12px;min-width:0}
+.result-card dl{display:grid;gap:7px;margin:0}
+.result-card dl>div{display:grid;grid-template-columns:minmax(82px,.75fr) minmax(0,1.25fr);gap:9px;align-items:start}
+.result-card dt{color:#bcd2c8;font-weight:750;font-size:12px}
+.result-card dd{margin:0;color:#edf6ed;font-size:13px;overflow-wrap:anywhere}
+@media(max-width:650px){
+ .result table{display:none}
+ .result-cards{display:grid;gap:10px}
+ .result{padding:13px;overflow-x:visible}
+ .result-card dl>div{grid-template-columns:minmax(72px,.75fr) minmax(0,1.25fr)}
+}
 </style>
 </head>
 <body><a class="skip-link" href="#main">Skip to content</a>
@@ -58,7 +74,7 @@ SKU-004,10.00</textarea></div>
     </div>
     <div class="controls"><button class="run" id="run-catalog" type="button">Compare catalogs →</button><button class="reset" id="export-catalog" type="button" disabled>Download comparison CSV</button><span class="hint">Local-only · no API calls</span></div>
     <p class="result-summary" id="summary-catalog" role="status" aria-live="polite"></p>
-    <div class="result" id="result-catalog" role="status" aria-live="polite"><span class="status">Press Compare catalogs to execute.</span></div>
+    <div class="result" id="result-catalog" role="region" aria-label="Catalog results" tabindex="0"><span class="status">Press Compare catalogs to execute.</span></div>
   </section>
 
   <section class="panel" id="panel-retry" role="tabpanel" aria-labelledby="tab-retry" hidden>
@@ -69,7 +85,7 @@ SKU-004,10.00</textarea></div>
       <div class="field"><label for="request-payload">Payload (JSON)</label><textarea id="request-payload" spellcheck="false" style="height:95px">{"action":"reserve","item":"SKU-001","qty":1}</textarea></div>
     </div>
     <div class="controls"><button class="run" id="run-retry" type="button">Submit simulated request →</button><button class="reset" id="run-failure" type="button">Simulate uncertain failure</button><button class="reset" id="reset-retry" type="button">Reset ledger</button></div>
-    <div class="result" id="result-retry" role="status" aria-live="polite"><span class="status">Submit the same key twice to see replay behavior.</span></div>
+    <div class="result" id="result-retry" role="region" aria-label="Request simulation results" tabindex="0"><span class="status">Submit the same key twice to see replay behavior.</span></div>
   </section>
 
   <section class="panel" id="panel-metrics" role="tabpanel" aria-labelledby="tab-metrics" hidden>
@@ -83,7 +99,7 @@ SKU-004,10.00</textarea></div>
 ]</textarea></div>
     <div class="controls"><button class="run" id="run-metrics" type="button">Analyze events →</button><button class="reset" id="export-metrics" type="button" disabled>Download metrics CSV</button><span class="hint">A working aggregation, not a SQL engine</span></div>
     <p class="result-summary" id="summary-metrics" role="status" aria-live="polite"></p>
-    <div class="result" id="result-metrics" role="status" aria-live="polite"><span class="status">Press Analyze events to execute.</span></div>
+    <div class="result" id="result-metrics" role="region" aria-label="Metrics results" tabindex="0"><span class="status">Press Analyze events to execute.</span></div>
   </section>
 </main>
 <footer class="wrap footer"><a href="../">← Back to portfolio</a><a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/public/labs">View public source code</a><div>© 2026 Alerson Morales · Synthetic examples · All processing is client-side.</div></footer>
@@ -111,10 +127,31 @@ SKU-004,10.00</textarea></div>
   const output = id => {const root=document.getElementById(id);root.replaceChildren();return root;};
   function renderJson(id,obj){const target=output(id), pre=document.createElement("pre");pre.textContent=JSON.stringify(obj,null,2);target.append(pre);}
   function error(id,err){const target=output(id),p=document.createElement("pre");p.textContent=err instanceof Error?err.message:String(err);p.style.color="#ffbfb9";target.append(p);}
-  function renderTable(id,rows,columns){const target=output(id),table=document.createElement("table"),thead=document.createElement("thead"),tbody=document.createElement("tbody"),head=document.createElement("tr");
-    columns.forEach(([key,label])=>{const th=document.createElement("th");th.scope="col";th.textContent=label;head.append(th);});thead.append(head);
-    rows.forEach(row=>{const tr=document.createElement("tr");columns.forEach(([key])=>{const td=document.createElement("td");td.textContent = key==="status" && spanish ? ({match:"Coincide",mismatch:"Diferencia",missing:"Faltante",extra:"Adicional"}[row[key]] ?? row[key]) : String(row[key]);tr.append(td);});tbody.append(tr);});
-    table.append(thead,tbody);target.append(table);
+  // Desktop table and equivalent mobile definition cards; hidden views are excluded from accessibility tree.
+  function renderTable(id,rows,columns){
+    const target=output(id),table=document.createElement("table");
+    const caption=document.createElement("caption");
+    caption.textContent=spanish?"Resultados de "+(id==="result-catalog"?"conciliación":"métricas"):
+      (id==="result-catalog"?"Catalog comparison results":"Event metrics results");
+    table.append(caption);
+    const thead=document.createElement("thead"),tbody=document.createElement("tbody"),head=document.createElement("tr");
+    const value=(key,v)=>key==="status"&&spanish?
+      ({match:"Coincide",mismatch:"Diferencia",missing:"Faltante",extra:"Adicional"}[v]??String(v)):String(v);
+    columns.forEach(([,label])=>{const th=document.createElement("th");th.scope="col";th.textContent=label;head.append(th);});
+    thead.append(head);
+    const cards=document.createElement("div");cards.className="result-cards";cards.setAttribute("role","list");
+    cards.setAttribute("aria-label",caption.textContent);
+    rows.forEach(row=>{
+      const tr=document.createElement("tr"),item=document.createElement("div"),dl=document.createElement("dl");
+      item.className="result-card";item.setAttribute("role","listitem");
+      columns.forEach(([key,label])=>{
+        const v=value(key,row[key]),td=document.createElement("td");td.textContent=v;tr.append(td);
+        const pair=document.createElement("div"),dt=document.createElement("dt"),dd=document.createElement("dd");
+        dt.textContent=label;dd.textContent=v;pair.append(dt,dd);dl.append(pair);
+      });
+      tbody.append(tr);item.append(dl);cards.append(item);
+    });
+    table.append(thead,tbody);target.append(table,cards);
   }
   const catalogColumns=[["sku","SKU"],["status",spanish?"Estado":"Status"],["expected",spanish?"Esperado":"Feed"],["observed",spanish?"Observado":"Observed"]];
   const metricColumns=[["date",spanish?"Fecha":"Date"],["requests",spanish?"Solicitudes":"Requests"],["successful","OK"],["errors",spanish?"Errores":"Errors"],["successRate",spanish?"Éxito %":"Success %"],["averageMs",spanish?"Media ms":"Mean ms"]];
