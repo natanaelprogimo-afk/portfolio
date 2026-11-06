@@ -46,7 +46,7 @@ const profileSchema=JSON.stringify({
  "@context":"https://schema.org","@type":"ProfilePage",name:t.title,
  description:t.description,url:canonical,inLanguage:lang,
  mainEntity:{"@type":"Person",name:"Alerson Morales",
-  jobTitle:"Software Developer",url:site+lang+"/"}
+  jobTitle:lang==="es"?"Desarrollador de software":"Software Developer",url:site+lang+"/"}
 });
 const list=(items)=>'<ul>'+items.map(s=>'<li>'+s+'</li>').join("")+'</ul>';
 const card=(id,title,body)=>'<section class="card" aria-labelledby="'+id+'"><h2 id="'+id+'">'+escape(title)+'</h2>'+body+'</section>';
