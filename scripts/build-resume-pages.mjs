@@ -66,7 +66,7 @@ function build(lang){
  '<link rel="canonical" href="'+url+'"><link rel="alternate" hreflang="en" href="'+site+'en/resume/">'+
  '<link rel="alternate" hreflang="es" href="'+site+'es/resume/"><link rel="alternate" hreflang="x-default" href="'+site+'en/resume/">'+
  '<meta property="og:type" content="profile"><meta property="og:title" content="'+esc(c.title)+'"><meta property="og:description" content="'+esc(c.description)+'">'+
- '<meta property="og:url" content="'+url+'"><meta property="og:image" content="'+site+'og-preview.png">'+
+ '<meta property="og:url" content="'+url+'"><meta property="og:image" content="'+site+'og-preview.svg">'+
  '<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="'+esc(c.title)+'">'+
  '<meta name="twitter:description" content="'+esc(c.description)+'"><title>'+esc(c.title)+'</title>'+
  '<style>'+css+'\n@media(max-width:600px){.toolbar{flex-wrap:wrap}.toolbar a,.toolbar button{min-height:44px}}.toolbar a{display:inline-flex;align-items:center;min-height:44px;padding:8px 0}a{text-underline-offset:3px}.skip{position:absolute;top:-70px;left:10px;background:#fff;padding:12px;z-index:4}.skip:focus{top:8px}</style>'+
