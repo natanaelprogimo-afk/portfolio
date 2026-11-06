@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://natanaelprogimo-afk.github.io/portfolio/</loc></url>
   <url><loc>https://natanaelprogimo-afk.github.io/portfolio/en/</loc></url>
   <url><loc>https://natanaelprogimo-afk.github.io/portfolio/es/</loc></url>
-  <url><loc>https://natanaelprogimo-afk.github.io/portfolio/labs/</loc></url>
-  <url><loc>https://natanaelprogimo-afk.github.io/portfolio/cases/</loc></url>
   <url><loc>https://natanaelprogimo-afk.github.io/portfolio/en/labs/</loc></url>
   <url><loc>https://natanaelprogimo-afk.github.io/portfolio/es/labs/</loc></url>
   <url><loc>https://natanaelprogimo-afk.github.io/portfolio/en/cases/</loc></url>
+  <url><loc>https://natanaelprogimo-afk.github.io/portfolio/es/cases/</loc></url>
   <url><loc>https://natanaelprogimo-afk.github.io/portfolio/en/hiring/</loc></url>
   <url><loc>https://natanaelprogimo-afk.github.io/portfolio/es/hiring/</loc></url>
   <url><loc>https://natanaelprogimo-afk.github.io/portfolio/en/trust/</loc></url>
   <url><loc>https://natanaelprogimo-afk.github.io/portfolio/es/trust/</loc></url>
-  <url><loc>https://natanaelprogimo-afk.github.io/portfolio/es/cases/</loc></url>
-  <url><loc>https://natanaelprogimo-afk.github.io/portfolio/resume.html</loc></url>
 </urlset>

@@ -108,6 +108,11 @@ const refs=[
 ];
 for(const lang of ["en","es"]){
  const c=strings[lang],home=base+lang+"/",canonical=host+lang+"/trust/";
+  const webPageSchema=JSON.stringify({
+    "@context":"https://schema.org","@type":"WebPage",
+    name:c.title,description:c.desc,url:canonical,inLanguage:lang,
+    isPartOf:{"@type":"WebSite",name:"Alerson Morales — Developer Portfolio",url:host}
+  });
  const card=(name,body,foot)=>'<article class="card">'+(foot==='stage'?'<span class="tag">'+esc(c.requirement)+'</span>':'')+'<h3>'+esc(name)+'</h3><p>'+esc(body)+'</p>'+(foot&&foot!=='stage'?foot:'')+'</article>';
  const refLabel=(label,i)=>lang==="es"?["OWASP — Seguridad de agentes","OWASP — Riesgos de LLM","Ley uruguaya 18.331","URCDP — Obligaciones"][i]:label;
  const evidence=[
@@ -132,7 +137,8 @@ for(const lang of ["en","es"]){
  '<meta property="og:locale" content="'+(lang==="es"?"es_UY":"en_US")+'"><meta property="og:locale:alternate" content="'+(lang==="es"?"en_US":"es_UY")+'">',
 '<meta property="og:image" content="'+host+'og-preview.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="'+esc(lang==="es"?"Centro de confianza VYRA":"VYRA trust center")+'"><meta name="twitter:image" content="'+host+'og-preview.svg"><meta name="twitter:card" content="summary_large_image">',
 '<meta name="twitter:title" content="'+esc(c.title)+'"><meta name="twitter:description" content="'+esc(c.desc)+'"><meta name="twitter:image:alt" content="'+esc(lang==="es"?"Centro de confianza VYRA":"VYRA trust center")+'">',
- '<link rel="icon" href="'+base+'favicon.svg" type="image/svg+xml"><style>'+css+tocStyles+'</style><link rel="stylesheet" href="'+base+'shared-pages.css"></head><body>',
+ '<script type="application/ld+json">'+webPageSchema+'</script>',
+  '<link rel="icon" href="'+base+'favicon.svg" type="image/svg+xml"><style>'+css+tocStyles+'</style><link rel="stylesheet" href="'+base+'shared-pages.css"></head><body>',
  '<a class="skip" href="#main">'+(lang==="es"?"Saltar al contenido":"Skip to content")+'</a>',
  '<header><div class="wrap"><a class="brand" href="'+home+'">VYRA<span>.</span></a><nav aria-label="'+(lang==="es"?"Navegación":"Navigation")+'">',
  '<a href="'+home+'">'+esc(c.home)+'</a><a aria-current="page" href="'+base+lang+'/trust/">'+(lang==="es"?"Centro de confianza":"Trust center")+'</a>',

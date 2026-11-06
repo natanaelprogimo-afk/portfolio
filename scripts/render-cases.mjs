@@ -68,7 +68,7 @@ const cases=[
   ]
  },
  {
-  id:"client-websites",group:"experience",
+  id:"client-websites",group:"client",
   title:L("Websites for two local businesses","Sitios web para dos negocios"),
   kind:L("COMPLETED WORK / REFERENCES PENDING","TRABAJO TERMINADO / REFERENCIAS PENDIENTES"),
   status:L("2 completed websites reported","2 sitios web declarados terminados"),
@@ -81,7 +81,7 @@ const cases=[
   links:[{label:L("Ask about permitted references","Consultar referencias autorizadas"),href:"MAIL_REFERENCES"}]
  },
  {
-  id:"catalog-integrity",group:"experience",
+  id:"catalog-integrity",group:"private",
   title:L("Catalog Integrity Engine","Catalog Integrity Engine"),
   kind:L("PRIVATE / INTERNAL PROTOTYPE","PRIVADO / PROTOTIPO INTERNO"),
   status:L("Internal prototype","Prototipo interno"),
@@ -94,7 +94,7 @@ const cases=[
   links:[{label:L("Try independent CSV example","Probar ejemplo CSV independiente"),href:"LAB_CATALOG"}]
  },
  {
-  id:"ai-automation",group:"experience",
+  id:"ai-automation",group:"private",
   title:L("AI Automation Factory","AI Automation Factory"),
   kind:L("PRIVATE / IN DEVELOPMENT","PRIVADO / EN DESARROLLO"),
   status:L("Private engineering work","Desarrollo privado"),
@@ -107,7 +107,7 @@ const cases=[
   links:[{label:L("Try separate retry simulation","Probar simulación independiente de reintentos"),href:"LAB_RETRY"}]
  },
  {
-  id:"vyra-fitness",group:"experience",
+  id:"vyra-fitness",group:"private",
   title:L("VYRA Fitness","VYRA Fitness"),
   kind:L("PRIVATE / DESIGN AND TESTING","PRIVADO / DISEÑO Y PRUEBAS"),
   status:L("Unreleased application","Aplicación sin publicar"),
@@ -135,10 +135,15 @@ function article(item,language,base){
  const txt=s=>escapeHtml(tr(s,language));
  const line=arr=>arr.map(s=>"<li>"+txt(s)+"</li>").join("");
  const publicCase=item.group==="public";
+ const localizedTag=tag=>language==="es"?({
+   "Frontend":"Desarrollo frontend","Responsive UI":"Interfaz adaptable","Client work":"Trabajo para clientes",
+   "Data validation":"Validación de datos","Agents":"Agentes","Observability":"Observabilidad",
+   "Accessibility":"Accesibilidad"
+ }[tag]??tag):tag;
  const limitation=line(item.limitations);
  const safeHref=link=>escapeHtml(resolveHref(link.href,language,base));
  return [
- '<article class="case" id="'+item.id+'" data-evidence="'+(publicCase?"public":"private")+'">',
+ '<article class="case" id="'+item.id+'" data-evidence="'+item.group+'">',
  '<div class="case-head"><div><span class="case-kicker">'+txt(item.kind)+'</span><h3>'+txt(item.title)+'</h3></div><span class="status '+(publicCase?"":"status--private")+'">'+txt(item.status)+'</span></div>',
  '<p class="case-description">'+txt(item.intro)+'</p>',
  '<div class="proof-detail">',
@@ -146,7 +151,7 @@ function article(item,language,base){
  '<section class="card"><h4>'+label(language,"Verifiable evidence","Evidencia verificable")+'</h4><ul>'+line(item.verification)+'</ul><h4 style="margin-top:20px">'+label(language,"Scope and limitations","Alcance y limitaciones")+'</h4><ul>'+limitation+'</ul></section>',
  '</div>',
  item.command?'<pre class="code-command"><code>$ '+escapeHtml(item.command)+'</code></pre>':"",
- '<div class="stack">'+item.tags.map(s=>"<span>"+escapeHtml(s)+"</span>").join("")+'</div>',
+ '<div class="stack">'+item.tags.map(s=>"<span>"+escapeHtml(localizedTag(s))+"</span>").join("")+'</div>',
  '<div class="case-links">'+item.links.map(link=>'<a href="'+safeHref(link)+'"'+(link.href.startsWith("https:")?' target="_blank" rel="noopener noreferrer"':"")+'>'+txt(link.label)+' <span aria-hidden="true">↗</span></a>').join("")+'</div>',
  '</article>'
  ].join("");
@@ -155,14 +160,18 @@ export function renderCases(language,base){
  if(language!=="en"&&language!=="es")throw Error("unsupported locale");
  const p=base+language+"/";
  const publicCases=cases.filter(item=>item.group==="public");
- const others=cases.filter(item=>item.group!=="public");
+ const completedClients=cases.filter(item=>item.group==="client");
+ const privateWork=cases.filter(item=>item.group==="private");
  const groups=[
   '<section class="case-group" id="public-proof" aria-labelledby="public-heading">',
   '<div class="case-group-heading"><div><span class="kicker">'+label(language,"01 / REPRODUCIBLE PUBLIC WORK","01 / TRABAJO PÚBLICO REPRODUCIBLE")+'</span><h2 id="public-heading">'+label(language,"Engineering you can verify","Ingeniería que puedes verificar")+'</h2><p>'+label(language,"Source code, executable steps and explicit limitations. These are independent examples, not claimed client deployments.","Código, instrucciones de ejecución y limitaciones explícitas. Son ejemplos independientes, no despliegues de clientes.")+'</p></div></div>',
   publicCases.map(x=>article(x,language,base)).join(""),'</section>',
   '<section class="case-group" id="experience" aria-labelledby="experience-heading">',
-  '<div class="case-group-heading"><div><span class="kicker">'+label(language,"02 / EXPERIENCE AND PRIVATE WORK","02 / EXPERIENCIA Y TRABAJO PRIVADO")+'</span><h2 id="experience-heading">'+label(language,"Completed work and projects in progress","Trabajo terminado y proyectos en desarrollo")+'</h2><p>'+label(language,"Completed client websites are disclosed separately from private prototypes and unreleased software.","Los sitios terminados para clientes se distinguen de los prototipos privados y del software sin publicar.")+'</p></div></div>',
-  others.map(x=>article(x,language,base)).join(""),'</section>'
+  '<div class="case-group-heading"><div><span class="kicker">'+label(language,"02 / COMPLETED CLIENT WORK","02 / TRABAJO PARA CLIENTES TERMINADO")+'</span><h2 id="experience-heading">'+label(language,"Client work · references pending","Trabajo de clientes · referencias pendientes")+'</h2><p>'+label(language,"Reported completed websites. No public customer material without permission.","Sitios declarados terminados. Sin materiales de clientes sin autorización.")+'</p></div></div>',
+  completedClients.map(x=>article(x,language,base)).join(""),'</section>',
+  '<section class="case-group" id="private-work" aria-labelledby="private-heading">',
+  '<div class="case-group-heading"><div><span class="kicker">'+label(language,"03 / PRIVATE DEVELOPMENT","03 / DESARROLLOS PRIVADOS")+'</span><h2 id="private-heading">'+label(language,"Projects under development","Proyectos en desarrollo")+'</h2><p>'+label(language,"Private prototypes are not customer releases.","Los prototipos privados no son productos publicados para clientes.")+'</p></div></div>',
+  privateWork.map(x=>article(x,language,base)).join(""),'</section>'
  ].join("");
  const navLink=(href,en,es)=>'<a href="'+escapeHtml(href)+'">'+label(language,en,es)+'</a>';
  const index=cases.map(x=>'<a href="#'+x.id+'">'+escapeHtml(tr(x.title,language))+'</a>').join("");
@@ -178,17 +187,19 @@ export function renderCases(language,base){
  navLink(p,"Portfolio","Portafolio"),navLink(p+"labs/","Interactive lab","Laboratorio interactivo"),
  navLink(p+"hiring/","Recruiter brief","Perfil para reclutadores"),
  navLink(base+"resume-"+language+".pdf","Résumé PDF","Currículum PDF"),
+  '<a data-language-switch href="'+base+(language==="en"?"es":"en")+'/cases/" lang="'+(language==="en"?"es":"en")+'">'+(language==="en"?"Español":"English")+'</a>',
  '</nav></header>',
  '<main class="container" id="main" tabindex="-1">',
  '<div class="mast"><span class="kicker">'+label(language,"SOURCE / TESTS / SCOPE","CÓDIGO / PRUEBAS / ALCANCE")+'</span>',
  '<h1>'+label(language,"Proof before promises.","Pruebas antes que promesas.")+'</h1>',
- '<p>'+label(language,"Three public case studies lead with source and tests. Private VYRA software and client work remain clearly labeled, with no unverified screenshots or results.","Tres casos públicos comienzan por código y pruebas. El software privado VYRA y los trabajos para clientes están identificados sin capturas ni resultados no verificados.")+'</p>',
+ '<p>'+label(language,"Three inspectable public examples, one reported completed client-work case and three private projects. No fabricated results.","Tres ejemplos públicos verificables, un caso de trabajo terminado para clientes y tres proyectos privados. Sin resultados inventados.")+'</p>',
  '<div class="notice"><strong>'+label(language,"Evidence policy:","Política de evidencias:")+'</strong> '+
  label(language,"Examples use fictional data and are not production customer systems. Private work is not presented as published, commercially adopted or certified.","Los ejemplos usan datos ficticios y no son sistemas productivos de clientes. El trabajo privado no se presenta como publicado, adoptado comercialmente ni certificado.")+'</div>',
  '<nav aria-label="'+label(language,"Case-study index","Índice de casos")+'" class="index">'+index+'</nav></div>',
  groups,
  '</main>',
  '<footer class="footer container"><span>© 2026 Alerson Morales · '+label(language,"No invented customer metrics or launch claims.","Sin métricas de clientes ni lanzamientos inventados.")+'</span>'+navLink(p,"Back to portfolio ↑","Volver al portafolio ↑")+'</footer>',
+ '<script>document.querySelector("[data-language-switch]")?.addEventListener("click",function(){this.href=this.href.split("#")[0]+window.location.hash})</script>',
  '</body></html>'
  ].join("\n");
 }

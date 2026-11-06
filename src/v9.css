@@ -436,3 +436,10 @@ body{background:var(--bg)}
 .verified-card .verified-case-link:hover{color:#f0ffcd}
 .verified-card .verified-case-link:focus-visible{outline:3px solid #d9f9ad;outline-offset:4px}
 @media(max-width:650px){.verified-card .verified-case-link{min-height:44px}}
+
+/* V14: keyboard-accessible copy affordance for the exact public CLI command. */
+.copy-command{min-height:44px;display:inline-flex;align-items:center;margin:7px 0 0 13px;padding:8px 12px;border:1px solid #63806d;border-radius:8px;background:#19352d;color:#e5f8cf;font:750 12px/1.4 ui-monospace,Consolas,monospace;cursor:pointer}
+.copy-command:hover{background:#315640}
+.copy-command:focus-visible{outline:3px solid #d9f9ad;outline-offset:3px}
+.hero-terminal-command code{font:inherit;overflow-wrap:anywhere}
+@media(max-width:650px){.copy-command{margin:6px 0 3px 8px}}

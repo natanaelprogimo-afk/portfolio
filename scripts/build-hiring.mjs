@@ -38,8 +38,16 @@ portfolio:"Portafolio",cases:"Casos de estudio",demo:"Probar ejemplos interactiv
 };
 const escape=s=>s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll('"',"&quot;");
 const css=":root{font-family:system-ui,sans-serif;background:#0a1117;color:#f0f5ee;--accent:#c9f38a;--muted:#b2c7bd}*{box-sizing:border-box}body{margin:0}a{color:var(--accent)}a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}.wrap{max-width:1050px;margin:auto;padding:0 24px}.top{display:flex;justify-content:space-between;gap:20px;padding:25px 0;border-bottom:1px solid #344c46}.top nav{display:flex;flex-wrap:wrap;gap:18px}.top a{font-size:14px;font-weight:700}.top .brand{color:white;text-decoration:none}.kicker{color:var(--accent);font-size:12px;font-weight:850;letter-spacing:.1em}main{padding:70px 0 60px}h1{font-size:clamp(42px,6vw,75px);line-height:1.06;letter-spacing:-.065em;margin:14px 0 20px}p{line-height:1.75;color:var(--muted)}.lead{max-width:850px;font-size:17px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin:30px 0}.actions a,button{padding:13px 17px;border-radius:9px;border:1px solid #7ca47b;font:800 13px system-ui;text-decoration:none;min-height:46px;display:inline-flex;align-items:center;cursor:pointer}.actions a:first-child{background:var(--accent);color:#13221a}.grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}.card{border:1px solid #354a44;border-radius:13px;padding:26px;background:#121e24}.card h2{font-size:22px;letter-spacing:-.04em}.card p,.card li{font-size:14px;color:var(--muted);line-height:1.8}.card li{margin-bottom:12px}ul{padding-left:19px}.note{padding:15px;border-left:3px solid var(--accent);margin-top:26px;font-size:13px}button{color:var(--accent);background:#152521}footer{border-top:1px solid #344c46;padding:26px 0 50px;font-size:12px;color:var(--muted)}.skip{position:absolute;top:-120px;left:15px;background:white;color:black;padding:13px;z-index:20}.skip:focus{top:10px}@media(max-width:440px){.top nav{gap:7px;justify-content:space-between;flex-wrap:nowrap}.top nav a{font-size:11px;white-space:nowrap}}@media(max-width:730px){.grid{grid-template-columns:1fr}main{padding:45px 0}.wrap{padding:0 16px}.card{padding:19px}.top{flex-direction:column}}@media print{body{background:white;color:#111}.top,.actions,button,.skip{display:none!important}main{padding:0}h1{font-size:30pt}.card{background:white;border-color:#ccc;padding:13px;break-inside:avoid}.card p,.card li,p,footer{color:#222}.kicker,a{color:#235b36}.grid{gap:10px}}";
+// V14: secondary card and social links must be tappable, not 16px inline targets.
+const touchCss='.card a{display:inline-flex;align-items:center;min-height:44px;padding:8px 5px;max-width:100%;overflow-wrap:anywhere}.card li a{font-size:14px}.card#contact a{margin:2px 0}.card a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}@media(max-width:440px){.top nav{flex-wrap:wrap;justify-content:flex-start}.card p a{margin:3px 3px 3px 0}}';
 for(const lang of ["en","es"]){
 const t=copy[lang],p=base+lang+"/", canonical=site+lang+"/hiring/";
+const profileSchema=JSON.stringify({
+ "@context":"https://schema.org","@type":"ProfilePage",name:t.title,
+ description:t.description,url:canonical,inLanguage:lang,
+ mainEntity:{"@type":"Person",name:"Alerson Morales",
+  jobTitle:"Software Developer",url:site+lang+"/"}
+});
 const list=(items)=>'<ul>'+items.map(s=>'<li>'+s+'</li>').join("")+'</ul>';
 const card=(id,title,body)=>'<section class="card" aria-labelledby="'+id+'"><h2 id="'+id+'">'+escape(title)+'</h2>'+body+'</section>';
 const html=[
@@ -53,12 +61,14 @@ const html=[
 '<meta property="og:locale" content="'+(lang==="es"?"es_UY":"en_US")+'"><meta property="og:locale:alternate" content="'+(lang==="es"?"en_US":"es_UY")+'">',
 '<meta property="og:image" content="'+site+'og-preview.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="'+escape(lang==="es"?"Resumen profesional de Alerson Morales":"Alerson Morales recruiter brief")+'"><meta name="twitter:image" content="'+site+'og-preview.svg"><meta name="twitter:card" content="summary_large_image">',
 '<meta name="twitter:title" content="'+escape(t.title)+'"><meta name="twitter:description" content="'+escape(t.description)+'"><meta name="twitter:image:alt" content="'+escape(lang==="es"?"Resumen profesional de Alerson Morales":"Alerson Morales recruiter brief")+'">',
-'<link rel="icon" href="'+base+'favicon.svg" type="image/svg+xml"><style>'+css+'</style><link rel="stylesheet" href="'+base+'shared-pages.css"></head><body>',
+'<script type="application/ld+json">'+profileSchema+'</script>',
+'<link rel="icon" href="'+base+'favicon.svg" type="image/svg+xml"><style>'+css+touchCss+'</style><link rel="stylesheet" href="'+base+'shared-pages.css"></head><body>',
 '<a class="skip" href="#main">'+(lang==="en"?"Skip to content":"Saltar al contenido")+'</a>',
 '<div class="wrap"><header class="top"><a class="brand" href="'+p+'">AM. / ALERSON MORALES</a>',
 '<nav aria-label="'+(lang==="en"?"Navigation":"Navegación")+'"><a href="'+p+'">'+t.portfolio+'</a><a href="'+p+'cases/">'+t.cases+'</a><a href="'+p+'trust/">'+(lang==="en"?"VYRA trust":"Confianza VYRA")+'</a>',
 '<a lang="'+(lang==="en"?"es":"en")+'" href="'+base+(lang==="en"?"es":"en")+'/hiring/">'+(lang==="en"?"Español":"English")+'</a></nav></header>',
 '<main id="main" tabindex="-1"><span class="kicker">'+t.label+'</span><h1>'+t.heading+'</h1><p class="lead">'+t.lead+'</p>',
+'<p class="lead" style="font-size:14px">'+(lang==="es"?"Modalidad: 100 % remoto · Zona horaria Uruguay: UTC−3 · Colaboración internacional":"Working model: fully remote · Uruguay time zone UTC−3 · International collaboration")+'</p>',
 '<div class="actions"><a href="'+p+'labs/">'+t.demo+' ↗</a><a href="'+base+'resume-'+lang+'.pdf">'+t.resume+' ↗</a>',
 '<a href="mailto:moralesalerson@gmail.com?subject='+encodeURIComponent(lang==="es"?"Oportunidad laboral remota de programación":"Remote software engineering opportunity")+'">'+t.email+' ↗</a></div>',
 '<div class="grid">',
