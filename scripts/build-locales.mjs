@@ -92,6 +92,7 @@ function decorate(html, locale,slug,title,description) {
     html=html.replace("</head>",'<script type="application/ld+json">'+
       JSON.stringify(schema).replaceAll("<","\\u003c")+'</script>\n</head>');
   }
+  if(slug==="cases/")html=html.replaceAll("og-preview.svg","og-cases.svg");
   return html;
 }
 
