@@ -16,7 +16,7 @@ const baseUrl = (locale,slug) => site + locale + "/" + slug;
 const alternates = slug =>
   '<link rel="alternate" hreflang="en" href="'+baseUrl("en",slug)+'" />\n' +
   '<link rel="alternate" hreflang="es" href="'+baseUrl("es",slug)+'" />\n' +
-  '<link rel="alternate" hreflang="x-default" href="'+site+'" />';
+  '<link rel="alternate" hreflang="x-default" href="'+(slug?baseUrl("en",slug):site)+'" />';
 
 const pageCopy = {
   en:{
@@ -26,7 +26,7 @@ const pageCopy = {
     headline:"Complex problems. Clear software.",
     intro:"Inspect runnable browser demos, a Python CSV comparison tool and a tested local Python API. Independent examples use fictional data; private systems are not presented as released products.",
     work:"Selected engineering work", lab:"Try interactive engineering examples", cases:"Explore engineering case studies",
-    note:"The code examples use synthetic data. Private applications are clearly identified as development work."
+    note:"The code examples use synthetic data. Private applications are clearly identified as development work.", csvLink:"Python CSV CLI — public source and tests",apiLink:"Python API — public source and tests"
   },
   es:{
     title:"Alerson Morales | Desarrollador Full-Stack en Uruguay",
@@ -35,7 +35,7 @@ const pageCopy = {
     headline:"Problemas complejos. Software claro.",
     intro:"Examina demostraciones interactivas, una herramienta Python de comparación CSV y una API Python local con pruebas. Los ejemplos usan datos ficticios y los sistemas privados no se presentan como publicados.",
     work:"Proyectos de ingeniería", lab:"Probar demostraciones interactivas", cases:"Ver casos de estudio de ingeniería",
-    note:"Los ejemplos públicos utilizan datos ficticios. Los proyectos privados se identifican como trabajo en desarrollo."
+    note:"Los ejemplos públicos utilizan datos ficticios. Los proyectos privados se identifican como trabajo en desarrollo.", csvLink:"Herramienta Python CSV — código y pruebas públicas",apiLink:"API Python — código y pruebas públicas"
   }
 };
 
@@ -120,8 +120,8 @@ for(const locale of ["en","es"]) {
     +'<p class="hero-description">'+escape(c.intro)+'</p>'
     +'<h2 style="margin-top:3rem">'+escape(c.work)+'</h2>'
     +'<ul><li><a href="'+base+locale+'/labs/">'+escape(c.lab)+'</a></li>'
-    +'<li><a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/csv">Python CSV CLI — public source and tests</a></li>'
-    +'<li><a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/backend">Python API — public source and tests</a></li></ul>'
+    +'<li><a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/csv">'+escape(c.csvLink)+'</a></li>'
+    +'<li><a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/backend">'+escape(c.apiLink)+'</a></li></ul>'
     +'<p><a href="'+base+locale+'/cases/">'+escape(c.cases)+'</a> · <a href="'+base+locale+'/labs/">'+escape(c.lab)+'</a></p>'
     +'<p>'+escape(c.note)+'</p>'
     +'<p><a href="mailto:moralesalerson@gmail.com">moralesalerson@gmail.com</a> · <a href="'+base+'resume-'+locale+'.pdf">CV / Résumé PDF</a></p>'
@@ -210,4 +210,6 @@ for(const locale of ["en","es"]){
   output(locale+"/cases/index.html",cases);
 }
 // Legacy /cases/ remains an English alias but uses the same authored content.
-output("cases/index.html",decorate(renderCases("en",base),"en","cases/","Engineering Case Studies | Alerson Morales","Inspect public code, verified tests and clearly labeled private work."));
+output("cases/index.html",decorate(renderCases("en",base),"en","cases/","Engineering Case Studies | Alerson Morales","Inspect public code, verified tests and clearly labeled private work.")
+  .replace(/<link rel="canonical" href="[^"]+" \/>/,'<link rel="canonical" href="'+baseUrl("en","cases/")+'" />')
+  .replace("</head>",'<meta name="robots" content="noindex,follow" />\n</head>'));
