@@ -41,6 +41,11 @@
  .result{padding:13px;overflow-x:visible}
  .result-card dl>div{grid-template-columns:minmax(72px,.75fr) minmax(0,1.25fr)}
 }
+
+/* V15: consistent touch targets for interactive laboratory controls. */
+.run,.reset,.tabs button{min-height:44px}
+.result pre{white-space:pre-wrap;overflow-wrap:anywhere}
+@media(max-width:390px){.controls{gap:9px}.controls button{width:100%;justify-content:center}}
 </style>
 </head>
 <body><a class="skip-link" href="#main">Skip to content</a>
@@ -105,9 +110,11 @@ SKU-004,10.00</textarea></div>
 <footer class="wrap footer"><a href="../">← Back to portfolio</a><a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/public/labs">View public source code</a><div>© 2026 Alerson Morales · Synthetic examples · All processing is client-side.</div></footer>
 <script type="module">
   import { compareCatalog, createIdempotencyLedger, serializeReportCsv, summarizeEvents } from "./logic.mjs";
+  import { translateLabError, localizeLedgerResult } from "./i18n.mjs";
   const tabs = ["catalog","retry","metrics"];
   const spanish = document.documentElement.lang === "es";
-  function switchTab(name) {
+  function switchTab(name,syncUrl=false) {
+    if(syncUrl && location.hash!=="#"+name)history.pushState(null,"","#"+name);
     for (const key of tabs) {
       const on = key === name, btn = document.getElementById("tab-"+key);
       btn.setAttribute("aria-selected", String(on));btn.tabIndex = on ? 0 : -1;
@@ -116,17 +123,21 @@ SKU-004,10.00</textarea></div>
   }
   tabs.forEach((name,i) => {
     const tab = document.getElementById("tab-"+name);
-    tab.addEventListener("click", () => switchTab(name));
+    tab.addEventListener("click", () => switchTab(name,true));
     tab.addEventListener("keydown", event => {
       const delta = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
-      if (delta) {event.preventDefault();const next=tabs[(i+delta+tabs.length)%tabs.length];switchTab(next);document.getElementById("tab-"+next).focus();}
+      if (delta) {event.preventDefault();const next=tabs[(i+delta+tabs.length)%tabs.length];switchTab(next,true);document.getElementById("tab-"+next).focus();}
       if (event.key === "Home" || event.key === "End") {event.preventDefault();const next=event.key === "Home" ? tabs[0] : tabs[tabs.length-1];switchTab(next);document.getElementById("tab-"+next).focus();}
     });
   });
   const text = id => document.getElementById(id).value;
   const output = id => {const root=document.getElementById(id);root.replaceChildren();return root;};
-  function renderJson(id,obj){const target=output(id), pre=document.createElement("pre");pre.textContent=JSON.stringify(obj,null,2);target.append(pre);}
-  function error(id,err){const target=output(id),p=document.createElement("pre");p.textContent=err instanceof Error?err.message:String(err);p.style.color="#ffbfb9";target.append(p);}
+  function renderJson(id,obj){
+    const target=output(id),pre=document.createElement("pre");
+    pre.textContent=JSON.stringify(localizeLedgerResult(obj,spanish?"es":"en"),null,2);
+    target.append(pre);
+  }
+  function error(id,err){const target=output(id),p=document.createElement("pre");p.textContent=translateLabError(err,spanish?"es":"en");p.style.color="#ffbfb9";target.append(p);}
   // Desktop table and equivalent mobile definition cards; hidden views are excluded from accessibility tree.
   function renderTable(id,rows,columns){
     const target=output(id),table=document.createElement("table");
@@ -177,7 +188,8 @@ SKU-004,10.00</textarea></div>
       renderTable("result-catalog",result.details,catalogColumns);
       const {match,mismatch,missing,extra}=result.count;
       document.getElementById("summary-catalog").textContent=
-        "Matches: "+match+" · Mismatches: "+mismatch+" · Missing: "+missing+" · Extra: "+extra;
+        (spanish?"Coincide: ":"Matches: ")+match+(spanish?" · Diferencias: ":" · Mismatches: ")+mismatch+
+        (spanish?" · Faltantes: ":" · Missing: ")+missing+(spanish?" · Adicionales: ":" · Extra: ")+extra;
       updateExport("export-catalog",true);
     } catch(err) {
       catalogRows=null;updateExport("export-catalog",false);
@@ -194,7 +206,7 @@ SKU-004,10.00</textarea></div>
     try{
       metricRows=summarizeEvents(text("events"));
       renderTable("result-metrics",metricRows,metricColumns);
-      document.getElementById("summary-metrics").textContent="Days analyzed: "+metricRows.length;
+      document.getElementById("summary-metrics").textContent=(spanish?"Días analizados: ":"Days analyzed: ")+metricRows.length;
       updateExport("export-metrics",true);
     } catch(err){
       metricRows=null;updateExport("export-metrics",false);
@@ -212,6 +224,7 @@ SKU-004,10.00</textarea></div>
     }));
   };
   window.addEventListener("hashchange",activateFromHash);
+  window.addEventListener("popstate",activateFromHash);
   // Browser restoration can override a scroll requested by a deferred module;
   // reapply once the full document has loaded.
   window.addEventListener("load",() => requestAnimationFrame(activateFromHash),{once:true});
