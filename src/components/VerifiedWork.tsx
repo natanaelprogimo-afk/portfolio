@@ -15,7 +15,7 @@ type Evidence = {
 
 const evidence: Evidence[] = [
   {
-    id: "browser-lab", caseId: "portfolio", icon: FlaskConical,
+    id: "browser-lab", caseId: "browser-lab", icon: FlaskConical,
     link: "labs/", linkType: "demo",
     technologies: "JavaScript · Node.js tests",
     title: { en: "Run interactive examples", es: "Ejecuta ejemplos interactivos" },
@@ -74,7 +74,7 @@ export default function VerifiedWork({ locale }: { locale: Locale }) {
                 <p>{item.description[locale]}</p>
                 {item.id === "python-csv" && (
                   <div className="verified-sample" aria-label={locale === "es" ? "Resultados de las muestras ficticias" : "Synthetic sample outcomes"}>
-                    <span>match <b>1</b></span><span>mismatch <b>1</b></span><span>missing <b>1</b></span><span>extra <b>1</b></span>
+                    <span>{locale==="es"?"coincide":"match"} <b>1</b></span><span>{locale==="es"?"diferencia":"mismatch"} <b>1</b></span><span>{locale==="es"?"falta":"missing"} <b>1</b></span><span>{locale==="es"?"adicional":"extra"} <b>1</b></span>
                   </div>
                 )}
                 <span className="verified-tech">{locale === "es" ? item.technologies.replaceAll("Node.js tests", "pruebas Node.js").replaceAll("Unit tests", "pruebas unitarias").replaceAll("Query plans", "planes de consulta") : item.technologies}</span>
