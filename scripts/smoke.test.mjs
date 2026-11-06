@@ -94,10 +94,10 @@ test("V13 case studies use structured bilingual source with distinct public and 
  assert.match(renderer,/const cases=\[/);
  for(const lang of ["en","es"]){
    const html=text("dist/"+lang+"/cases/index.html");
-   assert.equal((html.match(/data-evidence="public"/g)||[]).length,3);
+   assert.equal((html.match(/data-evidence="public"/g)||[]).length,4);
    assert.equal((html.match(/data-evidence="private"/g)||[]).length,3);
     assert.equal((html.match(/data-evidence="client"/g)||[]).length,1);
-   for(const anchor of ["python-csv","python-api","portfolio","client-websites","catalog-integrity","ai-automation","vyra-fitness"])
+   for(const anchor of ["python-csv","python-api","browser-lab","portfolio","client-websites","catalog-integrity","ai-automation","vyra-fitness"])
      assert.ok(html.includes('id="'+anchor+'"'),"Missing "+lang+" case "+anchor);
    assert.ok(html.includes("examples/csv"),"Public CSV source missing");
    assert.ok(html.includes("examples/backend"),"Public backend source missing");
@@ -137,10 +137,44 @@ test("V14 bilingual SEO, proof docs, evidence taxonomy and mobile result output 
   assert.match(lab,/createElement\("caption"\)/);
   assert.match(text("dist/labs/index.html"),/name="robots" content="noindex,follow"/);
   assert.match(text("dist/cases/index.html"),/name="robots" content="noindex,follow"/);
-  assert.match(text("src/App.tsx"),/data-release="v14"/);
+  assert.match(text("src/App.tsx"),/data-release="v15"/);
   assert.match(text("src/App.tsx"),/CSV_COMMAND/);
 });
 
+test("V15 resumes, localized backend claims, no-JS fallback and lab error modules",()=>{
+  const root=text("dist/index.html");
+  assert.match(root,/<noscript>/);
+  assert.match(root,/Full-Stack Developer in Uruguay/);
+  assert.match(root,/available for remote roles/);
+  const source=text("scripts/render-cases.mjs");
+  assert.doesNotMatch(source,/SQLite persistence and documented idempotency behavior/);
+  assert.match(source,/In-memory SQLite transactions/);
+  assert.match(text("dist/en/cases/index.html"),/id="browser-lab"/);
+  for(const lang of ["en","es"]){
+    const html=text("dist/"+lang+"/resume/index.html");
+    assert.match(html,new RegExp('<html lang="'+lang+'">'));
+    assert.match(html,/rel="canonical"/);
+    assert.match(html,/mailto:moralesalerson@gmail.com/);
+    assert.match(html,/python-api/);
+    assert.match(html,/browser-lab|portfolio/);
+    assert.match(html,/resume-[a-z]{2}\.pdf/);
+    const pdf=readFileSync(new URL("../dist/resume-"+lang+".pdf",import.meta.url)).toString("latin1");
+    assert.match(pdf,/\/StructTreeRoot/);
+    assert.match(pdf,/\/MarkInfo << \/Marked true >>/);
+    assert.match(pdf,/\/ParentTree/);
+    assert.match(pdf,new RegExp('/URI \\(https://natanaelprogimo-afk.github.io/portfolio/'+lang+'/\\)'));
+    if(lang==="es"){
+      assert.match(pdf,/100 % remoto/);
+      assert.doesNotMatch(pdf,/100% Remote/);
+      assert.match(html,/Perfil profesional/);
+      assert.doesNotMatch(html,/Professional summary/);
+    }
+  }
+  const esLab=text("dist/es/labs/index.html");
+  assert.match(esLab,/from "\/portfolio\/labs\/i18n.mjs"|from "\/labs\/i18n.mjs"/);
+  assert.match(text("public/labs/i18n.mjs"),/PRICE_RANGE/);
+  assert.match(text("dist/en/labs/index.html"),/history\.pushState/);
+});
 test("generated recruiter PDFs contain live links and language metadata", () => {
   for (const lang of ["en","es"]) {
     const buffer=readFileSync(new URL("../dist/resume-"+lang+".pdf", import.meta.url));
