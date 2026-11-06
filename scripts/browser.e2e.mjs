@@ -90,7 +90,7 @@ try {
   assert.equal(new URL(page.url()).hash,"#retry");
   assert.equal(await page.locator("#tab-retry").getAttribute("aria-selected"),"true");
   await page.goto(origin+"/es/labs/#catalog",{waitUntil:"networkidle"});
-  await page.locator("#feed").fill("sku,price\\nA,"+"9".repeat(320));
+  await page.locator("#feed").fill("sku,price\nA,"+"9".repeat(320));
   await page.locator("#run-catalog").click();
   assert.match(await page.locator("#result-catalog").innerText(),/precio|centavos/i);
   await page.goto(origin+"/es/labs/#retry",{waitUntil:"networkidle"});
