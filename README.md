@@ -6,24 +6,27 @@ Independent developer based in Uruguay, available for **100% remote engineering 
 
 [**View portfolio (English)**](https://natanaelprogimo-afk.github.io/portfolio/en/) · [**Ver portafolio (Español)**](https://natanaelprogimo-afk.github.io/portfolio/es/) · [**Recruiter brief**](https://natanaelprogimo-afk.github.io/portfolio/en/hiring/) · [**Upwork**](https://www.upwork.com/freelancers/~016487e77ebf028c40)
 
-## Verified engineering case studies — V14
+## Verified engineering case studies — V15
 
-The bilingual [technical case study library (English)](https://natanaelprogimo-afk.github.io/portfolio/en/cases/) / [casos técnicos (Español)](https://natanaelprogimo-afk.github.io/portfolio/es/cases/) presents three independently inspectable public examples first, followed by one reported completed client-work case and three clearly labeled private projects.
+The bilingual [technical case study library (English)](https://natanaelprogimo-afk.github.io/portfolio/en/cases/) / [casos técnicos (Español)](https://natanaelprogimo-afk.github.io/portfolio/es/cases/) presents four independently inspectable public examples, followed by one reported completed client-work case and three clearly labeled private projects.
 
 - [Python CSV reconciliation](https://natanaelprogimo-afk.github.io/portfolio/en/cases/#python-csv) — source, synthetic fixtures, decimal-money comparisons, explicit statuses, tests and scope limits.
 - [Python HTTP / SQLite](https://natanaelprogimo-afk.github.io/portfolio/en/cases/#python-api) — local HTTP behavior, input validation, idempotency and unit tests; not a hosted API.
+- [Interactive browser engineering laboratory](https://natanaelprogimo-afk.github.io/portfolio/en/cases/#browser-lab) — three independently implemented JavaScript demonstrations, testable code, safe CSV and idempotency boundaries.
 - [React / TypeScript portfolio](https://natanaelprogimo-afk.github.io/portfolio/en/cases/#portfolio) — public front-end, bilingual routes, accessible components and CI browser tests.
 
 All case descriptions are compiled from explicit English/Spanish structured data (`scripts/render-cases.mjs`), rather than replacing phrases in the English case HTML. Shared static-page navigation styles are in `public/shared-pages.css`; project case styling is in `public/cases.css`.
 
-## V14 improvements and reproducible demos
+## V15 improvements and reproducible demos
 
 - [Python HTTP / SQLite — run, curl and test instructions](examples/backend/README.md)
 - [SQLite reporting — runnable SQL and unit test instructions](examples/sql/README.md)
 - [Python CSV — runnable CLI and fixture data](examples/csv/README.md)
-- [V14 release notes and remaining human-dependent checks](docs/V14_RELEASE_NOTES.md)
+- [Accessible HTML résumé (English)](https://natanaelprogimo-afk.github.io/portfolio/en/resume/) · [Currículum HTML (Español)](https://natanaelprogimo-afk.github.io/portfolio/es/resume/)
+- [Skills-to-evidence matrix for technical evaluation](docs/SKILLS_EVIDENCE_MATRIX.md)
+- [V15 release notes and remaining human-dependent checks](docs/V15_RELEASE_NOTES.md)
 
-The homepage now uses the exact Python CSV command from this repository; the mobile lab presents result cards rather than a clipped table. Bilingual cases explicitly distinguish three public source examples, one client-work case without public references and three unreleased/private projects. The sitemap contains only canonical EN/ES pages; legacy routes remain available for compatibility.
+The homepage now uses the exact Python CSV command, including a mobile copy control. The mobile lab presents accessible result cards instead of a clipped table; its EN/ES pages are generated from structured content, with translated runtime errors. Bilingual cases explicitly distinguish four public source examples, one client-work case without public references and three unreleased/private projects. The sitemap contains only canonical EN/ES pages; legacy routes remain available for compatibility.
 
 ## Demonstrable public work
 
@@ -70,6 +73,7 @@ GitHub Actions additionally runs Chrome end-to-end and automated axe-core access
 - [Detailed V1–V10 implementation history](docs/PORTFOLIO_VERSION_HISTORY_V10.md)
 - [Reproducible Upwork case publishing notes](docs/UPWORK_EVIDENCE_PACK_V10.md)
 - [Profile README ready for publication](docs/GITHUB_PROFILE_README.md)
+- [V15 change log and remaining human checks](docs/V15_RELEASE_NOTES.md)
 
 **Evidence policy:** all public demonstrations are independent examples using synthetic data. Private VYRA implementations, credentials and customer data are excluded. No results, clients, certifications, or sales are fabricated.
 
