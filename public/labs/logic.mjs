@@ -4,8 +4,13 @@
  * All examples use in-browser, synthetic data only.
  */
 
+export class LabError extends Error {
+  constructor(code,message,details={}) {
+    super(message);this.name="LabError";this.code=code;this.details=details;
+  }
+}
 export function parseCsv(input) {
-  if (typeof input !== "string" || input.length > 200_000) throw new Error("CSV must be text under 200 KB.");
+  if (typeof input !== "string" || input.length > 200_000) throw new LabError("CSV_SIZE","CSV must be text under 200 KB.");
   const rows = [];
   let row = [], cell = "", quoted = false, closedQuote = false, atCellStart = true;
   const text = input.replace(/^\uFEFF/, "");
@@ -17,7 +22,7 @@ export function parseCsv(input) {
       else cell += char;
       continue;
     }
-    if (closedQuote && char !== "," && char !== "\n" && char !== "\r") throw new Error("Unexpected characters after closing quote.");
+    if (closedQuote && char !== "," && char !== "\n" && char !== "\r") throw new LabError("CSV_AFTER_QUOTE","Unexpected characters after closing quote.");
     if (char === '"' && atCellStart) { quoted = true; atCellStart = false; closedQuote = false; }
     else if (char === "," || char === "\n" || char === "\r") {
       row.push(cell); cell = ""; atCellStart = true; closedQuote = false;
@@ -27,18 +32,18 @@ export function parseCsv(input) {
         row = [];
       }
     } else if (char === '"' && !atCellStart) {
-      throw new Error("Unexpected quote in CSV field.");
+      throw new LabError("CSV_QUOTE","Unexpected quote in CSV field.");
     } else { cell += char; atCellStart = false; }
   }
-  if (quoted) throw new Error("Unclosed quoted CSV field.");
+  if (quoted) throw new LabError("CSV_UNCLOSED","Unclosed quoted CSV field.");
   row.push(cell);
   if (row.some(c => c.trim() !== "")) rows.push(row);
-  if (rows.length < 2) throw new Error("CSV must have a header and at least one data row.");
+  if (rows.length < 2) throw new LabError("CSV_EMPTY","CSV must have a header and at least one data row.");
   const headers = rows[0].map(s => s.trim().toLowerCase());
-  if (headers.some(h => !h)) throw new Error("CSV has an empty header.");
-  if (new Set(headers).size !== headers.length) throw new Error("CSV has duplicate headers.");
+  if (headers.some(h => !h)) throw new LabError("CSV_HEADER_EMPTY","CSV has an empty header.");
+  if (new Set(headers).size !== headers.length) throw new LabError("CSV_HEADER_DUPLICATE","CSV has duplicate headers.");
   return rows.slice(1).map((columns, index) => {
-    if (columns.length !== headers.length) throw new Error("Row " + (index + 2) + " has the wrong number of fields.");
+    if (columns.length !== headers.length) throw new LabError("CSV_COLUMNS","Row " + (index + 2) + " has the wrong number of fields.",{line:index+2});
     return Object.fromEntries(headers.map((header, i) => [header, columns[i].trim()]));
   });
 }
@@ -48,11 +53,11 @@ const cleanSku = sku => String(sku ?? "").trim().toUpperCase();
 const parsePrice = value => {
   const s = String(value ?? "").trim();
   if (s.length > 20 || !/^\d+(?:\.\d{1,2})?$/.test(s))
-    throw new Error("Invalid price: use a nonnegative number with up to two decimal places.");
+    throw new LabError("PRICE_INVALID","Invalid price: use a nonnegative number with up to two decimal places.");
   const [whole, fraction=""] = s.split(".");
   const cents = BigInt(whole) * 100n + BigInt(fraction.padEnd(2,"0")||"0");
   if (cents > BigInt(Number.MAX_SAFE_INTEGER))
-    throw new Error("Price exceeds the safe cent amount.");
+    throw new LabError("PRICE_RANGE","Price exceeds the safe cent amount.");
   return Number(cents);
 };
 export function compareCatalog(feedCsv, observedCsv) {
@@ -60,11 +65,11 @@ export function compareCatalog(feedCsv, observedCsv) {
   for (const [label, rows] of [["feed", feed], ["observed", observed]]) {
     for (const [index, row] of rows.entries()) {
       if (!("sku" in row) || !("price" in row) || !cleanSku(row.sku))
-        throw new Error(label + " row " + (index + 2) + ": required columns sku,price.");
+        throw new LabError("CATALOG_COLUMNS",label + " row " + (index + 2) + ": required columns sku,price.",{label,line:index+2});
     }
     for (const row of rows) parsePrice(row.price);
     const skus = rows.map(r => cleanSku(r.sku));
-    if (new Set(skus).size !== skus.length) throw new Error(label + " contains duplicate SKU values.");
+    if (new Set(skus).size !== skus.length) throw new LabError("CATALOG_SKU_DUPLICATE",label + " contains duplicate SKU values.",{label});
   }
   const found = new Map(observed.map(row => [cleanSku(row.sku), row]));
   const feedKeys = new Set(feed.map(row => cleanSku(row.sku)));
@@ -99,22 +104,22 @@ export function createIdempotencyLedger() {
   return {
     execute(key, payload, simulateFailure = false) {
       const normalizedKey = String(key ?? "").trim();
-      if (!normalizedKey || normalizedKey.length > 96) throw new Error("Key must contain 1–96 characters.");
+      if (!normalizedKey || normalizedKey.length > 96) throw new LabError("KEY_LENGTH","Key must contain 1–96 characters.");
       const signature = canonicalJson(payload);
       const existing = entries.get(normalizedKey);
       if (existing) {
-        if (existing.signature !== signature) return { code: 409, message: "Key reused with different payload.", replayed: false, processed };
-        if (existing.failed) return { code: 409, message: "Previous execution outcome uncertain. Manual review required.", replayed: false, processed };
+        if (existing.signature !== signature) return { code: 409, message: "Key reused with different payload.",messageCode:"KEY_CONFLICT", replayed: false, processed };
+        if (existing.failed) return { code: 409, message: "Previous execution outcome uncertain. Manual review required.",messageCode:"KEY_UNCERTAIN", replayed: false, processed };
         return { ...existing.result, replayed: true, processed };
       }
       if (entries.size >= MAX_ENTRIES)
-        throw new Error("Demo ledger limit reached (500 keys). Reset before continuing.");
+        throw new LabError("KEY_LIMIT","Demo ledger limit reached (500 keys). Reset before continuing.");
       if (simulateFailure) {
         entries.set(normalizedKey, { signature, failed: true });
-        return { code: 500, message: "Simulated uncertain failure; no automatic retry.", replayed: false, processed };
+        return { code: 500, message: "Simulated uncertain failure; no automatic retry.",messageCode:"KEY_SIMULATED_FAILURE", replayed: false, processed };
       }
       processed++;
-      const result = { code: 200, message: "Action recorded once.", replayed: false };
+      const result = { code: 200, message: "Action recorded once.",messageCode:"KEY_RECORDED", replayed: false };
       entries.set(normalizedKey, { signature, result });
       return { ...result, processed };
     },
@@ -123,10 +128,10 @@ export function createIdempotencyLedger() {
 }
 
 export function summarizeEvents(input) {
-  if (typeof input !== "string" || input.length > 200_000) throw new Error("JSON exceeds 200 KB.");
+  if (typeof input !== "string" || input.length > 200_000) throw new LabError("JSON_SIZE","JSON exceeds 200 KB.");
   let data;
-  try { data = JSON.parse(input); } catch { throw new Error("Invalid JSON."); }
-  if (!Array.isArray(data) || data.length > 5000) throw new Error("Expected an array of up to 5000 events.");
+  try { data = JSON.parse(input); } catch { throw new LabError("JSON_INVALID","Invalid JSON."); }
+  if (!Array.isArray(data) || data.length > 5000) throw new LabError("EVENTS_ARRAY","Expected an array of up to 5000 events.");
   const daily = new Map();
   const validDate = s => {
     if (typeof s !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
@@ -136,12 +141,12 @@ export function summarizeEvents(input) {
   };
   for (const [i, item] of data.entries()) {
     if (!item || typeof item !== "object" || !validDate(item.date)) {
-      throw new Error("Event " + (i + 1) + " requires a valid YYYY-MM-DD date.");
+      throw new LabError("EVENT_DATE","Event " + (i + 1) + " requires a valid YYYY-MM-DD date.",{index:i+1});
     }
     if (!Number.isFinite(item.duration_ms) || item.duration_ms < 0 || item.duration_ms > 60_000) {
-      throw new Error("Event " + (i + 1) + " requires duration_ms from 0 to 60000.");
+      throw new LabError("EVENT_DURATION","Event " + (i + 1) + " requires duration_ms from 0 to 60000.",{index:i+1});
     }
-    if (typeof item.ok !== "boolean") throw new Error("Event " + (i + 1) + " requires boolean ok.");
+    if (typeof item.ok !== "boolean") throw new LabError("EVENT_OK","Event " + (i + 1) + " requires boolean ok.",{index:i+1});
     const row = daily.get(item.date) ?? { date: item.date, requests: 0, successful: 0, totalLatency: 0 };
     row.requests++; if (item.ok) row.successful++;
     row.totalLatency += item.duration_ms;
@@ -160,7 +165,7 @@ export function summarizeEvents(input) {
  */
 export function serializeReportCsv(rows, columns) {
   if (!Array.isArray(rows) || !Array.isArray(columns) || columns.length === 0 || rows.length > 5000)
-    throw new Error("CSV report requires a valid bounded table.");
+    throw new LabError("REPORT_TABLE","CSV report requires a valid bounded table.");
   const escape = value => {
     let text = String(value ?? "");
     if (/^[\s]*[=+\-@]/.test(text)) text = "'" + text;
