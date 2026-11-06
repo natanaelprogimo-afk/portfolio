@@ -43,10 +43,17 @@ export function parseCsv(input) {
   });
 }
 const cleanSku = sku => String(sku ?? "").trim().toUpperCase();
+// Parse exact cents without Number rounding or Infinity equality. Browser sample
+// deliberately supports only bounded, safe-integer monetary quantities.
 const parsePrice = value => {
   const s = String(value ?? "").trim();
-  if (!/^\d+(?:\.\d{1,2})?$/.test(s)) throw new Error("Invalid price: " + s + ". Use dot-decimal numbers.");
-  return Math.round(Number(s) * 100);
+  if (s.length > 20 || !/^\d+(?:\.\d{1,2})?$/.test(s))
+    throw new Error("Invalid price: use a nonnegative number with up to two decimal places.");
+  const [whole, fraction=""] = s.split(".");
+  const cents = BigInt(whole) * 100n + BigInt(fraction.padEnd(2,"0")||"0");
+  if (cents > BigInt(Number.MAX_SAFE_INTEGER))
+    throw new Error("Price exceeds the safe cent amount.");
+  return Number(cents);
 };
 export function compareCatalog(feedCsv, observedCsv) {
   const feed = parseCsv(feedCsv), observed = parseCsv(observedCsv);
@@ -78,20 +85,30 @@ export function compareCatalog(feedCsv, observedCsv) {
   return { details, count: Object.fromEntries(["match", "mismatch", "missing", "extra"].map(status => [status, details.filter(r => r.status === status).length])) };
 }
 
+// Object key order is not semantically meaningful in JSON. Recurse into nested
+// objects, retaining array order and rejecting cycles/unsupported values.
+const canonicalJson = data => {
+  if (data === null || typeof data !== "object") return JSON.stringify(data);
+  if (Array.isArray(data)) return "["+data.map(canonicalJson).join(",")+"]";
+  return "{"+Object.keys(data).sort().map(key=>JSON.stringify(key)+":"+canonicalJson(data[key])).join(",")+"}";
+};
 export function createIdempotencyLedger() {
   const entries = new Map();
+  const MAX_ENTRIES = 500; // bounded local teaching demo; reset explicitly to reuse
   let processed = 0;
   return {
     execute(key, payload, simulateFailure = false) {
       const normalizedKey = String(key ?? "").trim();
       if (!normalizedKey || normalizedKey.length > 96) throw new Error("Key must contain 1–96 characters.");
-      const signature = JSON.stringify(payload);
+      const signature = canonicalJson(payload);
       const existing = entries.get(normalizedKey);
       if (existing) {
         if (existing.signature !== signature) return { code: 409, message: "Key reused with different payload.", replayed: false, processed };
         if (existing.failed) return { code: 409, message: "Previous execution outcome uncertain. Manual review required.", replayed: false, processed };
         return { ...existing.result, replayed: true, processed };
       }
+      if (entries.size >= MAX_ENTRIES)
+        throw new Error("Demo ledger limit reached (500 keys). Reset before continuing.");
       if (simulateFailure) {
         entries.set(normalizedKey, { signature, failed: true });
         return { code: 500, message: "Simulated uncertain failure; no automatic retry.", replayed: false, processed };
