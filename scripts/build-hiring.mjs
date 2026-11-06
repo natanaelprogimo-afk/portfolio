@@ -59,7 +59,7 @@ const html=[
 '<meta property="og:type" content="website"><meta property="og:title" content="'+escape(t.title)+'">',
 '<meta property="og:description" content="'+escape(t.description)+'"><meta property="og:url" content="'+canonical+'">',
 '<meta property="og:locale" content="'+(lang==="es"?"es_UY":"en_US")+'"><meta property="og:locale:alternate" content="'+(lang==="es"?"en_US":"es_UY")+'">',
-'<meta property="og:image" content="'+site+'og-preview.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="'+escape(lang==="es"?"Resumen profesional de Alerson Morales":"Alerson Morales recruiter brief")+'"><meta name="twitter:image" content="'+site+'og-preview.svg"><meta name="twitter:card" content="summary_large_image">',
+'<meta property="og:image" content="'+site+'og-hiring.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="'+escape(lang==="es"?"Resumen profesional de Alerson Morales":"Alerson Morales recruiter brief")+'"><meta name="twitter:image" content="'+site+'og-hiring.svg"><meta name="twitter:card" content="summary_large_image">',
 '<meta name="twitter:title" content="'+escape(t.title)+'"><meta name="twitter:description" content="'+escape(t.description)+'"><meta name="twitter:image:alt" content="'+escape(lang==="es"?"Resumen profesional de Alerson Morales":"Alerson Morales recruiter brief")+'">',
 '<script type="application/ld+json">'+profileSchema+'</script>',
 '<link rel="icon" href="'+base+'favicon.svg" type="image/svg+xml"><style>'+css+touchCss+'</style><link rel="stylesheet" href="'+base+'shared-pages.css"></head><body>',
