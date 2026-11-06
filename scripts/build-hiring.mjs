@@ -42,6 +42,12 @@ const css=":root{font-family:system-ui,sans-serif;background:#0a1117;color:#f0f5
 const touchCss='.card a{display:inline-flex;align-items:center;min-height:44px;padding:8px 5px;max-width:100%;overflow-wrap:anywhere}.card li a{font-size:14px}.card#contact a{margin:2px 0}.card a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}@media(max-width:440px){.top nav{flex-wrap:wrap;justify-content:flex-start}.card p a{margin:3px 3px 3px 0}}';
 for(const lang of ["en","es"]){
 const t=copy[lang],p=base+lang+"/", canonical=site+lang+"/hiring/";
+const profileSchema=JSON.stringify({
+ "@context":"https://schema.org","@type":"ProfilePage",name:t.title,
+ description:t.description,url:canonical,inLanguage:lang,
+ mainEntity:{"@type":"Person",name:"Alerson Morales",
+  jobTitle:"Software Developer",url:site+lang+"/"}
+});
 const list=(items)=>'<ul>'+items.map(s=>'<li>'+s+'</li>').join("")+'</ul>';
 const card=(id,title,body)=>'<section class="card" aria-labelledby="'+id+'"><h2 id="'+id+'">'+escape(title)+'</h2>'+body+'</section>';
 const html=[
@@ -55,6 +61,7 @@ const html=[
 '<meta property="og:locale" content="'+(lang==="es"?"es_UY":"en_US")+'"><meta property="og:locale:alternate" content="'+(lang==="es"?"en_US":"es_UY")+'">',
 '<meta property="og:image" content="'+site+'og-preview.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="'+escape(lang==="es"?"Resumen profesional de Alerson Morales":"Alerson Morales recruiter brief")+'"><meta name="twitter:image" content="'+site+'og-preview.svg"><meta name="twitter:card" content="summary_large_image">',
 '<meta name="twitter:title" content="'+escape(t.title)+'"><meta name="twitter:description" content="'+escape(t.description)+'"><meta name="twitter:image:alt" content="'+escape(lang==="es"?"Resumen profesional de Alerson Morales":"Alerson Morales recruiter brief")+'">',
+'<script type="application/ld+json">'+profileSchema+'</script>',
 '<link rel="icon" href="'+base+'favicon.svg" type="image/svg+xml"><style>'+css+touchCss+'</style><link rel="stylesheet" href="'+base+'shared-pages.css"></head><body>',
 '<a class="skip" href="#main">'+(lang==="en"?"Skip to content":"Saltar al contenido")+'</a>',
 '<div class="wrap"><header class="top"><a class="brand" href="'+p+'">AM. / ALERSON MORALES</a>',
