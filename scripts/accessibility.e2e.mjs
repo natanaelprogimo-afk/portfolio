@@ -27,8 +27,7 @@ try {
   const routes=["/en/","/es/","/en/labs/","/es/labs/","/en/cases/","/es/cases/","/en/hiring/","/es/hiring/","/en/trust/","/es/trust/"];
   const reports=[];
   const failures=[];
-  for (const route of routes){
-    await page.goto(root+route,{waitUntil:"networkidle"});
+  async function inspect(label){
     const result=await new AxeBuilder({page})
       .withTags(["wcag2a","wcag2aa","wcag21a","wcag21aa","wcag22aa"])
       .analyze();
@@ -36,18 +35,41 @@ try {
       id:v.id,impact:v.impact,description:v.help,
       nodes:v.nodes.slice(0,8).map(n=>({target:n.target,summary:n.failureSummary}))
     }));
-    reports.push({route,passed:result.passes.length,violations});
-    const critical=violations.filter(v=>v.impact==="critical"||v.impact==="serious");
-    if(critical.length)failures.push({route,critical});
+    reports.push({route:label,passed:result.passes.length,violations});
+    const actionable=violations.filter(v=>["critical","serious","moderate"].includes(v.impact));
+    if(actionable.length)failures.push({route:label,actionable});
+  }
+  for(const width of [1366,390]){
+    await page.setViewportSize({width,height:900});
+    for(const route of routes){
+      await page.goto(root+route,{waitUntil:"networkidle"});
+      await inspect(route+" @ "+width);
+    }
+  }
+  // Axe on dynamic content that is absent in a fresh default page.
+  await page.setViewportSize({width:390,height:844});
+  for(const lang of ["en","es"]){
+    await page.goto(root+"/"+lang+"/labs/#catalog",{waitUntil:"networkidle"});
+    await page.locator("#feed").fill("sku,price\\nA,not-a-price".replace("\\n","\n"));
+    await page.locator("#run-catalog").click();
+    await inspect("/"+lang+"/labs/ invalid CSV @390");
+    await page.locator("#tab-retry").click();
+    await page.locator("#request-payload").fill("invalid JSON");
+    await page.locator("#run-retry").click();
+    await inspect("/"+lang+"/labs/ invalid JSON @390");
+    await page.goto(root+"/"+lang+"/",{waitUntil:"networkidle"});
+    await page.locator(".project-show-more").click();
+    await page.locator(".project-card button[aria-expanded]").first().click();
+    await inspect("/"+lang+"/ expanded project @390");
   }
   writeFileSync("qa-evidence/axe-report.json",JSON.stringify({
     checked:new Date().toISOString(),tool:"axe-core via Playwright",
     limitation:"Automated checks do not replace manual assistive technology testing.",
     reports
   },null,2));
-  console.log("Accessibility pages audited: "+reports.length+", blocking findings: "+failures.length);
+  console.log("Accessibility pages audited: "+reports.length+", actionable findings: "+failures.length);
   for(const r of reports)if(r.violations.length)console.log(JSON.stringify({route:r.route,violations:r.violations}));
-  if(failures.length)throw new Error("Serious/critical axe failures: "+JSON.stringify(failures));
+  if(failures.length)throw new Error("Moderate/serious/critical axe findings: "+JSON.stringify(failures));
 }finally{
   await browser?.close();
   server.kill("SIGTERM");
