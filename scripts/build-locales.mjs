@@ -83,6 +83,15 @@ function decorate(html, locale,slug,title,description) {
     html=html.replace("</head>", '<meta name="twitter:image:alt" content="'+escape(locale==="es"?"Casos de ingeniería de Alerson Morales":"Alerson Morales software engineering")+'" />\n</head>');
   if (slug && !html.includes('href="'+base+'shared-pages.css"'))
     html=html.replace("</head>", '<link rel="stylesheet" href="'+base+'shared-pages.css" />\n</head>');
+  if (slug && !html.includes('type="application/ld+json"')) {
+    const schema={
+      "@context":"https://schema.org","@type":"WebPage",
+      name:title,description,inLanguage:locale,url:canonical,
+      isPartOf:{"@type":"WebSite",url:site,name:"Alerson Morales — Developer Portfolio"}
+    };
+    html=html.replace("</head>",'<script type="application/ld+json">'+
+      JSON.stringify(schema).replaceAll("<","\\u003c")+'</script>\n</head>');
+  }
   return html;
 }
 
