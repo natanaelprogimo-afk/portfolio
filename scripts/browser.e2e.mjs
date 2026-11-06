@@ -55,6 +55,14 @@ try {
   await page.setViewportSize({width:390,height:844});
   assert.equal(await page.locator("#result-catalog table").isHidden(),true);
   assert.ok(await page.locator("#result-catalog .result-cards .result-card").count()>=3);
+  await page.screenshot({path:"qa-evidence/v14-lab-cards-es-390.png",fullPage:true});
+  await page.setViewportSize({width:320,height:844});
+  const dimensions=await page.locator("#result-catalog .result-card").evaluateAll(nodes=>nodes.map(el=>{
+    const b=el.getBoundingClientRect();return {left:b.left,right:b.right,width:document.documentElement.clientWidth};
+  }));
+  assert.ok(dimensions.every(x=>x.left>=-1&&x.right<=x.width+1),
+    "V14 lab result cards should not overflow 320px: "+JSON.stringify(dimensions));
+  await page.screenshot({path:"qa-evidence/v14-lab-cards-es-320.png",fullPage:true});
   const region=page.locator("#result-catalog");
   assert.equal(await region.getAttribute("role"),"region");
   await region.focus();
@@ -116,6 +124,9 @@ try {
   }));
   assert.ok(narrowHeader.every(b=>b.height>=43.5&&b.left>=-1&&b.right<=391),
     "Spanish hiring links need accessible tap targets: "+JSON.stringify(narrowHeader));
+  const contactTapHeights=await page.locator(".card a").evaluateAll(anchors=>anchors.map(node=>node.getBoundingClientRect().height));
+  assert.ok(contactTapHeights.length>5&&contactTapHeights.every(h=>h>=43.5),
+    "Recruiter card links require 44px touch targets: "+JSON.stringify(contactTapHeights));
   await page.setViewportSize({width:1366,height:900});
 
   // V9: distinct, functional buyer and recruiter contact entry points.
@@ -229,10 +240,10 @@ try {
   // V13 visual release evidence: genuine Chrome renders, not generated mockups.
   await page.setViewportSize({width:1366,height:900});
   await page.goto(origin+"/en/cases/",{waitUntil:"networkidle"});
-  await page.screenshot({path:"qa-evidence/v13-case-studies-1366.png",fullPage:true});
+  await page.screenshot({path:"qa-evidence/v14-case-studies-en-1366.png",fullPage:true});
   await page.setViewportSize({width:390,height:844});
   await page.goto(origin+"/es/cases/",{waitUntil:"networkidle"});
-  await page.screenshot({path:"qa-evidence/v13-casos-es-390.png",fullPage:true});
+  await page.screenshot({path:"qa-evidence/v14-case-studies-es-390.png",fullPage:true});
   await page.setViewportSize({width:1366,height:900});
 
   // Public SaaS/agent trust pages: evidence vs not-yet-verified services.
