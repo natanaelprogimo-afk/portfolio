@@ -281,11 +281,11 @@ try {
   // The Spanish CV HTML must be translated and link to the Spanish PDF.
   await page.goto(origin+"/es/resume/",{waitUntil:"networkidle"});
   assert.equal(await page.locator("html").getAttribute("lang"),"es");
-  assert.match(await page.locator("h2").first().innerText(),/Perfil profesional/);
+  assert.match(await page.locator("h2").first().innerText(),/Perfil profesional/i);
   assert.ok(await page.locator('a[href$="/resume-es.pdf"]').count()>0);
   // English CV must remain independent of the Spanish page.
   await page.goto(origin+"/en/resume/",{waitUntil:"networkidle"});
-  assert.match(await page.locator("h2").first().innerText(),/Professional summary/);
+  assert.match(await page.locator("h2").first().innerText(),/Professional summary/i);
 
   // Public SaaS/agent trust pages: evidence vs not-yet-verified services.
   for (const lang of ["en","es"]) {
