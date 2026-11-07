@@ -41,6 +41,8 @@ jobs:
           npm run test:commercial
       - name: Unit tests and static smoke tests
         run: npm test
+      - name: Verify synthetic n8n workflow graph and JS logic
+        run: node examples/n8n/verify_logic.mjs
       - name: Install browser test runner (ephemeral)
         run: npm install --no-save --no-package-lock playwright@1.56.1 @axe-core/playwright@4.14.0
       - name: Browser E2E - Chrome desktop/mobile
