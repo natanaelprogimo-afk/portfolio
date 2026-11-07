@@ -1,0 +1,124 @@
+{
+  "name": "VYRA | Offline Order Data Validation - Synthetic Demo",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "vyra-demo-step-01",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -820,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "return [\n  {json:{id:'A-001', amount:'19.99', email:'one@example.test'}},\n  {json:{id:'A-002', amount:'2.00', email:'two@example.test'}},\n  {json:{id:'A-001', amount:'19.99', email:'one@example.test'}},\n  {json:{id:'A-003', amount:'-9.00', email:'three@example.test'}},\n  {json:{id:'A-004', amount:'0.15', email:'four@example.test'}}\n];"
+      },
+      "id": "vyra-demo-step-02",
+      "name": "Load synthetic records",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -540,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const seen = new Set();\nreturn $input.all().map((item, index) => {\n  const input = item.json;\n  const id = typeof input.id === 'string' ? input.id.trim() : '';\n  const errors = [];\n  if (!/^[A-Z]-\\d{3}$/.test(id)) errors.push('INVALID_ID');\n  if (id && seen.has(id)) errors.push('DUPLICATE_ID');\n  if (id) seen.add(id);\n  const amount = String(input.amount ?? '').trim();\n  if (!/^(?:0|[1-9]\\d*)(?:\\.\\d{1,2})?$/.test(amount)) errors.push('INVALID_AMOUNT');\n  if (typeof input.email !== 'string' || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(input.email)) errors.push('INVALID_EMAIL');\n  return {json:{row:index + 1,id,amount,accepted:errors.length===0,errors}};\n});"
+      },
+      "id": "vyra-demo-step-03",
+      "name": "Validate data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -260,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const rows = $input.all().map(item => item.json);\nconst accepted = rows.filter(row => row.accepted);\nconst rejected = rows.filter(row => !row.accepted);\nconst errorCounts = {};\nfor (const row of rejected) for (const code of row.errors) errorCounts[code]=(errorCounts[code]??0)+1;\nreturn [{json:{project:'VYRA n8n Offline Validation Demo',synthetic:true,records:rows.length,accepted:accepted.length,rejected:rejected.length,errorCounts,rows}}];"
+      },
+      "id": "vyra-demo-step-04",
+      "name": "Summarize errors",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        20,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const summary = $input.first().json;\nif (summary.records !== 5 || summary.accepted !== 3 || summary.rejected !== 2) {\n  throw new Error('Unexpected demo fixture results');\n}\nif (summary.errorCounts.DUPLICATE_ID !== 1 || summary.errorCounts.INVALID_AMOUNT !== 1) {\n  throw new Error('Unexpected error classes');\n}\nreturn [{json:{...summary,qa:'FIXTURE_ASSERTIONS_PASSED'}}];"
+      },
+      "id": "vyra-demo-step-05",
+      "name": "Assert expected outcomes",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        300,
+        220
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Load synthetic records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load synthetic records": {
+      "main": [
+        [
+          {
+            "node": "Validate data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate data": {
+      "main": [
+        [
+          {
+            "node": "Summarize errors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize errors": {
+      "main": [
+        [
+          {
+            "node": "Assert expected outcomes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "pinData": {},
+  "tags": []
+}
