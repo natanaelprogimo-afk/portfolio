@@ -1,0 +1,8 @@
+/* Responsive CSS repair. Tested in local static HTML fixture, NOT WordPress runtime. */
+.site-wrap{width:min(1120px,calc(100% - 40px));margin-inline:auto}
+.header-inner{min-height:83px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding-block:16px}
+.nav-links{display:flex;flex-wrap:wrap;justify-content:center}
+.hero{display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);gap:36px;align-items:center}
+.intro,.hero-visual,.service-card{min-width:0}
+@media(max-width:760px){.header-inner{justify-content:center}.brand{width:100%;text-align:center}.nav-cta{display:none}.nav-links{gap:12px 19px;justify-content:center}.hero{grid-template-columns:minmax(0,1fr);gap:22px;padding-top:38px}.intro h1{font-size:clamp(34px,9vw,55px);letter-spacing:-1.6px}.intro p{font-size:15px}.hero-visual{min-height:245px;padding:22px}.section-head{display:block}.section-head p{max-width:none}.service-grid{grid-template-columns:minmax(0,1fr)}.service-card{min-height:unset}.hero-actions{flex-wrap:wrap}.mini-stats{gap:24px}}
+@media(max-width:360px){.site-wrap{width:calc(100% - 28px)}.nav-links{gap:10px 13px;font-size:12px}.demo-banner{font-size:9px}.window-copy{padding:17px}.window-copy strong{font-size:20px}}
