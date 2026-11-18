@@ -21,19 +21,19 @@ const alternates = slug =>
 
 const pageCopy = {
   en:{
-    title:"Alerson Morales | Full-Stack Developer in Uruguay",
+    title:"Alerson Morales | Junior Software Developer in Uruguay",
     description:"Alerson Morales develops Python automations, REST API integrations, React apps and SQL data workflows. Explore reproducible public examples; available for remote roles.",
-    subtitle:"Python automation · API integration · React / Next.js · SQL",
-    headline:"Complex problems. Clear software.",
+    subtitle:"Python · React/TypeScript · API REST · Testing",
+    headline:"Junior developer. Code you can review.",
     intro:"Inspect runnable browser demos, a Python CSV comparison tool and a tested local Python API. Independent examples use fictional data; private systems are not presented as released products.",
     work:"Selected engineering work", lab:"Try interactive engineering examples", cases:"Explore engineering case studies",
     note:"The code examples use synthetic data. Private applications are clearly identified as development work.", csvLink:"Python CSV CLI — public source and tests",apiLink:"Python API — public source and tests"
   },
   es:{
-    title:"Alerson Morales | Desarrollador Full-Stack en Uruguay",
+    title:"Alerson Morales | Desarrollador Junior en Uruguay",
     description:"Alerson Morales desarrolla automatizaciones Python, integraciones API REST, aplicaciones React y flujos SQL. Ejemplos reproducibles y disponibilidad remota.",
-    subtitle:"Automatización Python · API REST · React / Next.js · SQL",
-    headline:"Problemas complejos. Software claro.",
+    subtitle:"Python · React/TypeScript · API REST · Testing",
+    headline:"Desarrollador junior. Código para revisar.",
     intro:"Examina demostraciones interactivas, una herramienta Python de comparación CSV y una API Python local con pruebas. Los ejemplos usan datos ficticios y los sistemas privados no se presentan como publicados.",
     work:"Proyectos de ingeniería", lab:"Probar demostraciones interactivas", cases:"Ver casos de estudio de ingeniería",
     note:"Los ejemplos públicos utilizan datos ficticios. Los proyectos privados se identifican como trabajo en desarrollo.", csvLink:"Herramienta Python CSV — código y pruebas públicas",apiLink:"API Python — código y pruebas públicas"

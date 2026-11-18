@@ -76,8 +76,10 @@ for(const lang of ["en","es"]){
     const html=readFileSync(join(root,lang,page,"index.html"),"utf8");
     const stem=socialStem(page);
     const png=assets.some(x=>x.path.endsWith("/"+stem+".png")||x.path.endsWith(sep+stem+".png"));
-    const asset=stem+(png?".png":".svg");
+    // A validated SVG fallback is legitimate even if an unused PNG is present.
+    const asset=stem+(png && html.includes(stem+".png")?".png":".svg");
     assert.ok(html.includes(asset), "Social preview path is not consistent: "+lang+"/"+page+" expected "+asset);
+    assert.ok(existsSync(join(root,asset)), "Referenced social image not found: "+asset);
     assert.ok(html.includes('property="og:image:width" content="1200"'),"Missing social width: "+lang+"/"+page);
     assert.ok(html.includes('property="og:image:height" content="630"'),"Missing social height: "+lang+"/"+page);
     assert.ok(html.includes('property="og:image:alt"'),"Missing alternative social text: "+lang+"/"+page);

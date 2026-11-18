@@ -16,7 +16,7 @@ test("generated site ships the required static resources", () => {
 
 test("SEO metadata and Pages asset paths are valid", () => {
   const index = text("dist/index.html");
-  assert.match(index, /Alerson Morales \| Full-Stack Developer in Uruguay/);
+  assert.match(index, /Alerson Morales \| Junior Software Developer in Uruguay/);
   assert.match(index, /rel="canonical"/);
   assert.match(index, /application\/ld\+json/);
   const prefix = process.env.GITHUB_PAGES === "true" ? "/portfolio/" : "/";
@@ -83,7 +83,7 @@ test("localized routes ship static content and independent metadata", () => {
     const prefix=process.env.GITHUB_PAGES === "true" ? "/portfolio/" : "/";
     assert.ok(lab.includes('from "'+prefix+'labs/logic.mjs"'));
   }
-  assert.match(text("dist/es/index.html"), /Problemas complejos/);
+  assert.match(text("dist/es/index.html"), /Desarrollador junior/);
   assert.match(text("dist/es/labs/index.html"), /Conciliación de catálogos/);
   assert.match(text("dist/es/cases/index.html"), /Problema de ingeniería/);
 });
@@ -144,7 +144,7 @@ test("V14 bilingual SEO, proof docs, evidence taxonomy and mobile result output 
 test("V15 resumes, localized backend claims, no-JS fallback and lab error modules",()=>{
   const root=text("dist/index.html");
   assert.match(root,/<noscript>/);
-  assert.match(root,/Full-Stack Developer in Uruguay/);
+  assert.match(root,/Junior Software Developer in Uruguay/);
   assert.match(root,/available for remote roles/);
   const source=text("scripts/render-cases.mjs");
   assert.doesNotMatch(source,/SQLite persistence and documented idempotency behavior/);
@@ -204,12 +204,22 @@ test("recruiter briefs are independently readable, honest and interlinked", () =
 test("public CV content has correct Spanish accents and official education, without sensitive ID", () => {
   const en=readFileSync(new URL("../dist/resume-en.pdf",import.meta.url)).toString("latin1");
   const es=readFileSync(new URL("../dist/resume-es.pdf",import.meta.url)).toString("latin1");
-  for(const required of ["años","aplicación","diseño","clínica","Tecnológico","FORMACIÓN","Español","Inglés"]){
+  for(const required of ["Público","validación","pruebas","Tecnológico","FORMACIÓN","Español","Inglés"]){
     assert.ok(es.includes(required), "Missing correctly encoded Spanish expression: "+required);
   }
   assert.match(en, /UTU diplomas/);
   assert.doesNotMatch(es, /\b(?:anos|Ingles|Espanol|Formacion|Automatizacion)\b/);
   assert.doesNotMatch(es, /5\.610\.747/);
+});
+test("role-specific QA PDFs are generated and linked from the recruiter page", () => {
+  for(const locale of ["en","es"]){
+    const pdfPath="dist/resume-qa-"+locale+".pdf";
+    const data=readFileSync(new URL("../"+pdfPath,import.meta.url)).toString("latin1");
+    assert.ok(data.startsWith("%PDF-"),pdfPath+" must be a valid PDF");
+    assert.match(data,/QA/);
+    assert.doesNotMatch(data,/5\.610\.747/);
+    assert.ok(text("dist/"+locale+"/hiring/index.html").includes("resume-qa-"+locale+".pdf"));
+  }
 });
 test("professional profile copy includes no invented seniority or identity number", () => {
   for(const file of ["docs/LINKEDIN_PROFILE_READY.md","docs/GITHUB_PROFILE_README.md"]){

@@ -3,7 +3,7 @@ import { writeFileSync } from "node:fs";
 function quote(s) {
   return s.replaceAll("\\","\\\\").replaceAll("(","\\(").replaceAll(")","\\)");
 }
-function make(lang) {
+function make(lang, qa=false) {
   const english = lang === "en";
   // Background and separators are pagination artifacts, excluded from reading order.
   let page = "/Artifact BMC\n0.05 0.10 0.12 rg 0 728 595 114 re f\nEMC\n";
@@ -16,30 +16,75 @@ function make(lang) {
   };
   const rule = y => {page+="/Artifact BMC\n0.8 0.86 0.82 RG 0.7 w 42 "+y+" m 553 "+y+" l S\nEMC\n";};
   text("ALERSON MORALES",42,795,26,true,[.96,.98,.95],"H1");
-  text(english?"Full-Stack Developer | Backend & Automation":"Desarrollador Full-Stack | Backend y Automatización",42,764,12,true,[.8,.96,.58]);
+  text(qa ? (english?"Junior QA / Software Tester | Python":"QA Junior | Pruebas de Software con Python") : (english?"Junior Software Developer | Python, React & APIs":"Desarrollador Junior | Python, React y API REST"),42,764,12,true,[.8,.96,.58]);
   text(english?"Uruguay | 100% Remote | moralesalerson@gmail.com":"Uruguay | 100 % remoto | moralesalerson@gmail.com",42,746,9.2,false,[.89,.94,.89]);
   let y=699;
   const section=s=>{text(s.toUpperCase(),42,y,10,true,[.10,.36,.32],"H2");rule(y-6);y-=25;};
   const lines=arr=>{for(const s of arr){text(s,42,y,9.4);y-=14;}y-=7;};
   const linkData=[];
   const link=(s,url)=>{text(s,42,y,9.4,false,[.06,.35,.30]);linkData.push([url,y]);y-=16;};
-  if(english){
+  if(qa && english){
     section("Professional profile");
-    lines(["Independent software developer and VYRA founder. Programming since age 12.",
-      "Building full-stack applications, Python backends, mobile products and AI workflows.",
-      "Interested in worldwide 100% remote engineering opportunities."]);
+    lines(["Junior software tester seeking 100% remote opportunities.",
+      "Hands-on API/input validation, regression checks and unit testing.",
+      "Independent practice; no commercial QA tenure is claimed."]);
+    section("Inspectable test evidence");
+    lines(["Python HTTP API: errors, replay/conflicts and unittest cases.",
+      "Python CSV: malformed rows, duplicates and unsafe exports.",
+      "JavaScript lab: browser scenarios with deterministic results.",
+      "React portfolio: CI, browser and accessibility checks.",
+      "Two business websites completed; references not yet public."]);
+    section("Testing skills");
+    lines(["Functional testing, exploratory checks, regression and bug analysis",
+      "Python unittest, JavaScript tests, API basics, SQL and Git",
+      "Input validation, boundary cases, browser and accessibility testing"]);
+    section("Education and languages");
+    lines(["Technical upper-secondary diploma in Informatics, Uruguay (2025).",
+      "UTU diplomas: PC Operator Basic/Advanced; Informatics/Web Design.",
+      "Spanish native | English C1 | Portuguese intermediate."]);
+    section("Links");
+    link("Portfolio: natanaelprogimo-afk.github.io/portfolio/en/","https://natanaelprogimo-afk.github.io/portfolio/en/");
+    link("GitHub: github.com/natanaelprogimo-afk","https://github.com/natanaelprogimo-afk");
+    link("LinkedIn: alerson-anatael-morales-pintos-4a4634325","https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/");
+  }else if(qa){
+    section("Perfil profesional");
+    lines(["Tester de software junior; busco trabajo remoto desde Uruguay.",
+      "Practico validación de API, regresión y pruebas automáticas.",
+      "Ejemplos propios; no afirmo empleo comercial previo en QA."]);
+    section("Evidencia pública de pruebas");
+    lines(["API Python: errores, idempotencia y casos unittest.",
+      "Python CSV: filas inválidas, duplicados y exportaciones seguras.",
+      "Laboratorio JavaScript: escenarios reproducibles en navegador.",
+      "Portafolio React: CI, pruebas de navegador y accesibilidad.",
+      "Dos sitios para negocios terminados; referencias no públicas."]);
+    section("Competencias QA");
+    lines(["Testing funcional, exploratorio, regresión y análisis de errores",
+      "Python unittest, pruebas JavaScript, API REST, SQL y Git",
+      "Validación de datos, casos límite y accesibilidad web"]);
+    section("Formación e idiomas");
+    lines(["Bachillerato Tecnológico en Informática, Uruguay (2025).",
+      "Diplomas UTU: Operador PC Básico/Avanzado y Diseño Web.",
+      "Español nativo | Inglés C1 | Portugués intermedio."]);
+    section("Enlaces");
+    link("Portafolio: natanaelprogimo-afk.github.io/portfolio/es/","https://natanaelprogimo-afk.github.io/portfolio/es/");
+    link("GitHub: github.com/natanaelprogimo-afk","https://github.com/natanaelprogimo-afk");
+    link("LinkedIn: alerson-anatael-morales-pintos-4a4634325","https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/");
+  }else if(english){
+    section("Professional profile");
+    lines(["Junior software developer based in Uruguay; seeking 100% remote roles.",
+      "Builds public Python/React samples with reproducible tests and guides.",
+      "Independent projects are distinct from commercial deployments."]);
     section("Selected work");
-    lines(["VYRA | Founder and developer (independent, ongoing)",
-      "- AI Automation Factory: private FastAPI/React agent workflows with human approval.",
-      "- VYRA Fitness: React Native and Expo app in design and testing; not released.",
-      "- Catalog Integrity Engine: private catalog comparison prototype.",
-      "Web development | Two completed client websites",
-      "- Completed sites for a dental practice and a paint retailer.",
-      "Open-source work | Python HTTP, SQL examples and interactive JS lab."]);
+    lines(["Public: Python HTTP/SQLite API with validation and unit tests.",
+      "Public: Python CSV reconciliation with Decimal and test fixtures.",
+      "Public: React/TypeScript portfolio with browser checks and CI.",
+      "Public: SQL/SQLite reporting exercises and unit tests.",
+      "Client websites: dental practice and paint retailer (references pending).",
+      "VYRA: independent software projects, mostly private/unreleased."]);
     section("Technical skills");
-    lines(["Python, JavaScript, TypeScript, C#, SQL, Java, PHP, HTML and CSS",
-      "React, Next.js, React Native, Expo, FastAPI and Node.js",
-      "REST APIs, PostgreSQL, MySQL, Supabase, Git, automated testing"]);
+    lines(["Python, JavaScript, TypeScript, React, HTML/CSS, Node.js and SQL",
+      "REST APIs, SQLite, CSV validation, Git/GitHub, automated testing",
+      "React Native/Expo and Supabase in private, unreleased projects"]);
     section("Education and languages");
     lines(["Technical upper-secondary diploma in Informatics - completed 2025.",
       "UTU diplomas: PC Operator Basic/Advanced and Informatics/Web Design.",
@@ -50,21 +95,20 @@ function make(lang) {
     link("LinkedIn: alerson-anatael-morales-pintos-4a4634325","https://www.linkedin.com/in/alerson-anatael-morales-pintos-4a4634325/");
   }else{
     section("Perfil profesional");
-    lines(["Desarrollador independiente y fundador de VYRA. Programo desde los 12 años.",
-      "Trabajo en software full-stack, backend con Python, aplicaciones móviles e IA.",
-      "Busco trabajo de ingeniería de software remoto con equipos internacionales."]);
+    lines(["Desarrollador junior de software de Uruguay; busco trabajo remoto.",
+      "Programo ejemplos públicos de Python y React con pruebas y guías.",
+      "Distingo proyectos independientes de despliegues comerciales."]);
     section("Proyectos");
-    lines(["VYRA | Fundador y desarrollador (independiente, en curso)",
-      "- AI Automation Factory: plataforma privada con FastAPI, React y aprobaciones.",
-      "- VYRA Fitness: aplicación React Native / Expo en diseño y pruebas, sin publicar.",
-      "- Catalog Integrity Engine: prototipo privado para comparar catálogos.",
-      "Desarrollo web | Dos sitios completos para clientes",
-      "- Sitios terminados para una clínica dental y una tienda de pinturas.",
-      "Código público | API Python, ejemplos SQL y laboratorio JavaScript."]);
+    lines(["Público: API HTTP/SQLite en Python con validación y tests.",
+      "Público: conciliador CSV Python con Decimal y datos de muestra.",
+      "Público: portafolio React/TypeScript, CI y pruebas de navegador.",
+      "Público: ejercicios SQL/SQLite y pruebas unitarias.",
+      "Clientes: dos sitios web terminados (referencias pendientes).",
+      "VYRA: proyectos independientes principalmente privados."]);
     section("Competencias técnicas");
-    lines(["Python, JavaScript, TypeScript, C#, SQL, Java, PHP, HTML y CSS",
-      "React, Next.js, React Native, Expo, FastAPI y Node.js",
-      "API REST, PostgreSQL, MySQL, Supabase, Git y pruebas automáticas"]);
+    lines(["Python, JavaScript, TypeScript, React, HTML/CSS, Node.js y SQL",
+      "API REST, SQLite, validación CSV, Git/GitHub y pruebas automáticas",
+      "React Native/Expo y Supabase en proyectos privados sin publicar"]);
     section("Formación e idiomas");
     lines(["Bachillerato Tecnológico en Informática - finalizado en Uruguay en 2025.",
       "Diplomas UTU: Operador PC Básico/Avanzado e Informática/Diseño Web.",
@@ -124,7 +168,10 @@ function make(lang) {
   return Buffer.concat(buffers);
 }
 for (const locale of ["en","es"]) {
-  const result=make(locale);
-  writeFileSync("dist/resume-"+locale+".pdf",result);
-  console.log("Created "+locale+" recruiter PDF with clickable links: "+result.length+" bytes.");
+  for(const qa of [false,true]){
+    const result=make(locale,qa);
+    const filename="resume-"+(qa?"qa-":"")+locale+".pdf";
+    writeFileSync("dist/"+filename,result);
+    console.log("Created "+filename+" with clickable links: "+result.length+" bytes.");
+  }
 }

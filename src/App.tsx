@@ -49,6 +49,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const t = copy[locale];
   const localPage = (path: string) => import.meta.env.BASE_URL + locale + "/" + path;
+  const resumePdf = import.meta.env.BASE_URL + "resume-" + locale + ".pdf";
 
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -195,8 +196,8 @@ export default function App() {
               <p className="hero-focus">{t.heroFocus}</p>
               <p className="hero-description">{t.heroText}</p>
               <div className="hero-cta" aria-label={t.audienceActions}>
-                <a className="button button-primary" href="#evidence">{t.heroEvidence}<ArrowUpRight size={18} aria-hidden="true"/></a>
-                <a className="button button-ghost" href="#contact">{t.heroHireAction}<ArrowUpRight size={18} aria-hidden="true"/></a>
+                <a className="button button-primary" href={resumePdf} download>{locale === "es" ? "Descargar CV PDF" : "Download résumé PDF"}<ArrowUpRight size={18} aria-hidden="true"/></a>
+                <a className="button button-ghost" href="#evidence">{t.heroEvidence}<ArrowUpRight size={18} aria-hidden="true"/></a>
               </div>
               <div className="mobile-cli" role="group" aria-label={locale==="es"?"Comando de ejemplo Python":"Example Python command"}>
                 <p>{locale==="es"?"Ejecuta la muestra desde la raíz del repositorio":"Run the sample from the repository root"}</p>
@@ -211,7 +212,7 @@ export default function App() {
               <div className="hero-meta" aria-label={t.socialLabel}>
                 <a href={GITHUB} target="_blank" rel="noopener noreferrer"><Code2 size={18} aria-hidden="true"/> GitHub <ArrowUpRight size={13} aria-hidden="true"/></a>
                 <a href={UPWORK} target="_blank" rel="noopener noreferrer"><BriefcaseBusiness size={18} aria-hidden="true"/> Upwork <ArrowUpRight size={13} aria-hidden="true"/></a>
-                <a href={import.meta.env.BASE_URL + (locale === "en" ? "resume-en.pdf" : "resume-es.pdf")} download>{locale === "en" ? "Résumé PDF" : "CV PDF"} <ArrowUpRight size={13} /></a>
+                <a href={localPage("hiring/")}>{t.hiringBrief} <ArrowUpRight size={13} /></a>
               </div>
             </div>
 
@@ -316,7 +317,7 @@ export default function App() {
                   <ProjectVisual id={project.id} locale={locale} />
                   <div className="project-info">
                     <span className="project-category">{project.category[locale]}</span>
-                    <h3>{locale === "es" && project.id==="portfolio" ? "Portafolio de desarrollo" : project.name}</h3>
+                    <h3>{locale === "es" && project.id==="portfolio" ? "Portafolio de desarrollo" : locale === "es" && project.id==="client-websites" ? "Sitios web para dos negocios" : project.name}</h3>
                     <p>{project.summary[locale]}</p>
                   </div>
                   <div className="tag-list" role="list" aria-label={t.labelTech}>

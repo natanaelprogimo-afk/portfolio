@@ -4,15 +4,15 @@
 
 ## Headline — English
 
-Full-Stack Software Developer | Python, TypeScript, React, FastAPI & SQL | Backend & AI Automation | Open to Remote Roles
+Junior Software Developer | Python · React/TypeScript · REST APIs · Testing | Remote — Uruguay
 
 ## Headline — Spanish
 
-Desarrollador Full-Stack | Python, TypeScript, React, FastAPI y SQL | Backend y Automatización | Disponible para trabajo remoto
+Desarrollador de Software Junior | Python · React/TypeScript · API REST · Testing | Remoto — Uruguay
 
 ## About — English
 
-I'm Alerson Morales, an independent Full-Stack Software Developer based in Uruguay and the founder of VYRA.
+I'm Alerson Morales, an early-career software developer based in Uruguay, seeking 100% remote junior roles in software development, Python automation and QA.
 
 I started programming at 12 and work with web applications, REST APIs, SQL databases, mobile interfaces and controlled automation. I use Python, TypeScript, JavaScript, React, FastAPI, Node.js, SQL and C#.
 
@@ -24,7 +24,7 @@ I value practical software architecture, readable code, data validation, accessi
 
 I completed an IT-focused technical upper-secondary program in 2025. Spanish is my native language; I speak English at C1 level and intermediate Portuguese.
 
-I'm open to fully remote Full-Stack, Backend, Python and Software Developer opportunities with international teams.
+I'm open to fully remote Junior Software Developer, React/TypeScript, Python Backend and Junior QA opportunities with international teams.
 
 Portfolio: https://natanaelprogimo-afk.github.io/portfolio/en/
 GitHub: https://github.com/natanaelprogimo-afk
@@ -32,7 +32,7 @@ Email: moralesalerson@gmail.com
 
 ## Acerca de — español
 
-Soy Alerson Morales, desarrollador de software full-stack independiente de Uruguay y fundador de VYRA.
+Soy Alerson Morales, desarrollador de software de Uruguay. Busco oportunidades junior 100 % remotas de programación, automatización con Python y pruebas de software.
 
 Comencé a programar a los 12 años. Trabajo con aplicaciones web, APIs REST, bases de datos SQL, interfaces móviles y automatización controlada. Utilizo Python, TypeScript, JavaScript, React, FastAPI, Node.js, SQL y C#.
 
@@ -44,7 +44,7 @@ Me interesan la arquitectura práctica, el código mantenible, la validación, l
 
 Finalicé el Bachillerato Tecnológico en Informática en 2025. Hablo español nativo, inglés C1 y portugués intermedio.
 
-Busco oportunidades de programación totalmente remotas para equipos internacionales.
+Busco oportunidades junior de programación y QA totalmente remotas para equipos internacionales.
 
 Portafolio: https://natanaelprogimo-afk.github.io/portfolio/es/
 GitHub: https://github.com/natanaelprogimo-afk
