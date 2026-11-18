@@ -1,8 +1,8 @@
 # GitHub Profile README — Alerson Morales
 
-**Python Automation · REST APIs · React/Next.js · SQL**
+**Junior Software Developer · Python · React/TypeScript · REST APIs · Testing**
 
-I'm an independent software developer based in Uruguay and the founder of **VYRA**. I develop testable Python automation, API integrations, React interfaces and SQL data workflows. I completed a technical high-school program in Informatics in 2025.
+I'm an early-career software developer based in Uruguay, seeking junior remote engineering roles. I build inspectable Python examples, React interfaces, REST API validation and testable data workflows. I also maintain independent projects under **VYRA**, which are clearly distinguished from public production work. I completed technical upper-secondary studies in Informatics in 2025.
 
 🌎 **Uruguay** · Interested in **100% remote international software engineering roles**
 

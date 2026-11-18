@@ -4,9 +4,9 @@ const site="https://natanaelprogimo-afk.github.io/portfolio/";
 const base=process.env.GITHUB_PAGES==="true"?"/portfolio/":"/";
 const copy={
 en:{
-title:"Alerson Morales | Technical Hiring Brief",
-description:"Full-stack developer based in Uruguay. Python, FastAPI, React, TypeScript, SQL. Public source, tests, résumé and remote contact.",
-label:"RECRUITER OVERVIEW / 60 SECONDS",heading:"Engineering you can evaluate.",lead:"I'm Alerson Morales, an independent full-stack developer based in Uruguay and the founder of VYRA. I am interested in fully remote software roles with international teams.",
+title:"Alerson Morales | Junior Developer Hiring Brief",
+description:"Junior software developer in Uruguay. Python, React/TypeScript, REST APIs, testing and reproducible public code.",
+label:"JUNIOR SOFTWARE DEVELOPER / RECRUITER OVERVIEW",heading:"Junior developer. Inspectable code.",lead:"I am Alerson Morales, a software developer based in Uruguay seeking junior remote engineering roles. My work includes independently built Python/SQLite examples, React interfaces, API validation and automated tests. I also run private VYRA projects; these are labeled separately.",
 verified:"Public, independently testable work",skills:"Engineering focus",private:"Private projects — not public releases",limits:"Transparency",foot:"Examples use synthetic data. Private code, client details, revenue and production results are not presented as public evidence.",
 sample1:"Python API: validation, SQLite, idempotency and concurrency tests",
 sample2:"SQL: schemas, indexes, window functions, query plans and tests",
@@ -17,12 +17,12 @@ c:"Catalog Integrity Engine — private internal prototype",
 clients:"Completed websites for a dental practice and paint retailer; public references not yet available.",
 languages:"Spanish native · English C1 · Portuguese intermediate",
 education:"IT-focused technical high-school program completed in 2025",
-portfolio:"Portfolio",cases:"Case studies",demo:"Try interactive examples",resume:"Download English résumé",email:"Email about a remote role",print:"Print this brief",
+portfolio:"Portfolio",cases:"Case studies",demo:"Try interactive examples",resume:"Download English résumé",qaResume:"Download QA résumé",email:"Email about a remote role",print:"Print this brief",
 },
 es:{
-title:"Alerson Morales | Perfil técnico para contratación",
-description:"Desarrollador full-stack en Uruguay. Python, FastAPI, React, TypeScript, SQL. Código público, pruebas, CV y contacto remoto.",
-label:"PARA RECLUTADORES / LECTURA DE 60 SEGUNDOS",heading:"Ingeniería que puedes comprobar.",lead:"Soy Alerson Morales, desarrollador full-stack independiente de Uruguay y fundador de VYRA. Busco puestos de programación totalmente remotos con equipos internacionales.",
+title:"Alerson Morales | Desarrollador Junior - Perfil Profesional",
+description:"Desarrollador junior en Uruguay. Python, React/TypeScript, API REST, pruebas y código público reproducible.",
+label:"DESARROLLADOR JUNIOR / PERFIL PARA RECLUTADORES",heading:"Código público para evaluar.",lead:"Soy Alerson Morales, desarrollador de software en Uruguay. Busco puestos junior remotos y puedo mostrar ejemplos independientes de Python/SQLite, interfaces React, validación de API y pruebas automatizadas. Mis proyectos privados VYRA aparecen identificados por separado.",
 verified:"Trabajo público y comprobable",skills:"Especialización técnica",private:"Proyectos privados — no publicados",limits:"Transparencia",foot:"Los ejemplos usan datos ficticios. No se presentan código privado, datos de clientes, ingresos ni resultados comerciales como pruebas públicas.",
 sample1:"API Python: validación, SQLite, idempotencia y pruebas de concurrencia",
 sample2:"SQL: esquemas, índices, funciones ventana, planes de consulta y pruebas",
@@ -33,7 +33,7 @@ c:"Catalog Integrity Engine — prototipo interno privado",
 clients:"Sitios terminados para una clínica dental y una tienda de pinturas; aún no hay referencias públicas.",
 languages:"Español nativo · Inglés C1 · Portugués intermedio",
 education:"Bachillerato de informática terminado en 2025",
-portfolio:"Portafolio",cases:"Casos de estudio",demo:"Probar ejemplos interactivos",resume:"Descargar CV español",email:"Contactar por trabajo remoto",print:"Imprimir resumen",
+portfolio:"Portafolio",cases:"Casos de estudio",demo:"Probar ejemplos interactivos",resume:"Descargar CV español",qaResume:"Descargar CV QA",email:"Contactar por trabajo remoto",print:"Imprimir resumen",
 }
 };
 const escape=s=>s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll('"',"&quot;");
@@ -70,7 +70,7 @@ const html=[
 '<main id="main" tabindex="-1"><span class="kicker">'+t.label+'</span><h1>'+t.heading+'</h1><p class="lead">'+t.lead+'</p>',
 '<p class="lead" style="font-size:14px">'+(lang==="es"?"Modalidad: 100 % remoto · Zona horaria Uruguay: UTC−3 · Colaboración internacional":"Working model: fully remote · Uruguay time zone UTC−3 · International collaboration")+'</p>',
 '<div class="actions"><a href="'+p+'labs/">'+t.demo+' ↗</a><a href="'+base+'resume-'+lang+'.pdf">'+t.resume+' ↗</a>',
-'<a href="mailto:moralesalerson@gmail.com?subject='+encodeURIComponent(lang==="es"?"Oportunidad laboral remota de programación":"Remote software engineering opportunity")+'">'+t.email+' ↗</a></div>',
+'<a href="'+base+'resume-qa-'+lang+'.pdf">'+t.qaResume+' PDF</a><a href="mailto:moralesalerson@gmail.com?subject='+encodeURIComponent(lang==="es"?"Oportunidad laboral remota de programación":"Remote software engineering opportunity")+'">'+t.email+' ↗</a></div>',
 '<div class="grid">',
 card("public",t.verified,list([
 '<a href="https://github.com/natanaelprogimo-afk/portfolio/tree/main/examples/backend">'+t.sample1+'</a>',

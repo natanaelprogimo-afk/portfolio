@@ -44,7 +44,7 @@ try {
   await page.getByRole("button",{name:/Switch to Spanish/}).click();
   await page.waitForURL("**/es/");
   assert.equal(await page.locator("html").getAttribute("lang"),"es");
-  assert.ok((await page.locator("h1").innerText()).includes("Problemas complejos"));
+  assert.ok((await page.locator("h1").innerText()).includes("Desarrollador junior"));
   assert.ok((await page.locator('link[rel="canonical"]').getAttribute("href")).includes("/es/"));
 
   // The unlocalized root must contain an actionable route without JavaScript.
@@ -110,7 +110,7 @@ try {
     assert.equal(await page.locator(".project-status-guide").count(),1);
     assert.equal(await page.locator("#start-here .route-card a[href$='/"+language+"/hiring/']").count(),1);
     assert.equal(await page.locator("#start-here .route-card a[href$='/"+language+"/trust/']").count(),1);
-    assert.equal(await page.locator(".hero-cta a[href='#contact']").count(),1);
+    assert.equal(await page.locator(".hero-cta a[href$='resume-"+language+".pdf']").count(),1);
     assert.equal(await page.locator(".hero-meta a").count(),3);
     assert.equal(await page.locator(".hero-cta a[href='#evidence']").count(),1);
     const json = JSON.parse(await page.locator('script[type="application/ld+json"]').first().innerText());

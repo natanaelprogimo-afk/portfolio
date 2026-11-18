@@ -1,8 +1,8 @@
-# Alerson Morales — Full-Stack Software Developer
+# Alerson Morales — Junior Software Developer | Python & React
 
-**Python automation · REST APIs · React/Next.js · SQL · Reliable data workflows**
+**Python · REST APIs · React/TypeScript · SQL · Testing & automation**
 
-Independent developer based in Uruguay, available for **100% remote engineering roles** and clearly scoped freelance development.
+Early-career software developer based in Uruguay, seeking **100% remote junior engineering roles**, including Python/backend, React frontend and QA/testing. Public code and independent projects are labeled by evidence level.
 
 [**View portfolio (English)**](https://natanaelprogimo-afk.github.io/portfolio/en/) · [**Ver portafolio (Español)**](https://natanaelprogimo-afk.github.io/portfolio/es/) · [**Recruiter brief**](https://natanaelprogimo-afk.github.io/portfolio/en/hiring/) · [**Upwork**](https://www.upwork.com/freelancers/~016487e77ebf028c40)
 
