@@ -1,0 +1,40 @@
+
+<section class="vyra-section vyra-main-collection" aria-labelledby="collection-heading-{{ section.id }}">
+  <div class="vyra-container">
+    <div class="vyra-section-heading">
+      <p class="vyra-eyebrow">Colección</p>
+      <h1 id="collection-heading-{{ section.id }}">{{ collection.title | escape }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="rte">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+    {%- paginate collection.products by 12 -%}
+      {%- if collection.products_count > 0 -%}
+        <ul class="vyra-products" role="list" style="--vyra-grid-columns: 3;">
+          {%- for card_product in collection.products -%}
+            <li class="vyra-product-slot">{% render 'vyra-product-card', card_product: card_product %}</li>
+          {%- endfor -%}
+        </ul>
+        {%- if paginate.pages > 1 -%}
+          <nav aria-label="Páginas de la colección" class="vyra-pagination">
+            {{ paginate | default_pagination }}
+          </nav>
+        {%- endif -%}
+      {%- else -%}
+        <p>No hay productos disponibles en esta colección.</p>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Colección principal",
+  "tag": "section",
+  "class": "vyra-section-wrap",
+  "settings": [],
+  "presets": [
+    { "name": "Colección principal" }
+  ]
+}
+{% endschema %}
