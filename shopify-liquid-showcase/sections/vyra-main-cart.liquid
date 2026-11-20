@@ -1,0 +1,74 @@
+
+<section class="vyra-section vyra-cart-page" aria-labelledby="cart-heading-{{ section.id }}">
+  <div class="vyra-container">
+    <div class="vyra-section-heading">
+      <p class="vyra-eyebrow">Tus productos</p>
+      <h1 id="cart-heading-{{ section.id }}">Carrito</h1>
+    </div>
+    {%- if cart.item_count == 0 -%}
+      <p>Tu carrito está vacío.</p>
+      <a class="vyra-primary-link" href="{{ routes.all_products_collection_url }}">Explorar productos</a>
+    {%- else -%}
+      <form action="{{ routes.cart_url }}" method="post" id="VyraCartForm-{{ section.id }}" class="vyra-cart-form">
+        <ul class="vyra-cart-items" role="list">
+          {%- for item in cart.items -%}
+            <li class="vyra-cart-item">
+              <div class="vyra-cart-item-media">
+                {%- if item.image != blank -%}
+                  {{ item.image | image_url: width: 240 | image_tag: loading: 'lazy', widths: '120, 240', sizes: '120px', alt: item.image.alt }}
+                {%- endif -%}
+              </div>
+              <div class="vyra-cart-item-copy">
+                <h2><a href="{{ item.url }}">{{ item.product.title | escape }}</a></h2>
+                {%- unless item.product.has_only_default_variant -%}
+                  <p>{{ item.variant.title | escape }}</p>
+                {%- endunless -%}
+                <p>{{ item.final_line_price | money }}</p>
+                {%- for discount in item.line_level_discount_allocations -%}
+                  <p class="vyra-discount">{{ discount.discount_application.title | escape }} (−{{ discount.amount | money }})</p>
+                {%- endfor -%}
+                <a class="vyra-text-link" href="{{ item.url_to_remove }}">Eliminar</a>
+              </div>
+              <div class="vyra-cart-quantity">
+                <label for="CartQuantity-{{ section.id }}-{{ forloop.index }}">Cantidad</label>
+                <input
+                  id="CartQuantity-{{ section.id }}-{{ forloop.index }}"
+                  type="number"
+                  name="updates[]"
+                  value="{{ item.quantity }}"
+                  min="0"
+                  step="1"
+                  inputmode="numeric"
+                  required
+                >
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+        <div class="vyra-cart-summary">
+          {%- for discount in cart.cart_level_discount_applications -%}
+            <p>Descuento: {{ discount.title | escape }} (−{{ discount.total_allocated_amount | money }})</p>
+          {%- endfor -%}
+          <h2>Subtotal: {{ cart.total_price | money }}</h2>
+          <p>Los gastos de envío e impuestos se confirman en la caja.</p>
+          <div class="vyra-cart-actions">
+            <button type="submit" name="update" class="vyra-secondary-button">Actualizar carrito</button>
+            <button type="submit" name="checkout" class="vyra-primary-button">Finalizar compra</button>
+          </div>
+        </div>
+      </form>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Carrito principal",
+  "tag": "section",
+  "class": "vyra-section-wrap",
+  "settings": [],
+  "presets": [
+    { "name": "Carrito principal" }
+  ]
+}
+{% endschema %}
