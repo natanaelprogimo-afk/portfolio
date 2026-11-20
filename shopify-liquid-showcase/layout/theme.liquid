@@ -4,12 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="{{ settings.accent_color | default: '#0e6b63' }}">
+    {%- if page_description != blank -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
     <link rel="canonical" href="{{ canonical_url }}">
     <title>{{ page_title | escape }}{% unless page_title contains shop.name %} — {{ shop.name | escape }}{% endunless %}</title>
     {{ content_for_header }}
     {{ 'vyra-showcase.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'vyra-product.js' | asset_url }}" defer></script>
   </head>
-  <body>
+  <body style="--vyra-accent: {{ settings.accent_color | default: '#0e6b63' }};">
     <a class="vyra-skip-link" href="#MainContent">Saltar al contenido</a>
     <header class="vyra-site-header">
       <div class="vyra-container vyra-header-inner">
