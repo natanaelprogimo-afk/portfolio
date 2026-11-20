@@ -1,30 +1,70 @@
 # Shopify Liquid Showcase — VYRA / Firox
 
-**Demo técnica personal (20/11/2026)** desarrollada para acreditar familiaridad con el desarrollo de temas Shopify Online Store 2.0. No representa trabajo previo con clientes ni una tienda ya publicada.
+**Demo técnica personal creada el 20/11/2026** para evaluar capacidad con Shopify Online Store 2.0, Liquid, arquitectura modular, accesibilidad, rendimiento y flujos de ecommerce.
 
-## Componentes implementados
+**No es un trabajo anterior para clientes, una certificación, ni una tienda Shopify ya probada en producción.**
 
-- \`layout/theme.liquid\`: layout con \`content_for_header\`, \`content_for_layout\`, navegación y accesibilidad básica.
-- \`sections/vyra-featured-collection.liquid\`: sección editable desde el editor de Shopify; selección de colección, columnas y cantidad de productos.
-- \`snippets/vyra-product-card.liquid\`: tarjeta reutilizable con imagen responsive, título escapado, precio, descuento y stock.
-- \`sections/vyra-benefits.liquid\`: bloques configurables para comunicar beneficios desde el editor.
-- \`sections/vyra-newsletter.liquid\`: formulario nativo de suscripción con etiqueta \`newsletter\`, aceptación explícita y estados de error/éxito.
-- \`assets/vyra-showcase.css\`: diseño responsive, estados de foco visibles y respeto a movimiento reducido.
-- \`docs/email-marketing-plan.md\`: propuesta de automatización de email marketing **no implementada**.
+## Qué incluye
 
-## Cómo probar
+| Componente | Implementación |
+|---|---|
+| Inicio | Sección configurable de colección destacada |
+| Productos | Snippet reusable con \`image_url\`, \`image_tag\`, precios, descuentos y stock |
+| Editor | Sección de beneficios con bloques editables y presets |
+| Producto | Formulario Liquid, selector básico de variantes, precio y cantidad |
+| Colección | Listado paginado de 12 productos por página |
+| Carrito | Cantidades, eliminar productos, subtotal y botón de checkout |
+| Newsletter | Formulario nativo de Shopify con consentimiento requerido, mensajes de error/éxito |
+| Arquitectura | Layout, CSS responsive, JS mínimo progresivo, 5 JSON templates, locale |
+| Documentación | Guía Shopify Messaging/Flow, matriz de QA y limitaciones |
 
-1. Tener acceso a una tienda Shopify de desarrollo y Shopify CLI instalado.
-2. Desde esta carpeta, ejecutar \`python3 scripts/verify.py\` (validación estática local).
-3. Ejecutar \`shopify theme check\` para validación oficial de Liquid y buenas prácticas.
-4. Ejecutar \`shopify theme dev --store TU-TIENDA.myshopify.com\` para previsualizar en Shopify, o usar una carga ZIP desde el administrador.
-5. Desde el editor del tema, asignar una colección a «Colección destacada» y comprobar productos, precios, variantes en su ficha y comportamiento responsive.
-6. Para probar el formulario, utilizar únicamente una tienda de desarrollo y una dirección de prueba autorizada.
+### Código clave
 
-## Alcance y límites
+- \`sections/vyra-featured-collection.liquid\` y \`snippets/vyra-product-card.liquid\`
+- \`sections/vyra-main-product.liquid\`
+- \`sections/vyra-main-cart.liquid\`
+- \`sections/vyra-main-collection.liquid\`
+- \`sections/vyra-newsletter.liquid\`
+- \`docs/email-marketing-plan.md\`
 
-El paquete es una **muestra mínima de código**, no un tema comercial terminado: no implementa todas las plantillas de catálogo, producto, carrito, búsqueda o cuenta. No se ha verificado con Shopify CLI ni en una tienda Shopify real. Los tests incluidos son estructurales y no sustituyen esa verificación.
+## Verificación local
 
-El formulario usa el mecanismo nativo de suscripción de Shopify, pero **no configura flujos de email marketing**. Para automatizaciones, ver la guía de implementación y pruebas.
+Desde \`shopify-liquid-showcase/\`:
 
-Trabajo original preparado como evidencia de aprendizaje y capacidad de desarrollo. No se atribuyen certificaciones, clientes, conversiones ni trabajos anteriores inexistentes.
+\`\`\`powershell
+python scripts/verify.py
+npx --yes @shopify/cli@latest theme check --path . --fail-level suggestion
+npx --yes @shopify/cli@latest theme package --path .
+\`\`\`
+
+En Windows, con Node.js y Python instalados, estos comandos pueden ejecutarse sin cuenta Shopify para la inspección estática y el empaquetado. Para la integración real se requiere una tienda autorizada.
+
+Consultar \`docs/qa-report.md\` y \`docs/qa-checklist.md\` para resultados y pruebas pendientes.
+
+## Probar en una tienda real
+
+1. Obtener acceso autorizado a una **tienda de desarrollo**, sin sobrescribir el tema publicado.
+2. Utilizar Shopify CLI para previsualizar este tema como development theme: \`shopify theme dev --store TIENDA.myshopify.com\`.
+3. Crear productos y variantes de prueba, asignar una colección y comprobar cinco plantillas: Inicio, Producto, Colección, Carrito y 404.
+4. Probar cambio de variantes, stock y cantidad; agregar/quitar productos, modificar cantidades, continuar al checkout de prueba.
+5. Suscribirse con email de prueba autorizado; verificar consentimiento y que el campo se registra como cliente en el admin.
+6. Configurar y verificar un flujo de bienvenida en Shopify Messaging; para automatizaciones personalizadas, usar Shopify Flow según requisitos.
+7. Ejecutar Lighthouse y revisión real mobile/desktop, accesibilidad y regresión.
+
+## Alcance y limitaciones
+
+- **Código de demostración, no theme comercial listo para producción.** No se ha probado en una tienda Shopify real.
+- El selector de variantes demuestra flujo básico y puede no servir en productos complejos (múltiples opciones, más de 250 variantes, selling plans, etc.).
+- El checkout requiere la configuración de Shopify, productos y precios válidos. No hay un pago real de prueba completado.
+- El newsletter **no configura ni ejecuta automatizaciones**, solo solicita suscripción con el formulario nativo.
+- El diseño usa texto en español y es una demo enfocada, no una implementación de todos los componentes de Dawn o Horizon.
+- Las credenciales y datos reales de clientes no forman parte del repositorio.
+
+## Referencias oficiales
+
+- [Theme architecture](https://shopify.dev/docs/storefronts/themes/architecture)
+- [Theme Check](https://shopify.dev/docs/storefronts/themes/tools/theme-check)
+- [Variants](https://shopify.dev/docs/storefronts/themes/product-merchandising/variants)
+- [Cart](https://shopify.dev/docs/storefronts/themes/architecture/templates/cart)
+- [Newsletter consent](https://shopify.dev/docs/storefronts/themes/customer-engagement/email-consent)
+- [Shopify Messaging](https://help.shopify.com/es/manual/promoting-marketing/create-marketing/shopify-messaging/marketing-automations)
