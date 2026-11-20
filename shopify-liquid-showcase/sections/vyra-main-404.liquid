@@ -1,0 +1,21 @@
+
+<section class="vyra-section vyra-not-found" aria-labelledby="not-found-heading">
+  <div class="vyra-container">
+    <p class="vyra-eyebrow">Error 404</p>
+    <h1 id="not-found-heading">No encontramos esta página.</h1>
+    <p>El enlace podría haber cambiado o no estar disponible.</p>
+    <a class="vyra-primary-link" href="{{ routes.root_url }}">Volver al inicio</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Página no encontrada",
+  "tag": "section",
+  "class": "vyra-section-wrap",
+  "settings": [],
+  "presets": [
+    { "name": "Página no encontrada" }
+  ]
+}
+{% endschema %}
