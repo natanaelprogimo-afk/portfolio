@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "vyra-main-product",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
