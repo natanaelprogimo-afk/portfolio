@@ -1,0 +1,81 @@
+{%- assign newsletter_form_id = 'NewsletterForm-' | append: section.id -%}
+<section class="vyra-newsletter vyra-section" aria-labelledby="newsletter-heading-{{ section.id }}">
+  <div class="vyra-container vyra-newsletter-inner">
+    <div class="vyra-newsletter-copy">
+      <p class="vyra-eyebrow">Novedades por email</p>
+      <h2 id="newsletter-heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      <p>{{ section.settings.description | escape }}</p>
+    </div>
+
+    <div class="vyra-newsletter-form-area">
+      {%- form 'customer', id: newsletter_form_id, class: 'vyra-newsletter-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label for="NewsletterEmail-{{ section.id }}">Correo electrónico</label>
+        <div class="vyra-newsletter-fields">
+          <input
+            type="email"
+            id="NewsletterEmail-{{ section.id }}"
+            name="contact[email]"
+            value="{{ form.email | escape }}"
+            autocomplete="email"
+            inputmode="email"
+            placeholder="tu@email.com"
+            aria-describedby="NewsletterHelp-{{ section.id }}"
+            required
+          >
+          <button type="submit">{{ section.settings.button_label | escape }}</button>
+        </div>
+        <label class="vyra-consent-label" for="NewsletterConsent-{{ section.id }}">
+          <input
+            id="NewsletterConsent-{{ section.id }}"
+            type="checkbox"
+            name="marketing_consent_confirmed"
+            value="yes"
+            required
+          >
+          <span>Acepto recibir emails promocionales de esta tienda.</span>
+        </label>
+        <p id="NewsletterHelp-{{ section.id }}" class="vyra-fineprint">Podés darte de baja de las comunicaciones cuando quieras. La tienda debe configurar su política de privacidad.</p>
+        {%- if form.posted_successfully? -%}
+          <p role="status" class="vyra-form-message vyra-form-success">¡Gracias! Se registró tu solicitud de suscripción.</p>
+        {%- endif -%}
+        {%- if form.errors -%}
+          <div role="alert" class="vyra-form-message vyra-form-error">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "section",
+  "class": "vyra-section-wrap",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Lo bueno llega primero acá."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Descripción",
+      "default": "Nuevos productos, novedades y contenido útil sin ruido."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto del botón",
+      "default": "Suscribirme"
+    }
+  ],
+  "presets": [
+    { "name": "Newsletter" }
+  ]
+}
+{% endschema %}
