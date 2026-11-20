@@ -12,7 +12,7 @@
       {%- if collection.products_count > 0 -%}
         <ul class="vyra-products" role="list" style="--vyra-grid-columns: 3;">
           {%- for card_product in collection.products -%}
-            <li class="vyra-product-slot">{% render 'vyra-product-card', card_product: card_product %}</li>
+            <li class="vyra-product-slot">{% render 'vyra-product-card', card_product: card_product, image_loading: 'lazy', image_priority: 'auto' %}</li>
           {%- endfor -%}
         </ul>
         {%- if paginate.pages > 1 -%}
