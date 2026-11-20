@@ -1,19 +1,36 @@
-# Email marketing: alcance real y automatización propuesta
+# Email marketing para Shopify — propuesta técnica 2026
 
-Esta demo usa el formulario nativo de Shopify \`{% form 'customer' %}\` y la etiqueta \`newsletter\`. El correo es procesado por Shopify cuando el tema está instalado en una tienda real. No envía campañas por su cuenta, ni contiene credenciales, APIs de terceros o secuencias automáticas.
+## Alcance implementado en esta demo
 
-## Cómo implementar una automatización en una tienda real
+`sections/vyra-newsletter.liquid` incorpora un `{% form 'customer' %}` con `contact[email]`, etiqueta `newsletter`, opt-in explícito mediante checkbox requerido y mensajes de estado. En una tienda real, este formulario nativo permite registrar la suscripción; **no envía mensajes, no configura segmentos ni crea automatizaciones por sí solo**. El registro de consentimiento se debe comprobar en Shopify Admin usando exclusivamente emails de prueba autorizados.
 
-1. Confirmar la política de privacidad, el consentimiento y el tratamiento de datos de la tienda.
-2. Instalar/configurar Shopify Email y/o Shopify Flow, según las funciones disponibles en esa tienda.
-3. Crear un segmento de suscriptores con estado de marketing habilitado.
-4. Definir el evento de entrada y enviar un email de bienvenida con una plantilla aprobada por la marca.
-5. Añadir condición para evitar envíos duplicados, límites de frecuencia y tratamiento de desuscripciones.
-6. Probar con una dirección controlada y revisar el estado real de opt-in, el envío y la baja.
-7. Medir entregabilidad, apertura (orientativa), clics y conversiones; nunca mezclar tests con datos de clientes.
+## Situación actual de la plataforma
 
-**Pendiente de prueba real:** acceso a una tienda de desarrollo, configuración de email marketing, consentimiento registrado, pruebas de entrega y revisión de contenido comercial.
+Shopify trasladó las automatizaciones de email marketing basadas en Shopify Email a la app **Shopify Messaging** a partir del 24 de marzo de 2026. Para workflows personalizados e integraciones externas sigue disponible **Shopify Flow**. No recomendamos arrancar un trabajo nuevo configurando flujos antiguos sin verificar el sistema actual de la tienda.
 
-Documentación Shopify:
+Fuentes:
+- https://help.shopify.com/es/manual/promoting-marketing/create-marketing/marketing-automations/types
+- https://help.shopify.com/es/manual/promoting-marketing/create-marketing/shopify-messaging/marketing-automations
 - https://shopify.dev/docs/storefronts/themes/customer-engagement/email-consent
-- https://help.shopify.com/en/manual/promoting-marketing/create-marketing/shopify-email
+
+## Implementación profesional propuesta (requiere acceso autorizado)
+
+1. **Descubrimiento**: acordar evento de disparo (newsletter, carrito abandonado, postcompra), objetivo, mensaje, público, condiciones, horas, idioma, permisos y presupuesto.
+2. **Auditoría de estado**: revisar apps instaladas, segmentación, configuraciones de privacidad, flujos existentes, suscriptores y duplicados. No activar nuevas campañas antes de comprobar duplicados.
+3. **Consentimiento**: verificar que solo se disparan comunicaciones promocionales a contactos que han optado por ese canal; validar bajas y restricciones por región.
+4. **Flujo de bienvenida**: en Shopify Messaging crear o adaptar la automatización de bienvenida para nuevos suscriptores, con marca, remitente validado, plantilla accesible, enlaces verificables y CTA medible.
+5. **Personalización**: si se necesita lógica no disponible en Messaging, implementar un Flow con disparador preciso, condiciones de estado de consentimiento, filtros, ventanas de tiempo e idempotencia contra doble envío.
+6. **QA en sandbox**: suscriptor nuevo autorizado → registro y opt-in → activación única → email recibido → enlaces funcionan → baja; repetir con email inválido, no suscrito, usuario previo y flujo duplicado.
+7. **Observabilidad**: medir envíos, entregabilidad, rebotes, clics y conversiones por UTM. Las aperturas pueden no ser fiables por protección de privacidad.
+8. **Despliegue y reversión**: capturar configuración anterior, publicar cambios por etapas y dejar un procedimiento de reversión explícito.
+
+## Riesgos y dependencias
+
+- Shopify Messaging, disponibilidad de plantillas, volumen y funciones dependen del plan, país, versión de la app y configuración de la tienda.
+- Shopify Flow y otras apps podrían requerir permisos adicionales; revisar antes de operar.
+- No hay acceso a una tienda de cliente ni se han ejecutado envíos reales. No afirmar "email automatizado funcionando" sin evidencia.
+- Evitar almacenar claves o listas de destinatarios reales en GitHub. No cargar bases de datos de clientes a una demo pública.
+
+## Definition of done
+
+Una automatización se considera **validada** únicamente después de verificar en la tienda: consentimiento real, disparo, entrega de prueba, frecuencia, baja, métricas y reversión.
