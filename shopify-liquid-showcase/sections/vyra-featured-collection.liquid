@@ -15,7 +15,15 @@
       {%- if featured_collection != blank and featured_collection.products_count > 0 -%}
         {%- for card_product in featured_collection.products limit: section.settings.products_to_show -%}
           <li class="vyra-product-slot">
-            {% render 'vyra-product-card', card_product: card_product %}
+            {%- liquid
+              assign card_loading = 'lazy'
+              assign card_priority = 'auto'
+              if forloop.first and section.index == 1
+                assign card_loading = 'eager'
+                assign card_priority = 'high'
+              endif
+            -%}
+            {% render 'vyra-product-card', card_product: card_product, image_loading: card_loading, image_priority: card_priority %}
           </li>
         {%- endfor -%}
       {%- else -%}
