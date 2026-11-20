@@ -1,0 +1,53 @@
+<div class="vyra-benefits vyra-section" id="benefits-{{ section.id }}">
+  <div class="vyra-container">
+    <h2 class="vyra-benefits-heading">{{ section.settings.heading | escape }}</h2>
+    <div class="vyra-benefit-grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'benefit' -%}
+          <div class="vyra-benefit" {{ block.shopify_attributes }}>
+            <span class="vyra-benefit-number" aria-hidden="true">0{{ forloop.index }}</span>
+            <h3>{{ block.settings.title | escape }}</h3>
+            <p>{{ block.settings.description | escape }}</p>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Ventajas de la tienda",
+  "tag": "section",
+  "class": "vyra-section-wrap",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Una compra más simple"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Ventaja",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Título", "default": "Información clara" },
+        { "type": "textarea", "id": "description", "label": "Descripción", "default": "Editá este mensaje desde el editor del tema." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Ventajas de la tienda",
+      "blocks": [
+        { "type": "benefit" },
+        { "type": "benefit" },
+        { "type": "benefit" }
+      ]
+    }
+  ]
+}
+{% endschema %}
