@@ -1,0 +1,80 @@
+
+<section class="vyra-section vyra-main-product" aria-labelledby="product-heading-{{ section.id }}">
+  <div class="vyra-container vyra-product-layout">
+    <div class="vyra-product-media">
+      {%- if product.featured_image != blank -%}
+        {{
+          product.featured_image
+          | image_url: width: 1200
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            class: 'vyra-product-hero-photo',
+            widths: '320, 480, 720, 960, 1200',
+            sizes: '(min-width: 880px) 50vw, 100vw',
+            alt: product.featured_image.alt
+        }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'vyra-placeholder-svg' }}
+      {%- endif -%}
+    </div>
+    <div class="vyra-product-summary">
+      {%- if product.vendor != blank -%}
+        <p class="vyra-eyebrow">{{ product.vendor | escape }}</p>
+      {%- endif -%}
+      <h1 id="product-heading-{{ section.id }}">{{ product.title | escape }}</h1>
+      {%- assign current_variant = product.selected_or_first_available_variant -%}
+      <p class="vyra-product-detail-price" id="ProductPrice-{{ section.id }}">
+        {{ current_variant.price | money }}
+      </p>
+      {%- if product.description != blank -%}
+        <div class="vyra-product-description rte">{{ product.description }}</div>
+      {%- endif -%}
+      {%- assign product_form_id = 'ProductForm-' | append: section.id -%}
+      {%- form 'product', product, id: product_form_id, class: 'vyra-purchase-form' -%}
+        {%- unless product.has_only_default_variant -%}
+          <label for="ProductVariant-{{ section.id }}">Variante</label>
+        {%- endunless -%}
+        <select
+          id="ProductVariant-{{ section.id }}"
+          name="id"
+          aria-label="Seleccionar variante"
+          data-vyra-variant-selector
+          data-price-target="ProductPrice-{{ section.id }}"
+          data-button-target="ProductSubmit-{{ section.id }}"
+          {% if product.has_only_default_variant %}class="vyra-visually-hidden"{% endif %}
+        >
+          {%- for variant in product.variants -%}
+            <option
+              value="{{ variant.id }}"
+              data-available="{{ variant.available }}"
+              data-price="{{ variant.price | money | escape }}"
+              {% if variant.id == current_variant.id %}selected{% endif %}
+            >
+              {{ variant.title | escape }} — {{ variant.price | money }}{% unless variant.available %} (agotado){% endunless %}
+            </option>
+          {%- endfor -%}
+        </select>
+        <label for="ProductQuantity-{{ section.id }}">Cantidad</label>
+        <input type="number" id="ProductQuantity-{{ section.id }}" name="quantity" value="1" min="1" step="1" inputmode="numeric" required>
+        <button type="submit" name="add" id="ProductSubmit-{{ section.id }}" {% unless current_variant.available %}disabled{% endunless %}>
+          {%- if current_variant.available -%}Agregar al carrito{%- else -%}Agotado{%- endif -%}
+        </button>
+        {{ form | payment_button }}
+      {%- endform -%}
+      <p class="vyra-fineprint">Los impuestos y gastos de envío se calculan según la configuración de la tienda.</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Producto principal",
+  "tag": "section",
+  "class": "vyra-section-wrap",
+  "settings": [],
+  "presets": [
+    { "name": "Producto principal" }
+  ]
+}
+{% endschema %}
