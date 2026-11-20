@@ -1,0 +1,61 @@
+{
+  "sections": {
+    "featured": {
+      "type": "vyra-featured-collection",
+      "settings": {
+        "eyebrow": "Nueva temporada",
+        "heading": "Piezas para todos los días",
+        "description": "Productos seleccionados, experiencia clara y diseño adaptable.",
+        "products_to_show": 6,
+        "columns": 3
+      }
+    },
+    "benefits": {
+      "type": "vyra-benefits",
+      "settings": {
+        "heading": "Pensado para una compra sin fricciones"
+      },
+      "blocks": {
+        "a": {
+          "type": "benefit",
+          "settings": {
+            "title": "Diseño adaptable",
+            "description": "Diseño responsive para navegar desde cualquier pantalla."
+          }
+        },
+        "b": {
+          "type": "benefit",
+          "settings": {
+            "title": "Información directa",
+            "description": "Imágenes, precios y disponibilidad visibles."
+          }
+        },
+        "c": {
+          "type": "benefit",
+          "settings": {
+            "title": "Edición sencilla",
+            "description": "Bloques y colecciones configurables sin cambiar código."
+          }
+        }
+      },
+      "block_order": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    "newsletter": {
+      "type": "vyra-newsletter",
+      "settings": {
+        "heading": "Lo bueno llega primero acá.",
+        "description": "Novedades y contenido relevante en tu casilla.",
+        "button_label": "Suscribirme"
+      }
+    }
+  },
+  "order": [
+    "featured",
+    "benefits",
+    "newsletter"
+  ]
+}
