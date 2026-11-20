@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code | escape }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="{{ settings.accent_color | default: '#0e6b63' }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <title>{{ page_title | escape }}{% unless page_title contains shop.name %} — {{ shop.name | escape }}{% endunless %}</title>
+    {{ content_for_header }}
+    {{ 'vyra-showcase.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body>
+    <a class="vyra-skip-link" href="#MainContent">Saltar al contenido</a>
+    <header class="vyra-site-header">
+      <div class="vyra-container vyra-header-inner">
+        <a class="vyra-brand" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} — inicio">
+          <span class="vyra-brand-mark" aria-hidden="true">V</span>
+          <span>{{ shop.name | escape }}</span>
+        </a>
+        <nav class="vyra-main-nav" aria-label="Navegación principal">
+          <a href="{{ routes.all_products_collection_url }}">Productos</a>
+          <a href="{{ routes.cart_url }}">Carrito ({{ cart.item_count }})</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="MainContent" tabindex="-1">{{ content_for_layout }}</main>
+
+    <footer class="vyra-site-footer">
+      <div class="vyra-container vyra-footer-inner">
+        <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}</span>
+        <span>Ejemplo de desarrollo Shopify Online Store 2.0</span>
+      </div>
+    </footer>
+  </body>
+</html>
