@@ -3,9 +3,9 @@
 ## Calidad automatizada
 - [x] Esquemas Liquid y archivos JSON validados con comprobaciones estáticas.
 - [x] Estructura principal con page templates product, collection, cart e index.
-- [ ] Ejecutar \`shopify theme check --fail-level error\` y guardar el reporte con la versión exacta.
-- [ ] Ejecutar \`shopify theme check --fail-level suggestion\` y clasificar cada sugerencia.
-- [ ] Ejecutar \`shopify theme package\` y comprobar que el ZIP contiene un theme válido.
+- [x] Ejecutar `shopify theme check --fail-level error` y guardar el reporte con la versión exacta.
+- [x] Ejecutar `shopify theme check --fail-level suggestion` y clasificar cada sugerencia.
+- [x] Ejecutar `shopify theme package` y comprobar que el ZIP contiene un theme válido.
 - [ ] Ejecutar auditoría Lighthouse en una URL **real** de preview Shopify (no HTML simulado).
 
 ## Funciones en Shopify (no realizadas; requieren tienda de desarrollo)
