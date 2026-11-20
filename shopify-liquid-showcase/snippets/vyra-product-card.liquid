@@ -1,5 +1,6 @@
 {%- comment -%}
-  Reutilizable: {% render 'vyra-product-card', card_product: product %}
+  Reutilizable: render 'vyra-product-card', card_product: product
+  image_loading: 'lazy' | 'eager'; image_priority: 'auto' | 'high'.
   No contiene lógica de carrito rápido: las variantes se seleccionan en la ficha.
 {%- endcomment -%}
 
@@ -13,7 +14,8 @@
         | image_tag:
           alt: product_alt,
           class: 'vyra-product-photo',
-          loading: 'lazy',
+          loading: image_loading,
+          fetchpriority: image_priority,
           widths: '240, 360, 540, 720, 900',
           sizes: '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
       }}
