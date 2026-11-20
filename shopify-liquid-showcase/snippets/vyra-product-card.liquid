@@ -1,0 +1,41 @@
+{%- comment -%}
+  Reutilizable: {% render 'vyra-product-card', card_product: product %}
+  No contiene lógica de carrito rápido: las variantes se seleccionan en la ficha.
+{%- endcomment -%}
+
+{%- assign product_alt = card_product.featured_image.alt | default: card_product.title -%}
+<article class="vyra-product-card">
+  <a class="vyra-product-image" href="{{ card_product.url }}" aria-label="Ver {{ card_product.title | escape }}">
+    {%- if card_product.featured_image != blank -%}
+      {{
+        card_product.featured_image
+        | image_url: width: 900
+        | image_tag:
+          alt: product_alt,
+          class: 'vyra-product-photo',
+          loading: 'lazy',
+          widths: '240, 360, 540, 720, 900',
+          sizes: '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
+      }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'vyra-placeholder-svg' }}
+    {%- endif -%}
+    {%- unless card_product.available -%}
+      <span class="vyra-stock-badge">Agotado</span>
+    {%- endunless -%}
+  </a>
+  <div class="vyra-product-details">
+    {%- if card_product.vendor != blank -%}
+      <span class="vyra-product-vendor">{{ card_product.vendor | escape }}</span>
+    {%- endif -%}
+    <h2 class="vyra-product-title">
+      <a href="{{ card_product.url }}">{{ card_product.title | escape }}</a>
+    </h2>
+    <div class="vyra-product-price">
+      <span>{{ card_product.price | money }}</span>
+      {%- if card_product.compare_at_price > card_product.price -%}
+        <del aria-label="Precio anterior">{{ card_product.compare_at_price | money }}</del>
+      {%- endif -%}
+    </div>
+  </div>
+</article>
