@@ -1,0 +1,28 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Saltar al contenido",
+      "view_product": "Ver {{ title }}"
+    }
+  },
+  "navigation": {
+    "products": "Productos",
+    "cart": "Carrito ({{ count }})"
+  },
+  "products": {
+    "product": {
+      "sold_out": "Agotado",
+      "add_to_cart": "Agregar al carrito",
+      "quantity": "Cantidad",
+      "variant": "Variante"
+    }
+  },
+  "cart": {
+    "title": "Carrito",
+    "empty": "Tu carrito está vacío",
+    "update": "Actualizar",
+    "checkout": "Finalizar compra",
+    "remove": "Eliminar",
+    "subtotal": "Subtotal"
+  }
+}
